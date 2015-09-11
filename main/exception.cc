@@ -353,22 +353,22 @@ int ExceptionDB::AddItemException(Terminal *term, Check *thisCheck, Order *thisO
 
     Employee *thisEmployee = term->user;
     if (thisOrder == NULL || !(thisOrder->status & ORDER_FINAL) || thisEmployee == NULL)
-	{
+    {
         return 1; // exception ignored
-	}
+    }
 
-	// allocate space on the heap for exception structure
+    // allocate space on the heap for exception structure
     ItemException *ie = new ItemException(thisCheck, thisOrder);
-	// NOTE: need to implement check for failed allocation
+    // NOTE: need to implement check for failed allocation
 
-	// set relevant properties for this exception
+    // set relevant properties for this exception
     ie->user_id = thisEmployee->id;
     ie->time = SystemTime;
     ie->exception_type = type;
     ie->reason = reason;
 
     Add(ie);  // Add pointer to item_list
-    Save();		// dump changes to disk
+    Save();     // dump changes to disk
 
     return 0;
 }

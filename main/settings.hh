@@ -283,12 +283,12 @@ public:
     Str short_name;
     Str symbol;
     int rounding;
-    int round_amount;	
+    int round_amount;   
     Flt exchange;
 
     // Constructor
     MoneyInfo();
-	
+    
     // Member Functions
     int Read(InputDataFile &df, int version);
     int Write(OutputDataFile &df, int version);
@@ -482,7 +482,7 @@ public:
     int term_hardware;
     int isserver;
     int print_workorder;
-    int workorder_heading;	// 0=standard, 1=simple
+    int workorder_heading;  // 0=standard, 1=simple
     Str cc_credit_termid;
     Str cc_debit_termid;
 
@@ -509,7 +509,7 @@ public:
     int model;
     int port;
     int kitchen_mode;
-    int order_margin;		// blank lines at top of work order
+    int order_margin;       // blank lines at top of work order
 
     // Constructor
     PrinterInfo();
@@ -606,10 +606,10 @@ public:
     int last_money_id;
     int last_tax_id;
 
-    int food_inclusive;		// food prices already include tax
-    int room_inclusive;		// room prices already include tax
-    int alcohol_inclusive;	// alcohol prices already include tax
-    int merchandise_inclusive;	// merchandise prices already include tax
+    int food_inclusive;     // food prices already include tax
+    int room_inclusive;     // room prices already include tax
+    int alcohol_inclusive;  // alcohol prices already include tax
+    int merchandise_inclusive;  // merchandise prices already include tax
 
     Flt tax_food;
     Flt tax_alcohol;

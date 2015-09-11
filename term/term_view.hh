@@ -184,16 +184,16 @@ enum page_sizes {
 
 // Fonts
 #define FONT_DEFAULT     0
-#define FONT_TIMES_20    4
-#define FONT_TIMES_24    5
-#define FONT_TIMES_34    6
-#define FONT_TIMES_20B   7
-#define FONT_TIMES_24B   8
-#define FONT_TIMES_34B   9
-#define FONT_TIMES_14    10
-#define FONT_TIMES_14B   11
-#define FONT_TIMES_18    12
-#define FONT_TIMES_18B   13
+#define FONT_HELV_20    4
+#define FONT_HELV_24    5
+#define FONT_HELV_34    6
+#define FONT_HELV_20B   7
+#define FONT_HELV_24B   8
+#define FONT_HELV_34B   9
+#define FONT_HELV_14    10
+#define FONT_HELV_14B   11
+#define FONT_HELV_18    12
+#define FONT_HELV_18B   13
 #define FONT_COURIER_18  14
 #define FONT_COURIER_18B 15
 #define FONT_COURIER_20  16

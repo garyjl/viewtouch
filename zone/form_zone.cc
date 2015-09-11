@@ -360,7 +360,7 @@ RenderResult FormZone::Render(Terminal *term, int update_flag)
 
     if (update_flag || keep_focus == 0)
         keyboard_focus = NULL;
-	
+    
 
     LayoutZone::Render(term, update_flag);
 
@@ -964,7 +964,7 @@ SignalResult ListFormZone::Signal(Terminal *term, const genericChar* message)
         "delete", "print", "unfocus", "change view", NULL};
     int idx = CompareListN(commands, message);
 
-	if (idx == -1)
+    if (idx == -1)
     {
         // let parent class give the message a try
         return FormZone::Signal(term, message);
@@ -2294,7 +2294,7 @@ SignalResult TimeDayField::Keyboard(Terminal *term, FormZone *fzone, int key, in
                     if (day > 6)
                         day = 0;
                 }
-            }	
+            }   
             break;
         }
         return SIGNAL_OKAY;
@@ -2337,7 +2337,7 @@ SignalResult TimeDayField::Keyboard(Terminal *term, FormZone *fzone, int key, in
                     if (day < 0)
                         day = 6;
                 }
-            }	
+            }   
             break;
         }
         return SIGNAL_OKAY;

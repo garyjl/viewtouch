@@ -1067,7 +1067,7 @@ int ZoneDialog::Correct()
                       (itype == ITEM_NORMAL ||
                        itype == ITEM_SUBSTITUTE ||
                        itype == ITEM_POUND ||
-		       itype == ITEM_ADMISSION));
+               itype == ITEM_ADMISSION));
     item_order.Show(t == ZONE_ITEM &&
                     (itype != ITEM_NORMAL ||
                      itype != ITEM_POUND));
@@ -1177,18 +1177,18 @@ int ZoneDialog::Send()
 
     if(item_type.Value() == ITEM_ADMISSION)
     {
-	Str h_itemname,h_time,h_location,h_priceclass,hout;
-	h_itemname.Set(item_name.Value());
-	h_time.Set(item_event_time.Value());
-	h_location.Set(item_location.Value());
-	h_priceclass.Set(item_price_label.Value());
-	admission_parse_hash_name(h_itemname,h_itemname);
-	admission_itemname_hash(hout,h_itemname,h_time,h_location,h_priceclass);
-	WStr(hout.Value());
+    Str h_itemname,h_time,h_location,h_priceclass,hout;
+    h_itemname.Set(item_name.Value());
+    h_time.Set(item_event_time.Value());
+    h_location.Set(item_location.Value());
+    h_priceclass.Set(item_price_label.Value());
+    admission_parse_hash_name(h_itemname,h_itemname);
+    admission_itemname_hash(hout,h_itemname,h_time,h_location,h_priceclass);
+    WStr(hout.Value());
     }
     else
     {
-	    WStr(item_name.Value());
+        WStr(item_name.Value());
     }
     WStr(item_print_name.Value());
     WStr(item_zone_name.Value());

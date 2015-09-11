@@ -114,11 +114,11 @@ int SalesItem::Copy(SalesItem *target)
         target->call_center_name.Set(call_center_name);
         target->id = id;
         target->item_code.Set(item_code);
-	target->location.Set(location);
+    target->location.Set(location);
         target->event_time.Set(event_time);
         target->total_tickets.Set(total_tickets);
         target->available_tickets.Set(available_tickets);
-	target->price_label.Set(price_label);
+    target->price_label.Set(price_label);
         target->cost = cost;
         target->sub_cost = sub_cost;
         target->employee_cost = employee_cost;
@@ -188,11 +188,11 @@ int SalesItem::Read(InputDataFile &df, int version)
     df.Read(type);
     if (version >= 14)
     {
-	df.Read(location);
-	df.Read(event_time);
-	df.Read(total_tickets);
-	df.Read(available_tickets);
-	df.Read(price_label);
+    df.Read(location);
+    df.Read(event_time);
+    df.Read(total_tickets);
+    df.Read(available_tickets);
+    df.Read(price_label);
     }
     df.Read(cost);
     df.Read(sub_cost);
@@ -262,11 +262,11 @@ int SalesItem::Write(OutputDataFile &df, int version)
     
     if (version >= 14)
     {
-	error += df.Write(location);
-	error += df.Write(event_time);
-	error += df.Write(total_tickets);
-	error += df.Write(available_tickets);
-	error += df.Write(price_label);
+    error += df.Write(location);
+    error += df.Write(event_time);
+    error += df.Write(total_tickets);
+    error += df.Write(available_tickets);
+    error += df.Write(price_label);
     }
     error += df.Write(cost);
     error += df.Write(sub_cost);
@@ -343,7 +343,7 @@ const char* SalesItem::ZoneName()
     if (zone_name.length > 0)
         return admission_filteredname(zone_name);
     else
-	return admission_filteredname(item_name);
+    return admission_filteredname(item_name);
 }
 
 const char* SalesItem::PrintName()
@@ -518,14 +518,14 @@ int ItemDB::Purge()
 
 int ItemDB::ResetAdmissionItems()
 {
-	for(SalesItem* si=ItemList();si!=NULL;si=si->next)
-	{
-		if(si->type == ITEM_ADMISSION)
-		{
-			si->available_tickets.Set(si->total_tickets.IntValue());
-		}
-	}
-	return 0;
+    for(SalesItem* si=ItemList();si!=NULL;si=si->next)
+    {
+        if(si->type == ITEM_ADMISSION)
+        {
+            si->available_tickets.Set(si->total_tickets.IntValue());
+        }
+    }
+    return 0;
 }
 
 SalesItem *ItemDB::FindByName(const char* name)
@@ -658,7 +658,7 @@ int ItemDB::BuildNameArray()
     FnTrace("ItemDB::BuildNameArray()");
     if (name_array != NULL)
     {
-	free(name_array);
+    free(name_array);
         name_array = NULL;
         array_size = 0;
     }

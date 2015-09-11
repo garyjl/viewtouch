@@ -62,20 +62,20 @@ struct FontDataType
 
 static FontDataType FontData[] =
 {
-    {FONT_TIMES_20,    20, "-adobe-times-medium-r-normal--20-*-iso8859-1*"},
-    {FONT_TIMES_24,    24, "-adobe-times-medium-r-normal--24-*-iso8859-1*"},
-    {FONT_TIMES_34,    33, "-adobe-times-medium-r-normal--34-*-iso8859-1*"},
-    {FONT_TIMES_20B,   20, "-adobe-times-bold-r-normal--20-*-iso8859-1*"},
-    {FONT_TIMES_24B,   24, "-adobe-times-bold-r-normal--24-*-iso8859-1*"},
-    {FONT_TIMES_34B,   33, "-adobe-times-bold-r-normal--34-*-iso8859-1*"},
-    {FONT_TIMES_14,    14, "-adobe-times-medium-r-normal--14-*-iso8859-1*"},
-    {FONT_TIMES_14B,   14, "-adobe-times-bold-r-normal--14-*-iso8859-1*"},
-    {FONT_TIMES_18,    18, "-adobe-times-medium-r-normal--18-*-iso8859-1*"},
-    {FONT_TIMES_18B,   18, "-adobe-times-bold-r-normal--18-*-iso8859-1*"},
-    {FONT_COURIER_18,  18, "-adobe-courier-medium-r-normal--18-*-*-*-*-*-iso8859-1*"},
-    {FONT_COURIER_18B, 18, "-adobe-courier-bold-r-normal--18-*-*-*-*-*-iso8859-1*"},
-    {FONT_COURIER_20,  20, "-adobe-courier-medium-r-normal--20-*-*-*-*-*-iso8859-1*"},
-    {FONT_COURIER_20B, 20, "-adobe-courier-bold-r-normal--20-*-*-*-*-*-iso8859-1*"}
+    {FONT_HELV_20,    20, "-adobe-helvetica-medium-r-normal--20-*-*"},
+    {FONT_HELV_24,    24, "-adobe-helvetica-medium-r-normal--24-*-*"},
+    {FONT_HELV_34,    33, "-adobe-helvetica-medium-r-normal--34-*-*"},
+    {FONT_HELV_20B,   20, "-adobe-helvetica-bold-r-normal--20-*-*"},
+    {FONT_HELV_24B,   24, "-adobe-helvetica-bold-r-normal--24-*-*"},
+    {FONT_HELV_34B,   33, "-adobe-helvetica-bold-r-normal--34-*-*"},
+    {FONT_HELV_14,    14, "-adobe-helvetica-medium-r-normal--14-*-*"},
+    {FONT_HELV_14B,   14, "-adobe-helvetica-bold-r-normal--14-*-*"},
+    {FONT_HELV_18,    18, "-adobe-helvetica-medium-r-normal--18-*-*"},
+    {FONT_HELV_18B,   18, "-adobe-helvetica-bold-r-normal--18-*-*"},
+    {FONT_COURIER_18,  18, "-adobe-courier-medium-r-normal--18-*-*-*-*-*-*"},
+    {FONT_COURIER_18B, 18, "-adobe-courier-bold-r-normal--18-*-*-*-*-*-*"},
+    {FONT_COURIER_20,  20, "-adobe-courier-medium-r-normal--20-*-*-*-*-*-*"},
+    {FONT_COURIER_20B, 20, "-adobe-courier-bold-r-normal--20-*-*-*-*-*-*"}
 };
 
 struct PenDataType
@@ -958,7 +958,7 @@ void KeyPressCB(Widget widget, XtPointer client_data,
 
 
     switch (key)
-	{
+    {
     case XK_Print:
         if (e->state & ControlMask)
             SaveToPPM();
@@ -988,7 +988,7 @@ void KeyPressCB(Widget widget, XtPointer client_data,
         TScreen->SetMode("POINT");
         return;
 #endif
-	}
+    }
 
     // Prevent extra post-swipe CRs.
     if (last_char == 13 && buffer[0] == 13)
@@ -1813,7 +1813,7 @@ void SocketInputCB(XtPointer client_data, int *fid, XtInputId *id)
             allow_iconify = RInt8();
             break;
         }
-	}
+    }
 }
 
 /*********************************************************************
@@ -2017,7 +2017,7 @@ int ShowCursor(int type)
 
     Cursor c = 0;
     switch (type)
-	{
+    {
     case CURSOR_POINTER:
         c = CursorPointer;
         break;
@@ -2029,7 +2029,7 @@ int ShowCursor(int type)
         break;
     default:
         break;
-	}
+    }
 
     if (c)
         XDefineCursor(Dis, MainWin, c);
@@ -2367,19 +2367,19 @@ int StartTimers()
     FnTrace("StartTimers()");
 
     if (UpdateTimerID == 0)
-	{
+    {
         UpdateTimerID = XtAppAddTimeOut(App, UPDATE_TIME,
                                         (XtTimerCallbackProc) UpdateCB, NULL);
-	}
+    }
 
     if (TouchInputID == 0 && TScreen && TScreen->device_no > 0)
-	{
+    {
         TouchInputID = XtAppAddInput(App, 
                                      TScreen->device_no, 
                                      (XtPointer) XtInputReadMask, 
                                      (XtInputCallbackProc) TouchScreenCB, 
                                      NULL);
-	}
+    }
 
     return 0;
 }
@@ -2471,9 +2471,9 @@ int OpenTerm(const char* display, TouchScreen *ts, int is_term_local, int term_h
     }
 
     // Set Default Font
-    FontInfo[FONT_DEFAULT]     = FontInfo[FONT_TIMES_24];
-    FontHeight[FONT_DEFAULT]   = FontHeight[FONT_TIMES_24];
-    FontBaseline[FONT_DEFAULT] = FontBaseline[FONT_TIMES_24];
+    FontInfo[FONT_DEFAULT]     = FontInfo[FONT_HELV_24];
+    FontHeight[FONT_DEFAULT]   = FontHeight[FONT_HELV_24];
+    FontBaseline[FONT_DEFAULT] = FontBaseline[FONT_HELV_24];
 
     // Create Window
     int n = 0;
@@ -2573,7 +2573,7 @@ int OpenTerm(const char* display, TouchScreen *ts, int is_term_local, int term_h
         l->id = 1;
         l->SolidRectangle(0, 0, WinWidth, WinHeight, ColorBlack);
         l->ZoneText("Please Wait", 0, 0, WinWidth, WinHeight,
-                    COLOR_WHITE, FONT_TIMES_34, ALIGN_CENTER);
+                    COLOR_WHITE, FONT_HELV_34, ALIGN_CENTER);
 
         genericChar tmp[256];
         if (term_hardware == 1)
@@ -2583,7 +2583,7 @@ int OpenTerm(const char* display, TouchScreen *ts, int is_term_local, int term_h
         else
             strcpy(tmp, "Server");
         l->ZoneText(tmp, 0, WinHeight - 30, WinWidth - 20, 30,
-                    COLOR_WHITE, FONT_TIMES_20, ALIGN_RIGHT);
+                    COLOR_WHITE, FONT_HELV_20, ALIGN_RIGHT);
         Layers.Add(l);
     }
     MainLayer = l;
@@ -2615,7 +2615,7 @@ int OpenTerm(const char* display, TouchScreen *ts, int is_term_local, int term_h
         //              l->title_height - 8, l->title_height - 8);
         b->SetRegion(WinWidth - l->title_height + 8, 8,
                      l->title_height - 4, l->title_height - 4);
-        b->font = FONT_TIMES_34;
+        b->font = FONT_HELV_34;
         l->buttons.Add(b);
     }
 
@@ -2639,33 +2639,33 @@ int OpenTerm(const char* display, TouchScreen *ts, int is_term_local, int term_h
     // Send server term size
     int screen_size = SIZE_640x480;
 
-    if (WinWidth >= 2560) 		// 16:10
+    if (WinWidth >= 2560)       // 16:10
         screen_size = SIZE_2560x1600;
-    else if (WinWidth >= 2560 && WinHeight < 1600) 		// 16:9
+    else if (WinWidth >= 2560 && WinHeight < 1600)      // 16:9
         screen_size = SIZE_2560x1440;
-    else if (WinWidth >= 1920 && WinHeight >= 1200) 		// 16:10
+    else if (WinWidth >= 1920 && WinHeight >= 1200)         // 16:10
         screen_size = SIZE_1920x1200;
-    else if (WinWidth >= 1920 && WinHeight >= 1080) 		// 16:9
+    else if (WinWidth >= 1920 && WinHeight >= 1080)         // 16:9
         screen_size = SIZE_1920x1080;
-    else if (WinWidth >= 1680 && WinHeight >= 1050)		// 16:10
+    else if (WinWidth >= 1680 && WinHeight >= 1050)     // 16:10
         screen_size = SIZE_1680x1050;
     else if (WinWidth >= 1600 && WinHeight >= 1200)
       screen_size = SIZE_1600x1200;
-    else if (WinWidth >= 1600 && WinHeight >= 900)		// 16:9
+    else if (WinWidth >= 1600 && WinHeight >= 900)      // 16:9
         screen_size = SIZE_1600x900;
-    else if (WinWidth >= 1440 && WinHeight >= 900)		// 16:10
+    else if (WinWidth >= 1440 && WinHeight >= 900)      // 16:10
         screen_size = SIZE_1440x900; 
-    else if (WinWidth >= 1366 && WinHeight >= 768)		// 16:9
+    else if (WinWidth >= 1366 && WinHeight >= 768)      // 16:9
         screen_size = SIZE_1366x768;
-    else if (WinWidth >= 1280 && WinHeight >= 1024) 		// 5:4
+    else if (WinWidth >= 1280 && WinHeight >= 1024)         // 5:4
         screen_size = SIZE_1280x1024;
-    else if  (WinWidth >= 1280 && WinHeight >= 800) 		// 16:10
+    else if  (WinWidth >= 1280 && WinHeight >= 800)         // 16:10
         screen_size = SIZE_1280x800;
-    else if (WinWidth >= 1024 && WinHeight >= 768)		// 4:3
+    else if (WinWidth >= 1024 && WinHeight >= 768)      // 4:3
         screen_size = SIZE_1024x768;
-    else if (WinWidth >= 1024 && WinHeight >= 600)		// 128:75
+    else if (WinWidth >= 1024 && WinHeight >= 600)      // 128:75
         screen_size = SIZE_1024x600;
-    else if (WinWidth >= 800 && WinHeight >= 600)			// 4:3
+    else if (WinWidth >= 800 && WinHeight >= 600)           // 4:3
       screen_size = SIZE_800x600;
     else if (WinWidth >= 800 && WinHeight >= 480)
         screen_size = SIZE_800x480;

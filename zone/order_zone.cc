@@ -178,7 +178,7 @@ RenderResult OrderEntryZone::Render(Terminal *t, int update_flag)
     TextC(t, 0, t->UserName(c->user_owner), col);
 
     switch (c->CustomerType())
-	{
+    {
     case CHECK_RESTAURANT:
         sprintf(str, "%s %s", t->Translate("Tbl"), c->Table());
         TextL(t, 1, str, col);
@@ -237,7 +237,7 @@ RenderResult OrderEntryZone::Render(Terminal *t, int update_flag)
         sprintf(str, "%s %d of %d", t->Translate("Part"), sc->number, subs);
         TextR(t, 1, str, col);
         break;
-	}
+    }
 
     // Draw Footer
     TextPosR(t, size_x - 8, size_y - 2, t->Translate("Total"), col);
@@ -336,9 +336,9 @@ RenderResult OrderEntryZone::Render(Terminal *t, int update_flag)
 
 SignalResult OrderEntryZone::Signal(Terminal *term, const genericChar* message)
 {
-	FnTrace("OrderEntryZone::Signal()");
-	static const genericChar* commands[] = {
-		"cancel", "delete", "consolidate", "final",
+    FnTrace("OrderEntryZone::Signal()");
+    static const genericChar* commands[] = {
+        "cancel", "delete", "consolidate", "final",
         "next check", "prior check", "next seat", "prior seat",
         "takeoutseat", "takeoutattach", NULL};
 
@@ -620,18 +620,18 @@ int OrderEntryZone::DeleteOrder(Terminal *term, int is_void)
             --term->order->count;
     }
     else if (term->order->modifier_list)
-	{
-		// Delete all modifiers - start modifier script  
-		while (term->order->modifier_list)
-		{
-			Order *o = term->order->modifier_list;
-			sc->Remove(o);
-			delete o; // deleting member from order obj? If so, this should be handled elswhere (like within the class)
-		}
+    {
+        // Delete all modifiers - start modifier script  
+        while (term->order->modifier_list)
+        {
+            Order *o = term->order->modifier_list;
+            sc->Remove(o);
+            delete o; // deleting member from order obj? If so, this should be handled elswhere (like within the class)
+        }
 
-		term->Update(UPDATE_ORDERS, NULL);
-		term->RunScript(term->order->script.Value(), JUMP_NONE, 0);
-	}
+        term->Update(UPDATE_ORDERS, NULL);
+        term->RunScript(term->order->script.Value(), JUMP_NONE, 0);
+    }
     else
     {
         // Finish the two-step deletion
@@ -696,13 +696,13 @@ int OrderEntryZone::CompOrder(Terminal *term, int reason)
     }
 
     if (! thisCheck->IsTraining()) 
-	{
+    {
         term->system_data->exception_db.AddItemException(term, thisCheck, term->order, EXCEPTION_COMP, reason);
-	}
+    }
 
-	// Should this call be nested in the if() block above? 
-	// Does its current location cause unintended duplication?
-	thisSubCheck->CompOrder(currSettings, term->order, 1);
+    // Should this call be nested in the if() block above? 
+    // Does its current location cause unintended duplication?
+    thisSubCheck->CompOrder(currSettings, term->order, 1);
 
     term->Update(UPDATE_ORDERS, NULL);
     return 0;
@@ -734,11 +734,11 @@ int OrderEntryZone::VoidOrder(Terminal *term, int reason)
     }
 
     if (! thisCheck->IsTraining())
-	{
+    {
         term->system_data->exception_db.AddItemException(term, thisCheck, term->order, EXCEPTION_VOID, reason);
-	}
+    }
 
-	// nuke 'subcheck' (like comps)
+    // nuke 'subcheck' (like comps)
     DeleteOrder(term, 1);
 
     return 0;
@@ -1017,18 +1017,18 @@ RenderResult OrderFlowZone::Render(Terminal *term, int update_flag)
 
     Settings *settings = term->GetSettings();
     if (update_flag)
-	{
-		if (term->type == TERMINAL_BAR || term->type == TERMINAL_BAR2)
-			meal = INDEX_BAR;
-		else if(term->type == TERMINAL_FASTFOOD)
-		{
-			// find the appropriate index page for the current shift
-			int nMealIndex = settings->MealPeriod(SystemTime);
-			meal = IndexValue[nMealIndex];  // IndexValue[] defined in main/labels.cc
-		}
-		else
-			meal = settings->MealPeriod(SystemTime);
-	}
+    {
+        if (term->type == TERMINAL_BAR || term->type == TERMINAL_BAR2)
+            meal = INDEX_BAR;
+        else if(term->type == TERMINAL_FASTFOOD)
+        {
+            // find the appropriate index page for the current shift
+            int nMealIndex = settings->MealPeriod(SystemTime);
+            meal = IndexValue[nMealIndex];  // IndexValue[] defined in main/labels.cc
+        }
+        else
+            meal = settings->MealPeriod(SystemTime);
+    }
 
     int customer_type = 0;
     Check *currCheck = term->check;
@@ -1478,7 +1478,7 @@ RenderResult ItemZone::Render(Terminal *t, int update_flag)
     int col = color[State(t)];
     if (col == COLOR_PAGE_DEFAULT || col == COLOR_DEFAULT)
     {
-	col =  t->TextureTextColor(texture[State(t)]);
+    col =  t->TextureTextColor(texture[State(t)]);
     } 
     
     int font_height, font_width;
@@ -1516,12 +1516,12 @@ RenderResult ItemZone::Render(Terminal *t, int update_flag)
         genericChar price[32];
         t->FormatPrice(price, cost);
       /*  int o = 14;
-        int f = FONT_TIMES_20B;
-	
+        int f = FONT_HELV_20B;
+    
         if (t->page->size >= SIZE_1280x1024)
         {
             o = 19;
-            f = FONT_TIMES_24B;
+            f = FONT_HELV_24B;
         }*/
       
         t->RenderText(price, x + w - border, y + h - border - font_height,
@@ -1530,57 +1530,57 @@ RenderResult ItemZone::Render(Terminal *t, int update_flag)
     
     if(item->type == ITEM_ADMISSION)
     {
-	int offsety=border;
-	t->RenderText(item->ZoneName(),x + w / 2.0,y + offsety,col,font,ALIGN_CENTER);
-	offsety+=font_height;
-	t->RenderText(item->event_time.Value(),x + w / 2.0,y + offsety,col,font,ALIGN_CENTER);
-	if(item->location.length > 0)
-	{
-		offsety+=font_height;
-		t->RenderText(item->location.Value(),x + w / 2.0,y + offsety,col,font,ALIGN_CENTER);
-	}
-	if(s->store_name.length > 0)
-	{
-		offsety+=font_height;
-		t->RenderText(s->store_name.Value(),x + w / 2.0,y + offsety,col,font,ALIGN_CENTER);
-	}
-	if(item->price_label.length > 0)
-	{
-		offsety+=font_height;
-		t->RenderText(item->price_label.Value(),x + w / 2.0,y + offsety,col,font,ALIGN_CENTER);
-	}
-	if((item->available_tickets.length > 0) && (item->total_tickets.length > 0))
-	{
-		offsety+=font_height;
-		genericChar buffer[64];
-		snprintf(buffer,64,"%s/%s",item->available_tickets.Value(),item->total_tickets.Value());
-		t->RenderText(buffer,x + w / 2.0,y + offsety,col,font,ALIGN_CENTER);
-	}
+    int offsety=border;
+    t->RenderText(item->ZoneName(),x + w / 2.0,y + offsety,col,font,ALIGN_CENTER);
+    offsety+=font_height;
+    t->RenderText(item->event_time.Value(),x + w / 2.0,y + offsety,col,font,ALIGN_CENTER);
+    if(item->location.length > 0)
+    {
+        offsety+=font_height;
+        t->RenderText(item->location.Value(),x + w / 2.0,y + offsety,col,font,ALIGN_CENTER);
+    }
+    if(s->store_name.length > 0)
+    {
+        offsety+=font_height;
+        t->RenderText(s->store_name.Value(),x + w / 2.0,y + offsety,col,font,ALIGN_CENTER);
+    }
+    if(item->price_label.length > 0)
+    {
+        offsety+=font_height;
+        t->RenderText(item->price_label.Value(),x + w / 2.0,y + offsety,col,font,ALIGN_CENTER);
+    }
+    if((item->available_tickets.length > 0) && (item->total_tickets.length > 0))
+    {
+        offsety+=font_height;
+        genericChar buffer[64];
+        snprintf(buffer,64,"%s/%s",item->available_tickets.Value(),item->total_tickets.Value());
+        t->RenderText(buffer,x + w / 2.0,y + offsety,col,font,ALIGN_CENTER);
+    }
     }
 
     if (item->type == ITEM_MODIFIER || sub)
     {
-        t->RenderText("*", x + border, y + h - border - 16, col, FONT_TIMES_34);
+        t->RenderText("*", x + border, y + h - border - 16, col, FONT_HELV_34);
     }
     else if (item->type == ITEM_METHOD)
     {
         t->RenderText("*", x + border, y + h - border - 16,
-                      COLOR_GRAY, FONT_TIMES_34);
+                      COLOR_GRAY, FONT_HELV_34);
     }
 
     if (t->show_info)
     {
         const genericChar* str = item->item_name.Value();
-        t->RenderText(str, x + border, y + border, col, FONT_TIMES_14,
+        t->RenderText(str, x + border, y + border, col, FONT_HELV_14,
                       ALIGN_LEFT, w - border);
         str = item->Family(t);
-        t->RenderText(str, x + border, y + border + 15, col, FONT_TIMES_14,
+        t->RenderText(str, x + border, y + border + 15, col, FONT_HELV_14,
                       ALIGN_LEFT, w - border);
         str = item->Printer(t);
-        t->RenderText(str, x + border, y + border + 30, col, FONT_TIMES_14,
+        t->RenderText(str, x + border, y + border + 30, col, FONT_HELV_14,
                       ALIGN_LEFT, w - border);
         str = CallOrderName[item->call_order];
-        t->RenderText(str, x + border, y + border + 45, col, FONT_TIMES_14,
+        t->RenderText(str, x + border, y + border + 45, col, FONT_HELV_14,
                       ALIGN_LEFT, w - border);
     }
     return RENDER_OKAY;
@@ -1590,7 +1590,7 @@ SignalResult ItemZone::Signal(Terminal *t, const char* message)
 {
     FnTrace("ItemZone::Signal()");
     SignalResult retval = SIGNAL_IGNORED;
-	static const genericChar* commands[] = { "addanyway", "addandopentab", NULL };
+    static const genericChar* commands[] = { "addanyway", "addandopentab", NULL };
     int idx = CompareList(message, commands);
 
     switch (idx)

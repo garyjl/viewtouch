@@ -827,22 +827,22 @@ int PrinterIthaca::WriteFlags(int flags)
         return 1;
 
     active_flags = flags ^ active_flags;
-	genericChar quality_draft[] = { 0x1b, 0x49, 0 }; // 12 x 12
-	genericChar quality_high[] = { 0x1b, 0x49, 2 }; // 24x16
-	genericChar underline_start[] = { 0x1b, 0x2d, 1};
-	genericChar underline_end[] = { 0x1b, 0x2d, 0};
+    genericChar quality_draft[] = { 0x1b, 0x49, 0 }; // 12 x 12
+    genericChar quality_high[] = { 0x1b, 0x49, 2 }; // 24x16
+    genericChar underline_start[] = { 0x1b, 0x2d, 1};
+    genericChar underline_end[] = { 0x1b, 0x2d, 0};
     int mode = 0;
 
     if (flags & PRINT_UNDERLINE)
-		write(temp_fd, underline_start, sizeof(underline_start));
-	else  //turn underline off (in case it was turned on previously)
-		write(temp_fd, underline_end, sizeof(underline_end));
+        write(temp_fd, underline_start, sizeof(underline_start));
+    else  //turn underline off (in case it was turned on previously)
+        write(temp_fd, underline_end, sizeof(underline_end));
 
-	if(flags & PRINT_LARGE)
-		write(temp_fd, quality_high, sizeof(quality_high));
-	else
-		write(temp_fd, quality_draft, sizeof(quality_draft));
-	last_mode = mode;
+    if(flags & PRINT_LARGE)
+        write(temp_fd, quality_high, sizeof(quality_high));
+    else
+        write(temp_fd, quality_draft, sizeof(quality_draft));
+    last_mode = mode;
 
     return 0;
 }
@@ -861,14 +861,14 @@ int PrinterIthaca::Start()
 int PrinterIthaca::End()
 {
     FnTrace("PrinterIthaca::End()");
-	if (temp_fd <= 0)
-		return 1;
+    if (temp_fd <= 0)
+        return 1;
 
     FormFeed();
-	Close();
+    Close();
     have_title = 0;
     page_title.Set("");  // reset the title for a new print job
-	return 0;
+    return 0;
 }
 
 int PrinterIthaca::Init()
@@ -1082,12 +1082,12 @@ int PrinterStar::Start()
 int PrinterStar::End()
 {
     FnTrace("PrinterStar::End()");
-	if (temp_fd <= 0)
-		return 1;
+    if (temp_fd <= 0)
+        return 1;
 
     LineFeed(END_PAGE);
     CutPaper();
-	Close();
+    Close();
     have_title = 0;
     page_title.Set("");  // reset the title for a new print job
     return 0;
@@ -1311,12 +1311,12 @@ int PrinterEpson::Start()
 int PrinterEpson::End()
 {
     FnTrace("PrinterEpson::End()");
-	if (temp_fd <= 0)
-		return 1;
+    if (temp_fd <= 0)
+        return 1;
 
     LineFeed(END_PAGE);
     CutPaper();
-	Close();
+    Close();
     have_title = 0;
     page_title.Set("");  // reset the title for a new print job
     return 0;
@@ -1414,7 +1414,7 @@ int PrinterEpson::OpenDrawer(int drawer)
     if (temp_fd <= 0)
         return 1;
 
-	genericChar d = 0;
+    genericChar d = 0;
     if (pulse >= 0)
         d = (pulse % 2);
     else
@@ -1517,11 +1517,11 @@ int PrinterHP::Start()
 int PrinterHP::End()
 {
     FnTrace("PrinterHP::End()");
-	if (temp_fd <= 0)
-		return 1;
+    if (temp_fd <= 0)
+        return 1;
 
     FormFeed();
-	Close();
+    Close();
     have_title = 0;
     page_title.Set("");  // reset the title for a new print job
     return 0;

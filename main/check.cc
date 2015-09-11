@@ -777,8 +777,8 @@ int Check::FinalizeOrders(Terminal *term, int reprint)
     if (term != NULL)
     {
         // At this point, the report is just a throwaway report.
-	if (term->print_workorder)
-	{
+    if (term->print_workorder)
+    {
             result += SendWorkOrder(term, PRINTER_KITCHEN1, reprint);
             result += SendWorkOrder(term, PRINTER_KITCHEN2, reprint);
             result += SendWorkOrder(term, PRINTER_KITCHEN3, reprint);
@@ -786,7 +786,7 @@ int Check::FinalizeOrders(Terminal *term, int reprint)
             result += SendWorkOrder(term, PRINTER_BAR1, reprint);
             result += SendWorkOrder(term, PRINTER_BAR2, reprint);
             result += SendWorkOrder(term, PRINTER_EXPEDITER, reprint);
-	}
+    }
         if (result < 7)
             flags |= CF_PRINTED;
     
@@ -836,14 +836,14 @@ int Check::Settle(Terminal *term)
 
     int settled = 0;
     for (SubCheck *sc = SubList(); sc != NULL; sc = sc->next)
-	{
+    {
         if (sc->Settle(term) == 0)
         {
             ++settled;
             if (d)
                 d->RecordSale(sc);
         }
-	}
+    }
 
     if (settled == 0)
         return 1;
@@ -1063,14 +1063,14 @@ int Check::PrintWorkOrder(Terminal *term, Report *report, int printer_id, int re
     int color = COLOR_DEFAULT;
     bool full_hdr = true;
 
-    if (rzone != NULL)				// kitchen video, not printer
+    if (rzone != NULL)              // kitchen video, not printer
     {
         flag_sent = ORDER_SHOWN;
         flag_printed = CF_SHOWN;
-        if (rzone == term->active_zone)		// highlighted for bump bar
-	    color = ((Zone *)rzone)->page->default_color[1];
-        if (term->workorder_heading)		// use shorter/simpler heading?
-	    full_hdr = false;
+        if (rzone == term->active_zone)     // highlighted for bump bar
+        color = ((Zone *)rzone)->page->default_color[1];
+        if (term->workorder_heading)        // use shorter/simpler heading?
+        full_hdr = false;
     }
 
     Printer *printer = term->FindPrinter(printer_id);
@@ -1141,14 +1141,14 @@ int Check::PrintWorkOrder(Terminal *term, Report *report, int printer_id, int re
              CustomerType() == CHECK_CALLIN))
     {
         if (rzone == NULL)
-	{
+    {
             report->Mode(0);
             report->TextL(" ");
             report->Underline(pwidth, color, ALIGN_CENTER, 0.0);
             report->NewLine();
-	}
+    }
 
-	// ** order type **
+    // ** order type **
         str[0] = '\0';
         switch(CustomerType())
         {
@@ -1206,7 +1206,7 @@ int Check::PrintWorkOrder(Terminal *term, Report *report, int printer_id, int re
         report->TextL(str1, color);
         report->NewLine();
 
-	// order due time
+    // order due time
         snprintf(str1, pwidth, "Due:  %s", term->TimeDate(date, TD_DATETIME));
         report->TextL(str1, color);
         report->Mode(0);
@@ -1215,7 +1215,7 @@ int Check::PrintWorkOrder(Terminal *term, Report *report, int printer_id, int re
 
     // order routing
     switch (CustomerType())
-	{
+    {
     case CHECK_RESTAURANT:
         sprintf(str1, "%s %s-%d", term->Translate("Table"), Table(), Guests());
         break;
@@ -1253,9 +1253,9 @@ int Check::PrintWorkOrder(Terminal *term, Report *report, int printer_id, int re
         break;
 
     default:
-	str1[0] = 0;
-	}
-    if (full_hdr && str1[0])	// order type on separate line
+    str1[0] = 0;
+    }
+    if (full_hdr && str1[0])    // order type on separate line
     {
         report->Mode(kitchen_mode);
         report->TextL(str1, color);
@@ -1271,11 +1271,11 @@ int Check::PrintWorkOrder(Terminal *term, Report *report, int printer_id, int re
     else if (flags & flag_printed)
         strcpy(str, "Restored ");
     else
-    	str[0] = 0;
-    sprintf(str2, "#%d ", serial_number % 10000);	// max 4 digits
+        str[0] = 0;
+    sprintf(str2, "#%d ", serial_number % 10000);   // max 4 digits
     strcat(str, str2);
-    if (!full_hdr && str1[0])	// combine order type on this line
-	strcat(str, str1);
+    if (!full_hdr && str1[0])   // combine order type on this line
+    strcat(str, str1);
     report->Mode(kitchen_mode);
     // green if paid
     report->TextL(str, Status() == CHECK_CLOSED ? COLOR_DK_GREEN : color);
@@ -1295,7 +1295,7 @@ int Check::PrintWorkOrder(Terminal *term, Report *report, int printer_id, int re
 
     // order source and creation timestamp
     term->TimeDate(str, time_open, TD_NO_YEAR | TD_SHORT_MONTH | TD_NO_DAY | TD_SHORT_TIME);
-    sprintf(str1, "%*s", pwidth, str);	// pad to right justify, with space for underline
+    sprintf(str1, "%*s", pwidth, str);  // pad to right justify, with space for underline
 
     if (employee)
         strcpy(str, employee->system_name.Value());
@@ -1304,19 +1304,19 @@ int Check::PrintWorkOrder(Terminal *term, Report *report, int printer_id, int re
     else
         strcpy(str, UnknownStr);
 
-    if (rzone)		// video
+    if (rzone)      // video
     {
-     	report->Underline(pwidth, COLOR_DEFAULT, ALIGN_LEFT, 0.0);
-    	report->TextL(str, color);
-	report->TextR(str1, COLOR_DK_BLUE);
+        report->Underline(pwidth, COLOR_DEFAULT, ALIGN_LEFT, 0.0);
+        report->TextL(str, color);
+    report->TextR(str1, COLOR_DK_BLUE);
     }
-    else		// printer - timestamp on separate line
+    else        // printer - timestamp on separate line
     {
-	report->Mode(kitchen_mode);
-    	report->TextL(str, color);
-    	report->NewLine();
-	report->Mode(kitchen_mode | PRINT_UNDERLINE);
-    	report->TextR(str1, COLOR_DK_BLUE);
+    report->Mode(kitchen_mode);
+        report->TextL(str, color);
+        report->NewLine();
+    report->Mode(kitchen_mode | PRINT_UNDERLINE);
+        report->TextR(str1, COLOR_DK_BLUE);
     }
     report->NewLine();
 
@@ -1325,7 +1325,7 @@ int Check::PrintWorkOrder(Terminal *term, Report *report, int printer_id, int re
 
     // Now list the orders
     for (SubCheck *sc = SubList(); sc != NULL; sc = sc->next)
-	{
+    {
         for (Order *order = sc->OrderList(); order != NULL; order = order->next)
         {
             ordstr[0] = '\0';
@@ -1412,7 +1412,7 @@ int Check::PrintWorkOrder(Terminal *term, Report *report, int printer_id, int re
                 }
             }
         }
-	}
+    }
 
     report->is_complete = 1;
 
@@ -1574,7 +1574,7 @@ int Check::PrintDeliveryOrder(Report *report, int pwidth)
         delivery_cost += subcheck->delivery_charge;
         total_cost += subcheck->total_cost;
         subcheck = subcheck->next;
-	}
+    }
     report->Divider2Col();
     report->TextL2Col("SubTotal:");
     PriceFormat(settings, total_cost, 0, 0, str1);
@@ -1810,25 +1810,25 @@ int Check::MakeReport(Terminal *term, Report *report, int show_what, int video_t
         snprintf(str, STRLONG, "%s %s", term->Translate("Room"), Table());
         break;
     case CHECK_TAKEOUT:
-	if (date.IsSet() && (date <= now))
-	    snprintf(str, STRLONG, "%s %s", term->Translate(WAITSTR), term->Translate("Take Out"));
-	else
-	    snprintf(str, STRLONG, "%s",term->Translate("Take Out"));
+    if (date.IsSet() && (date <= now))
+        snprintf(str, STRLONG, "%s %s", term->Translate(WAITSTR), term->Translate("Take Out"));
+    else
+        snprintf(str, STRLONG, "%s",term->Translate("Take Out"));
         break;
     case CHECK_FASTFOOD:
         snprintf(str, STRLONG, "%s",term->Translate("Fast Food"));
         break;
     case CHECK_CATERING:
-	if (date.IsSet() && (date <= now))
-	    snprintf(str, STRLONG, "%s %s", term->Translate(WAITSTR), term->Translate("Catering"));
-	else
-	    snprintf(str, STRLONG, "%s",term->Translate("Catering"));
+    if (date.IsSet() && (date <= now))
+        snprintf(str, STRLONG, "%s %s", term->Translate(WAITSTR), term->Translate("Catering"));
+    else
+        snprintf(str, STRLONG, "%s",term->Translate("Catering"));
         break;
     case CHECK_DELIVERY:
-	if (date.IsSet() && (date <= now))
-	    snprintf(str, STRLONG, "%s %s", term->Translate(WAITSTR), term->Translate("Delivery"));
-	else
-	    snprintf(str, STRLONG, "%s",term->Translate("Delivery"));
+    if (date.IsSet() && (date <= now))
+        snprintf(str, STRLONG, "%s %s", term->Translate(WAITSTR), term->Translate("Delivery"));
+    else
+        snprintf(str, STRLONG, "%s",term->Translate("Delivery"));
         break;
     case CHECK_RETAIL:
         snprintf(str, STRLONG,"%s", term->Translate("Retail"));
@@ -1844,7 +1844,7 @@ int Check::MakeReport(Terminal *term, Report *report, int show_what, int video_t
         break;
     default:
         break;
-	}
+    }
     report->TextL(str);
 
     if (IsTraining())
@@ -2001,7 +2001,7 @@ int Check::MakeReport(Terminal *term, Report *report, int show_what, int video_t
         Flt pos;
         int first;
         for (Order *order = sc->OrderList(); order != NULL; order = order->next)
-		{
+        {
             first = 1;
             int order_target = order->VideoTarget(settings);
             if (order->sales_type & SALES_TAKE_OUT)
@@ -2300,19 +2300,19 @@ int Check::SeatsUsed()
 
     for (SubCheck *sc = SubList(); sc != NULL; sc = sc->next)
         for (Order *order = sc->OrderList(); order != NULL; order = order->next)
-		{
-			s = order->seat;
-			if (s >= (int)(sizeof(seats)*8))
-				continue;
+        {
+            s = order->seat;
+            if (s >= (int)(sizeof(seats)*8))
+                continue;
 
-			s1 = s / (sizeof(int)*8);
-			s2 = 1 << (s % (sizeof(int)*8));
-			if (!(seats[s1] & s2))
-			{
-				++count;
-				seats[s1] |= s2;
-			}
-		}
+            s1 = s / (sizeof(int)*8);
+            s2 = 1 << (s % (sizeof(int)*8));
+            if (!(seats[s1] & s2))
+            {
+                ++count;
+                seats[s1] |= s2;
+            }
+        }
 
     return count;
 }
@@ -2374,11 +2374,11 @@ const genericChar* Check::PaymentSummary(Terminal *term)
         int discount = 0, emeal = 0, coupon = 0, credit = 0, account = 0;
 
         for (SubCheck *sc = SubList(); sc != NULL; sc = sc->next)
-		{
+        {
             for (Payment *payptr = sc->PaymentList(); payptr != NULL; payptr = payptr->next)
-			{
+            {
                 switch (payptr->tender_type)
-				{
+                {
                 case TENDER_CASH:          cash = 1; break;
                 case TENDER_CHECK:         check = 1; break;
                 case TENDER_COUPON:        coupon = 1; break;
@@ -2392,9 +2392,9 @@ const genericChar* Check::PaymentSummary(Terminal *term)
                 case TENDER_ACCOUNT:       account = 1; break;
                 case TENDER_CHARGE_ROOM:   room = payptr->tender_id; break;
                 default: break;
-				}// end switch
-			}// end for
-		}// end for
+                }// end switch
+            }// end for
+        }// end for
 
         str[0] = '\0';
         if (credit)   strcat(str, "CC,");
@@ -2509,8 +2509,8 @@ int Check::IsTakeOut()
 int Check::IsFastFood()
 {
     FnTrace("Check::IsFastFood()");
-	int ct = CustomerType();
-	return (ct == CHECK_FASTFOOD ||
+    int ct = CustomerType();
+    return (ct == CHECK_FASTFOOD ||
             ct == CHECK_RETAIL   ||
             ct == CHECK_TAKEOUT);
 }
@@ -2783,10 +2783,10 @@ SubCheck::SubCheck()
     total_tax_alcohol     = 0;
     total_tax_room        = 0;
     total_tax_merchandise = 0;
-    total_tax_GST 		  = 0;
-    total_tax_PST 		  = 0;
-    total_tax_HST 		  = 0;
-    total_tax_QST		  = 0;
+    total_tax_GST         = 0;
+    total_tax_PST         = 0;
+    total_tax_HST         = 0;
+    total_tax_QST         = 0;
     new_QST_method        = 1;
     tab_total             = 0;
     total_tax_VAT         = 0;
@@ -3153,32 +3153,32 @@ int SubCheck::Purge(int restore)
 
 Order *SubCheck::RemoveOne(Order *order)
 {
-	FnTrace("SubCheck::RemoveOne()");
+    FnTrace("SubCheck::RemoveOne()");
 
     return RemoveCount(order, 1);
 }
 
 Order *SubCheck::RemoveCount(Order *order, int count)
 {
-	FnTrace("SubCheck::RemoveCount()");
+    FnTrace("SubCheck::RemoveCount()");
 
-	if (order == NULL)
-		return NULL;
+    if (order == NULL)
+        return NULL;
 
-	if (order->count > count)
-	{
-		Order *ptr = order->Copy();
-		order->count -= count;
-		order->FigureCost();
-		ptr->count = count;
-		ptr->FigureCost();
-		return ptr;
-	}
-	else
-	{
-		Remove(order);
-		return order;
-	}
+    if (order->count > count)
+    {
+        Order *ptr = order->Copy();
+        order->count -= count;
+        order->FigureCost();
+        ptr->count = count;
+        ptr->FigureCost();
+        return ptr;
+    }
+    else
+    {
+        Remove(order);
+        return order;
+    }
 }
 
 int SubCheck::CancelOrders(Settings *settings)
@@ -3422,7 +3422,7 @@ int SubCheck::FigureTotals(Settings *settings)
     int food_discount       = 0; // regular food
     int food_no_discount    = 0; // food that can't be discounted
     int food_comp           = 0; // total of food line item comps
-	
+    
     int alcohol_sales       = 0; // total alcohol sales
     int alcohol_discount    = 0; // regular alcohol
     int alcohol_no_discount = 0; // alcohol that can't be discounted
@@ -3587,10 +3587,10 @@ int SubCheck::FigureTotals(Settings *settings)
             merchandise_sales += (int) (f + .5);
 
             discount->value =
-				((food_no_discount + food_discount) - food_sales) +
-				((alcohol_no_discount + alcohol_discount) - alcohol_sales) +
-				((room_no_discount + room_discount) - room_sales) +
-				((merchandise_no_discount + merchandise_discount) - merchandise_sales);
+                ((food_no_discount + food_discount) - food_sales) +
+                ((alcohol_no_discount + alcohol_discount) - alcohol_sales) +
+                ((room_no_discount + room_discount) - room_sales) +
+                ((merchandise_no_discount + merchandise_discount) - merchandise_sales);
         }
         else
         {
@@ -3601,29 +3601,29 @@ int SubCheck::FigureTotals(Settings *settings)
 
             if (fd > food_discount)
             {
-				ad = fd - food_discount;
-				fd = food_discount;
+                ad = fd - food_discount;
+                fd = food_discount;
             }
             if (ad > alcohol_discount)
             {
-				rd = ad - alcohol_discount;
-				ad = alcohol_discount;
+                rd = ad - alcohol_discount;
+                ad = alcohol_discount;
             }
             if (rd > room_discount)
             {
-				md = rd - room_discount;
-				rd = room_discount;
+                md = rd - room_discount;
+                rd = room_discount;
             }
 
             if (md > merchandise_discount)
-				md = merchandise_discount;
+                md = merchandise_discount;
 
-			food_sales        += food_discount - fd;
-			alcohol_sales     += alcohol_discount - ad;
-			room_sales        += room_discount - rd;
-			merchandise_sales += merchandise_discount - md;
+            food_sales        += food_discount - fd;
+            alcohol_sales     += alcohol_discount - ad;
+            room_sales        += room_discount - rd;
+            merchandise_sales += merchandise_discount - md;
 
-			discount->value = fd + ad + rd + md;
+            discount->value = fd + ad + rd + md;
         }
 
         if (!(discount->flags & TF_NO_REVENUE))
@@ -3688,14 +3688,14 @@ int SubCheck::FigureTotals(Settings *settings)
 
     total_tax_GST = settings->FigureGST((food_tax_revenue + alcohol_tax_revenue), SystemTime, GST_tax);
 
-	bool drinksOnly = true;
-	int currFamily;
+    bool drinksOnly = true;
+    int currFamily;
     for (Order *my_order = OrderList(); my_order != NULL; my_order = my_order->next)
     {
-		currFamily = settings->family_group[my_order->item_family];
-		if(currFamily != SALESGROUP_BEVERAGE) 
-			drinksOnly = false;
-	}
+        currFamily = settings->family_group[my_order->item_family];
+        if(currFamily != SALESGROUP_BEVERAGE) 
+            drinksOnly = false;
+    }
     if (alcohol_tax == 0)
     {
         total_tax_PST = settings->FigurePST((food_tax_revenue + alcohol_tax_revenue),
@@ -3750,15 +3750,15 @@ int SubCheck::FigureTotals(Settings *settings)
                 total_tax_PST + total_tax_HST + total_tax_QST +
                 total_tax_VAT;
             if (discount_alcohol) 
-				tax_dis += total_tax_alcohol;
+                tax_dis += total_tax_alcohol;
 
             // amount still left in discount
             int over = discount->amount - discount->value;
 
             if (tax_dis > over)
-				amount = over;    // move tax than discount left
+                amount = over;    // move tax than discount left
             else
-				amount = tax_dis; // discount covers all tax
+                amount = tax_dis; // discount covers all tax
         }
 
         if (amount > 0)
@@ -3997,15 +3997,15 @@ int SubCheck::SeatsUsed()
 
 void spacefill(genericChar* buf,size_t n)
 {
-	bool zhit=false;
-	for(size_t i=0;i<n;i++)
-	{
-		zhit=zhit || buf[i]==0;
-		if(zhit)
-		{
-			buf[i]=' ';
-		}
-	}
+    bool zhit=false;
+    for(size_t i=0;i<n;i++)
+    {
+        zhit=zhit || buf[i]==0;
+        if(zhit)
+        {
+            buf[i]=' ';
+        }
+    }
 }
 
 int SubCheck::PrintReceipt(Terminal *term, Check *check, Printer *printer, Drawer *drawer, int open_drawer)
@@ -4068,7 +4068,7 @@ int SubCheck::PrintReceipt(Terminal *term, Check *check, Printer *printer, Drawe
         printer->LineFeed(2 + settings->receipt_header_length);
 
     switch (check->CustomerType())
-	{
+    {
     case CHECK_RESTAURANT:
         snprintf(str1, 64, "%s %s #%d", term->Translate("Table"), check->Table(), number);
         break;
@@ -4102,7 +4102,7 @@ int SubCheck::PrintReceipt(Terminal *term, Check *check, Printer *printer, Drawe
     default:
         str1[0] = '\0';
         break;
-	}
+    }
 
     if (e)
         sprintf(str2, "%s: %s", term->Translate("Server"), e->system_name.Value());
@@ -4121,28 +4121,28 @@ int SubCheck::PrintReceipt(Terminal *term, Check *check, Printer *printer, Drawe
     }
 
     if (drawer)
-	{
-		if (drawer->IsServerBank())
-			strcpy(str1, term->Translate("Server Bank"));
-		else
-			sprintf(str1, "%s %d", term->Translate("Drawer"), drawer->number);
+    {
+        if (drawer->IsServerBank())
+            strcpy(str1, term->Translate("Server Bank"));
+        else
+            sprintf(str1, "%s %d", term->Translate("Drawer"), drawer->number);
 
-		Employee *cashier = NULL;
-		if (settle_user > 0)
-			cashier = sys->user_db.FindByID(settle_user);
-		else
-			cashier = sys->user_db.FindByID(drawer->owner_id);
+        Employee *cashier = NULL;
+        if (settle_user > 0)
+            cashier = sys->user_db.FindByID(settle_user);
+        else
+            cashier = sys->user_db.FindByID(drawer->owner_id);
 
-		if (cashier)
-			sprintf(str2, "%s: %s", term->Translate("Cashier"),
-					cashier->system_name.Value());
-		else
-			sprintf(str2, "%s: %s", term->Translate("Cashier"),
-					term->Translate(UnknownStr));
+        if (cashier)
+            sprintf(str2, "%s: %s", term->Translate("Cashier"),
+                    cashier->system_name.Value());
+        else
+            sprintf(str2, "%s: %s", term->Translate("Cashier"),
+                    term->Translate(UnknownStr));
 
-		sprintf(str, "%-14s%19s", str1, str2);
-		printer->Write(str);
-	}
+        sprintf(str, "%-14s%19s", str1, str2);
+        printer->Write(str);
+    }
 
     printer->Write(term->TimeDate(SystemTime, TD0));
     if (check->CustomerType() == CHECK_TAKEOUT ||
@@ -4165,10 +4165,10 @@ int SubCheck::PrintReceipt(Terminal *term, Check *check, Printer *printer, Drawe
 
     for (Order *order = OrderList(); order != NULL; order = order->next)
     {
-	if(order->item_type == ITEM_ADMISSION)
-	{
-		tickets.push_back(order);
-	}
+    if(order->item_type == ITEM_ADMISSION)
+    {
+        tickets.push_back(order);
+    }
         if (order->item_type == ITEM_POUND)
         {
             sprintf(str1, "%.2f %s                              ",
@@ -4188,7 +4188,7 @@ int SubCheck::PrintReceipt(Terminal *term, Check *check, Printer *printer, Drawe
         printer->Write(str);
 
         for (Order *mod = order->modifier_list; mod != NULL; mod = mod->next)
-		{
+        {
             if (settings->receipt_all_modifiers > 0 || mod->cost != 0 || (mod->status & ORDER_COMP))
             {
                 if (settings->receipt_all_modifiers > 0 && mod->cost == 0)
@@ -4201,7 +4201,7 @@ int SubCheck::PrintReceipt(Terminal *term, Check *check, Printer *printer, Drawe
                 sprintf(str, "   %-23s %6s", mod->Description(term), str2);
                 printer->Write(str);
             }
-		}
+        }
     }
 
     int change_value = TotalPayment(TENDER_CHANGE);
@@ -4224,7 +4224,7 @@ int SubCheck::PrintReceipt(Terminal *term, Check *check, Printer *printer, Drawe
     if (PaymentList())
     {
         for (pay = PaymentList(); pay != NULL; pay = pay->next)
-		{
+        {
             if (!pay->Suppress())
             {
                 if (pay->tender_type == TENDER_COUPON ||
@@ -4241,8 +4241,8 @@ int SubCheck::PrintReceipt(Terminal *term, Check *check, Printer *printer, Drawe
 
     }
 
-	//for canada implementation
-	if(settings->tax_HST <= 0)
+    //for canada implementation
+    if(settings->tax_HST <= 0)
     {
         if (settings->tax_GST > 0)
         {
@@ -4252,20 +4252,20 @@ int SubCheck::PrintReceipt(Terminal *term, Check *check, Printer *printer, Drawe
 
         str[0] = '\0';
         if (settings->tax_QST > 0)
-			sprintf(str, "                     QST: %7s", term->FormatPrice(total_tax_QST));
+            sprintf(str, "                     QST: %7s", term->FormatPrice(total_tax_QST));
         else if (settings->tax_PST > 0)
-			sprintf(str, "                     PST: %7s", term->FormatPrice(total_tax_PST));
+            sprintf(str, "                     PST: %7s", term->FormatPrice(total_tax_PST));
         if (str[0] != '\0')
             printer->Write(str);
-	}
-	else
-	{
-		sprintf(str, "                      HST: %7s", term->FormatPrice(total_tax_HST));
-		printer->Write(str);
-	}
+    }
+    else
+    {
+        sprintf(str, "                      HST: %7s", term->FormatPrice(total_tax_HST));
+        printer->Write(str);
+    }
     if (settings->tax_VAT > 0)
         sprintf(str, "                      VAT: %7s", term->FormatPrice(total_tax_VAT));
-		
+        
     sprintf(str, "                Total Tax %7s", term->FormatPrice(TotalTax()));
     printer->Write(str);
 
@@ -4293,7 +4293,7 @@ int SubCheck::PrintReceipt(Terminal *term, Check *check, Printer *printer, Drawe
     {
         // print all other payments
         for (pay = PaymentList(); pay != NULL; pay = pay->next)
-		{
+        {
             if (!pay->Suppress())
             {
                 if (pay->tender_type != TENDER_COUPON &&
@@ -4326,7 +4326,7 @@ int SubCheck::PrintReceipt(Terminal *term, Check *check, Printer *printer, Drawe
                     }
                 }
             }
-		}
+        }
 
         printer->LineFeed(1);
         if (payment > 0)
@@ -4369,8 +4369,8 @@ int SubCheck::PrintReceipt(Terminal *term, Check *check, Printer *printer, Drawe
         printer->Write("                      ", PRINT_UNDERLINE);
     }
 
-    flag  = 0;	// found footer text, output initial 2 blank links
-    lines = 0;	// blank footer lines skipped
+    flag  = 0;  // found footer text, output initial 2 blank links
+    lines = 0;  // blank footer lines skipped
     for (i = 0; i < 4; ++i)
     {
         if (settings->receipt_footer[i].length > 0)
@@ -4416,101 +4416,101 @@ int SubCheck::PrintReceipt(Terminal *term, Check *check, Printer *printer, Drawe
     
     if(tickets.size() > 0)
     {
-	    printer->LineFeed(8);
+        printer->LineFeed(8);
     }
     //PRINT TICKETS
     for(std::list<Order*>::iterator loi=tickets.begin();loi!=tickets.end();++loi)
     {
-	Order* ord=*loi;
-	int count=ord->count;
-	SalesItem* si=ord->Item(items);
-	for(i=0;i<count;i++)
-	{
-		//sys->NewSerialNumber()
-		
-		snprintf(serialnumber,14,"%d-%d",check->serial_number,ticket_count_on_subcheck);
-		ticket_count_on_subcheck++;
-		//print ticket and stub here.
-		printer->CutPaper(1);
-		
-		Str tname;
-		admission_parse_hash_name(tname,si->item_name);
-		snprintf(charbuffer,14,"%s",tname.Value());
-		spacefill(charbuffer,14);
-		printer->Put(charbuffer,leftflags);
-		printer->Put(charbuffer,rightflags);
-		printer->NewLine();
-		
-		spacefill(datebuffer,14);
-		printer->Put(datebuffer,leftflags);
-		printer->Put(datebuffer,rightflags);
-		printer->NewLine();
-		
-		snprintf(charbuffer,14,"%s",si->event_time.Value());
-		spacefill(charbuffer,14);
-		printer->Put(charbuffer,leftflags);
-		printer->Put(charbuffer,rightflags);
-		printer->NewLine();
-		
-		snprintf(charbuffer,14,"%s",si->location.Value());
-		spacefill(charbuffer,14);
-		printer->Put(charbuffer,leftflags);
-		printer->Put(charbuffer,rightflags);
-		printer->NewLine();
-		
-		snprintf(charbuffer,14,"1 %s",si->price_label.Value());
-		spacefill(charbuffer,14);
-		printer->Put(charbuffer,leftflags);
-		printer->Put(charbuffer,rightflags);
-		printer->NewLine();
-		
-		snprintf(charbuffer,14,"%s",term->FormatPrice(ord->cost));//Price
-		spacefill(charbuffer,14);
-		printer->Put(charbuffer,leftflags);
-		printer->Put(serialnumber,rightflags);
-		printer->NewLine();
-		
-		snprintf(charbuffer,14,"%s",settings->store_name.Value());//Store name
-		spacefill(charbuffer,14);
-		printer->Put(charbuffer,leftflags);
-		printer->NewLine();
-		
-		snprintf(charbuffer,14,"%s",serialnumber);//Store name
-		spacefill(charbuffer,14);
-		printer->Put(charbuffer,leftflags);
-		printer->NewLine();
-		
-		printer->NewLine();
-		printer->NewLine();
-	}
-	
-	Str on,ohsh;
-	admission_parse_hash_name(on,ord->item_name);
-	admission_parse_hash_ltime_hash(ohsh,ord->item_name);
-	
-	for (SalesItem *sicheck = items->ItemList(); sicheck != NULL; sicheck = sicheck->next)
-	{
-		if(sicheck->type == ITEM_ADMISSION)
-		{
-			Str ckhsh,ckn;
-			admission_parse_hash_name(ckn,sicheck->item_name);
-			admission_parse_hash_ltime_hash(ckhsh,sicheck->item_name);
-			if(on == ckn && ohsh == ckhsh)
-			{
-				int a=sicheck->available_tickets.IntValue();
-				a-=count;
-				if(a < 0)
-				{
-					a=0;
-				}
-				sicheck->available_tickets.Set(a);
-			}
-		}
-	}
+    Order* ord=*loi;
+    int count=ord->count;
+    SalesItem* si=ord->Item(items);
+    for(i=0;i<count;i++)
+    {
+        //sys->NewSerialNumber()
+        
+        snprintf(serialnumber,14,"%d-%d",check->serial_number,ticket_count_on_subcheck);
+        ticket_count_on_subcheck++;
+        //print ticket and stub here.
+        printer->CutPaper(1);
+        
+        Str tname;
+        admission_parse_hash_name(tname,si->item_name);
+        snprintf(charbuffer,14,"%s",tname.Value());
+        spacefill(charbuffer,14);
+        printer->Put(charbuffer,leftflags);
+        printer->Put(charbuffer,rightflags);
+        printer->NewLine();
+        
+        spacefill(datebuffer,14);
+        printer->Put(datebuffer,leftflags);
+        printer->Put(datebuffer,rightflags);
+        printer->NewLine();
+        
+        snprintf(charbuffer,14,"%s",si->event_time.Value());
+        spacefill(charbuffer,14);
+        printer->Put(charbuffer,leftflags);
+        printer->Put(charbuffer,rightflags);
+        printer->NewLine();
+        
+        snprintf(charbuffer,14,"%s",si->location.Value());
+        spacefill(charbuffer,14);
+        printer->Put(charbuffer,leftflags);
+        printer->Put(charbuffer,rightflags);
+        printer->NewLine();
+        
+        snprintf(charbuffer,14,"1 %s",si->price_label.Value());
+        spacefill(charbuffer,14);
+        printer->Put(charbuffer,leftflags);
+        printer->Put(charbuffer,rightflags);
+        printer->NewLine();
+        
+        snprintf(charbuffer,14,"%s",term->FormatPrice(ord->cost));//Price
+        spacefill(charbuffer,14);
+        printer->Put(charbuffer,leftflags);
+        printer->Put(serialnumber,rightflags);
+        printer->NewLine();
+        
+        snprintf(charbuffer,14,"%s",settings->store_name.Value());//Store name
+        spacefill(charbuffer,14);
+        printer->Put(charbuffer,leftflags);
+        printer->NewLine();
+        
+        snprintf(charbuffer,14,"%s",serialnumber);//Store name
+        spacefill(charbuffer,14);
+        printer->Put(charbuffer,leftflags);
+        printer->NewLine();
+        
+        printer->NewLine();
+        printer->NewLine();
+    }
+    
+    Str on,ohsh;
+    admission_parse_hash_name(on,ord->item_name);
+    admission_parse_hash_ltime_hash(ohsh,ord->item_name);
+    
+    for (SalesItem *sicheck = items->ItemList(); sicheck != NULL; sicheck = sicheck->next)
+    {
+        if(sicheck->type == ITEM_ADMISSION)
+        {
+            Str ckhsh,ckn;
+            admission_parse_hash_name(ckn,sicheck->item_name);
+            admission_parse_hash_ltime_hash(ckhsh,sicheck->item_name);
+            if(on == ckn && ohsh == ckhsh)
+            {
+                int a=sicheck->available_tickets.IntValue();
+                a-=count;
+                if(a < 0)
+                {
+                    a=0;
+                }
+                sicheck->available_tickets.Set(a);
+            }
+        }
+    }
     }
     if(tickets.size() > 0)
     {
-	    printer->CutPaper(1);
+        printer->CutPaper(1);
     }
     printer->End();
 
@@ -4701,66 +4701,66 @@ int SubCheck::TotalPayment(int ptype, int pid)
 Order *SubCheck::FindOrder(int order_num, int seat)
 {
     FnTrace("SubCheck::FindOrder()");
-	for (Order *thisOrder = OrderList(); thisOrder != NULL; thisOrder = thisOrder->next)
+    for (Order *thisOrder = OrderList(); thisOrder != NULL; thisOrder = thisOrder->next)
     {
-		if (seat < 0 || thisOrder->seat == seat)
-		{
-			if (order_num <= 0)
-				return thisOrder;
+        if (seat < 0 || thisOrder->seat == seat)
+        {
+            if (order_num <= 0)
+                return thisOrder;
 
-			--order_num;
-			for (Order *mod = thisOrder->modifier_list; mod != NULL; mod = mod->next)
-			{
-				if (order_num <= 0)
-					return mod;
+            --order_num;
+            for (Order *mod = thisOrder->modifier_list; mod != NULL; mod = mod->next)
+            {
+                if (order_num <= 0)
+                    return mod;
 
-				--order_num;
-			}
-		}
+                --order_num;
+            }
+        }
     }
-	return NULL;
+    return NULL;
 }
 
 int SubCheck::CompOrder(Settings *settings, Order *ptrOrder, int comp)
 {
-	FnTrace("SubCheck::CompOrder()");
+    FnTrace("SubCheck::CompOrder()");
 
-	if (ptrOrder == NULL)
-		return 1;
+    if (ptrOrder == NULL)
+        return 1;
 
-	if (ptrOrder->count > 1 && ptrOrder->item_type != ITEM_POUND)
-	{
-		Order *o2 = ptrOrder;
-		ptrOrder = RemoveOne(o2);
+    if (ptrOrder->count > 1 && ptrOrder->item_type != ITEM_POUND)
+    {
+        Order *o2 = ptrOrder;
+        ptrOrder = RemoveOne(o2);
 
-		// insert comp ptrOrder after original
-		order_list.AddAfterNode(o2, ptrOrder);
-	}
+        // insert comp ptrOrder after original
+        order_list.AddAfterNode(o2, ptrOrder);
+    }
 
-	if (comp)
-	{
-		ptrOrder->status |= ORDER_COMP;
-	}
-	else if (ptrOrder->status & ORDER_COMP)
-	{
-		ptrOrder->status -= ORDER_COMP;
-	}
+    if (comp)
+    {
+        ptrOrder->status |= ORDER_COMP;
+    }
+    else if (ptrOrder->status & ORDER_COMP)
+    {
+        ptrOrder->status -= ORDER_COMP;
+    }
 
-	Order *mod = ptrOrder->modifier_list;
-	while (mod)
-	{
-		if (comp)
-			mod->status |= ORDER_COMP;
-		else if (mod->status & ORDER_COMP)
-			mod->status -= ORDER_COMP;
+    Order *mod = ptrOrder->modifier_list;
+    while (mod)
+    {
+        if (comp)
+            mod->status |= ORDER_COMP;
+        else if (mod->status & ORDER_COMP)
+            mod->status -= ORDER_COMP;
 
-		mod = mod->next;
-	}
+        mod = mod->next;
+    }
 
-	ConsolidateOrders(settings);
-	FigureTotals(settings);
+    ConsolidateOrders(settings);
+    FigureTotals(settings);
 
-	return 0;
+    return 0;
 }
 
 int SubCheck::OrderCount(int seat)
@@ -4852,13 +4852,13 @@ int SubCheck::IsEqual(SubCheck *sc)
     Payment *payment1 = PaymentList();
     Payment *payment2 = sc->PaymentList();
     while (payment1 && payment2)
-	{
-		if (! payment1->IsEqual(payment2))
-			return 0;
+    {
+        if (! payment1->IsEqual(payment2))
+            return 0;
 
-		payment1 = payment1->next;
-		payment2 = payment2->next;
-	}
+        payment1 = payment1->next;
+        payment2 = payment2->next;
+    }
 
     if (payment1 || payment2)
         return 0;
@@ -5031,11 +5031,11 @@ Order::Order(Settings *settings, SalesItem *item, int qual, int price)
     // remove tax if already included in cost;
     // scaling minimizes discrepency with final total after tax is added
     if (sales_type & SALES_UNTAXED)
-	;
+    ;
     else if (sales_type & SALES_ALCOHOL)
-	item_cost = adjust_cost(item_cost, settings->alcohol_inclusive, settings->tax_alcohol);
+    item_cost = adjust_cost(item_cost, settings->alcohol_inclusive, settings->tax_alcohol);
     else if (sales_type & SALES_MERCHANDISE)
-    	item_cost = adjust_cost(item_cost, settings->merchandise_inclusive, settings->tax_merchandise);
+        item_cost = adjust_cost(item_cost, settings->merchandise_inclusive, settings->tax_merchandise);
     else if (sales_type & SALES_ROOM)
         item_cost = adjust_cost(item_cost, settings->room_inclusive, settings->tax_room);
     else
@@ -5285,9 +5285,9 @@ int Order::FigureCost()
 
 void PrintItemAdmissionFiltered(char* str,int qual,const genericChar* item_name)
 {
-	Str in(item_name);
-	admission_parse_hash_name(in,in);
-	PrintItem(str,qual,in.Value());
+    Str in(item_name);
+    admission_parse_hash_name(in,in);
+    PrintItem(str,qual,in.Value());
 }
 
 genericChar* Order::Description(Terminal *t, genericChar* str)
@@ -5326,8 +5326,8 @@ genericChar* Order::PrintDescription(genericChar* str, short pshort)
 int Order::IsEntree()
 {
     FnTrace("Order::IsEntree()");
-	switch (item_family)
-	{
+    switch (item_family)
+    {
     case FAMILY_BREAKFAST_ENTREES:
     case FAMILY_BURGERS:
     case FAMILY_DINNER_ENTREES:
@@ -5339,7 +5339,7 @@ int Order::IsEntree()
         return 1;
     default:
         return 0;
-	}
+    }
 }
 
 int Order::FindPrinterID(Settings *settings)
@@ -5389,11 +5389,11 @@ int Order::PrintStatus(Terminal *t, int target_printer, int reprint, int flag_se
     if (t->kitchen > 0)
     {
         // Split kitchen mode, override with printer assigned to terminal 
-	if (t->kitchen == 1 && target_printer == PRINTER_KITCHEN1)
-	    return 1;
-	if (t->kitchen == 2 && target_printer == PRINTER_KITCHEN2)
-	    return 1;
-	return 0;
+    if (t->kitchen == 1 && target_printer == PRINTER_KITCHEN1)
+        return 1;
+    if (t->kitchen == 2 && target_printer == PRINTER_KITCHEN2)
+        return 1;
+    return 0;
     }
 
     Settings *settings = t->GetSettings();

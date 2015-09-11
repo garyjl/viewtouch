@@ -46,33 +46,33 @@
  ***********************************************************************/
 
 enum status {
-	STATE_GET_USER_ID,
-	STATE_USER_ONLINE,
-	STATE_PASSWORD_FAILED,
-	STATE_UNKNOWN_USER,
-	STATE_ON_ANOTHER_TERM,
-	STATE_ALREADY_ON_CLOCK,
-	STATE_NOT_ON_CLOCK,
-	STATE_CLOCK_NOT_USED,
-	STATE_OPEN_CHECK,
-	STATE_ASSIGNED_DRAWER,
-	STATE_USER_INACTIVE,
+    STATE_GET_USER_ID,
+    STATE_USER_ONLINE,
+    STATE_PASSWORD_FAILED,
+    STATE_UNKNOWN_USER,
+    STATE_ON_ANOTHER_TERM,
+    STATE_ALREADY_ON_CLOCK,
+    STATE_NOT_ON_CLOCK,
+    STATE_CLOCK_NOT_USED,
+    STATE_OPEN_CHECK,
+    STATE_ASSIGNED_DRAWER,
+    STATE_USER_INACTIVE,
     STATE_NEED_BALANCE,
     STATE_NOT_ALLOWED_IN
 };
 
-enum {	// expedited login
-	EXPEDITE_FASTFOOD   	= 1,
-	EXPEDITE_TAKEOUT,
+enum {  // expedited login
+    EXPEDITE_FASTFOOD       = 1,
+    EXPEDITE_TAKEOUT,
 
-	EXPEDITE_PU_DELIV	= 11,
-	EXPEDITE_TOGO,
-	EXPEDITE_DINE_IN,
+    EXPEDITE_PU_DELIV   = 11,
+    EXPEDITE_TOGO,
+    EXPEDITE_DINE_IN,
 
-	EXPEDITE_KITCHEN1,
-	EXPEDITE_KITCHEN2,
-	EXPEDITE_BAR1,
-	EXPEDITE_BAR2
+    EXPEDITE_KITCHEN1,
+    EXPEDITE_KITCHEN2,
+    EXPEDITE_BAR1,
+    EXPEDITE_BAR2
 };
 
 /***********************************************************************
@@ -109,10 +109,10 @@ RenderResult LoginZone::Render(Terminal *term, int update_flag)
     if (employee == NULL && state == STATE_USER_ONLINE)
         state = STATE_GET_USER_ID;
 
-	//this switch statement assigns the message in the upper
-	//'frame' (center, top, wooden texture) on the login screen (screen -1)
+    //this switch statement assigns the message in the upper
+    //'frame' (center, top, wooden texture) on the login screen (screen -1)
     switch (state)
-	{
+    {
     case STATE_GET_USER_ID:
         time.Clear();
         TextC(term, 0, term->Translate("Welcome"), col);
@@ -194,7 +194,7 @@ RenderResult LoginZone::Render(Terminal *term, int update_flag)
 
     default:
         break; /** do nothing **/
-	} //end switch()
+    } //end switch()
 
     return RENDER_OKAY;
 }
@@ -208,11 +208,11 @@ SignalResult LoginZone::Signal(Terminal *term, const genericChar* message)
         "job0", "job1", "job2", "passwordgood", "passwordfailed",
         "passwordcancel", "faststart", "starttakeout", "gettextcancel", 
         "pickup", "quicktogo", "quickdinein", 
-	"kds1", "kds2", "bar1", "bar2", NULL};
+    "kds1", "kds2", "bar1", "bar2", NULL};
  
     int idx = CompareList(message, commands);
-	if (idx < 0)
-		return SIGNAL_IGNORED;
+    if (idx < 0)
+        return SIGNAL_IGNORED;
 
     // Update State
     if (state != STATE_GET_USER_ID && state != STATE_USER_ONLINE)
@@ -231,8 +231,8 @@ SignalResult LoginZone::Signal(Terminal *term, const genericChar* message)
     {
     case 10:  // start
         Start(term);
-	if (term->user == NULL)
-	    return SIGNAL_ERROR;
+    if (term->user == NULL)
+        return SIGNAL_ERROR;
         break;
     case 11:  // clear
         if (term->user)
@@ -343,9 +343,9 @@ SignalResult LoginZone::Keyboard(Terminal *term, int my_key, int key_state)
     }
     else if (my_key == 13)
     {
-		//handle the ENTER key as 'normal' start
+        //handle the ENTER key as 'normal' start
         return Signal(term, "start");
-	}
+    }
     else
     {
         return SIGNAL_IGNORED;
@@ -366,7 +366,7 @@ int LoginZone::Update(Terminal *term, int update_message, const genericChar* val
 int LoginZone::ClockOn(Terminal *term, int job_no)
 {
     FnTrace("LoginZone::ClockOn()");
-	// param job_no defaults to -1
+    // param job_no defaults to -1
 
     System *sys = term->system_data;
     Employee *employee = term->user;
@@ -512,32 +512,32 @@ int LoginZone::ClockOff(Terminal *term)
 int LoginZone::Start(Terminal *term, short expedite)
 {
     FnTrace("LoginZone::Start()");
-	// the 'expedite' param is the flag to invoke fast food mode
+    // the 'expedite' param is the flag to invoke fast food mode
     System *sys = term->system_data;
     Settings *settings = &(sys->settings);
     Employee *employee = NULL;
 
-	//establish the current meal period and use that info 
-	//to determine which meal index page to load
-	int nMealIndex = 0;
-	int nFastFoodTarget = 0;
+    //establish the current meal period and use that info 
+    //to determine which meal index page to load
+    int nMealIndex = 0;
+    int nFastFoodTarget = 0;
 
 //    if (expedite == 1)
     if (// expedite == EXPEDITE_FASTFOOD ||
         expedite == EXPEDITE_PU_DELIV ||
         expedite == EXPEDITE_TOGO     ||
         expedite == EXPEDITE_DINE_IN)
-	{
-		// initialize index of the target page using time of day, to 
-		// insure we go to the correct index page for the current
-		// shift 
-		nMealIndex = settings->MealPeriod(SystemTime);
-		nFastFoodTarget = IndexValue[nMealIndex];  // IndexValue[] defined in main/labels.cc
-	}
+    {
+        // initialize index of the target page using time of day, to 
+        // insure we go to the correct index page for the current
+        // shift 
+        nMealIndex = settings->MealPeriod(SystemTime);
+        nFastFoodTarget = IndexValue[nMealIndex];  // IndexValue[] defined in main/labels.cc
+    }
 
     if (input)
     {
-		//pull from file if available
+        //pull from file if available
         employee = sys->user_db.FindByKey(input);
         input = 0;
     }
@@ -570,14 +570,14 @@ int LoginZone::Start(Terminal *term, short expedite)
         {
             if (expedite == EXPEDITE_FASTFOOD)
             {
-            	if (settings->personalize_fast_food) {
+                if (settings->personalize_fast_food) {
                    term->QuickMode(CHECK_FASTFOOD);
                    term->Jump(JUMP_STEALTH, -8);
-            	} else {
+                } else {
                    //jump immediately to food order page
                    term->QuickMode(CHECK_FASTFOOD);
                    term->JumpToIndex(nFastFoodTarget);
-            	}
+                }
             }
             else if (expedite == EXPEDITE_TAKEOUT)
             {
@@ -586,39 +586,39 @@ int LoginZone::Start(Terminal *term, short expedite)
             }
             else if (expedite == EXPEDITE_PU_DELIV)
             {
-            	term->QuickMode(CHECK_CALLIN);
-            	term->Jump(JUMP_STEALTH, -8);
+                term->QuickMode(CHECK_CALLIN);
+                term->Jump(JUMP_STEALTH, -8);
             }
             else if (expedite == EXPEDITE_TOGO)
             {
-            	term->QuickMode(CHECK_TOGO);
+                term->QuickMode(CHECK_TOGO);
                 term->JumpToIndex(nFastFoodTarget);
             }
             else if (expedite == EXPEDITE_DINE_IN)
             {
-            	term->QuickMode(CHECK_DINEIN);
+                term->QuickMode(CHECK_DINEIN);
                 term->JumpToIndex(nFastFoodTarget);
             }
             else
             {
                 // jump to special start page
-		int ptype = 0;
-            	if (expedite == EXPEDITE_KITCHEN1)
-			ptype = PAGE_KITCHEN_VID;
-            	else if (expedite == EXPEDITE_KITCHEN2)
-			ptype = PAGE_KITCHEN_VID2;
-            	else if (expedite == EXPEDITE_BAR1)
-			ptype = PAGE_BAR1;
-            	else if (expedite == EXPEDITE_BAR2)
-			ptype = PAGE_BAR2;
-		if (ptype) {
-			Page *pg = term->zone_db->FindByType(ptype, -1, term->size);
-			if (pg)
-			{
-            			term->Jump(JUMP_STEALTH, pg->id);
-				return 0;
-			}
-		}
+        int ptype = 0;
+                if (expedite == EXPEDITE_KITCHEN1)
+            ptype = PAGE_KITCHEN_VID;
+                else if (expedite == EXPEDITE_KITCHEN2)
+            ptype = PAGE_KITCHEN_VID2;
+                else if (expedite == EXPEDITE_BAR1)
+            ptype = PAGE_BAR1;
+                else if (expedite == EXPEDITE_BAR2)
+            ptype = PAGE_BAR2;
+        if (ptype) {
+            Page *pg = term->zone_db->FindByType(ptype, -1, term->size);
+            if (pg)
+            {
+                        term->Jump(JUMP_STEALTH, pg->id);
+                return 0;
+            }
+        }
                 // jump to home page
                 term->Jump(JUMP_STEALTH, term->HomePage());
             }
@@ -653,7 +653,7 @@ int LoginZone::Start(Terminal *term, short expedite)
         return 0;
     }
 
-	//no special conditions met, so handle as normal
+    //no special conditions met, so handle as normal
     state = STATE_USER_ONLINE;
 
     if (employee->CanEnterSystem(settings))
@@ -663,14 +663,14 @@ int LoginZone::Start(Terminal *term, short expedite)
         {
             term->LoginUser(employee); //login, but don't jump to a page
             //create a new check and jump to the menu page
-           	if (settings->personalize_fast_food) {
+            if (settings->personalize_fast_food) {
                 term->QuickMode(CHECK_FASTFOOD);
                 term->Jump(JUMP_STEALTH, -8);
-           	} else {
+            } else {
                 //jump immediately to food order page
                 term->QuickMode(CHECK_FASTFOOD);
                 term->JumpToIndex(nFastFoodTarget);
-         	}
+            }
         }
 //        else if (expedite == 2)
         else if (expedite == EXPEDITE_TAKEOUT)
@@ -682,8 +682,8 @@ int LoginZone::Start(Terminal *term, short expedite)
         else if (expedite == EXPEDITE_PU_DELIV)
         {
             term->LoginUser(employee);
-        	term->QuickMode(CHECK_CALLIN);
-        	term->Jump(JUMP_STEALTH, -8);
+            term->QuickMode(CHECK_CALLIN);
+            term->Jump(JUMP_STEALTH, -8);
         }
         else if (expedite == EXPEDITE_TOGO)
         {
@@ -694,28 +694,28 @@ int LoginZone::Start(Terminal *term, short expedite)
         else if (expedite == EXPEDITE_DINE_IN)
         {
             term->LoginUser(employee);
-        	term->QuickMode(CHECK_DINEIN);
+            term->QuickMode(CHECK_DINEIN);
             term->JumpToIndex(nFastFoodTarget);
         }
         else
         {
-	    int ptype = 0;
+        int ptype = 0;
             if (expedite == EXPEDITE_KITCHEN1)
-		ptype = PAGE_KITCHEN_VID;
+        ptype = PAGE_KITCHEN_VID;
             else if (expedite == EXPEDITE_KITCHEN2)
-		ptype = PAGE_KITCHEN_VID2;
+        ptype = PAGE_KITCHEN_VID2;
             else if (expedite == EXPEDITE_BAR1)
-		ptype = PAGE_BAR1;
+        ptype = PAGE_BAR1;
             else if (expedite == EXPEDITE_BAR2)
-		ptype = PAGE_BAR2;
-	    if (ptype) {
-		Page *pg = term->zone_db->FindByType(ptype, -1, term->size);
-		if (pg) {
-		    term->LoginUser(employee);
-		    term->Jump(JUMP_STEALTH, pg->id);
-		    return 0;
-		}
-	    }
+        ptype = PAGE_BAR2;
+        if (ptype) {
+        Page *pg = term->zone_db->FindByType(ptype, -1, term->size);
+        if (pg) {
+            term->LoginUser(employee);
+            term->Jump(JUMP_STEALTH, pg->id);
+            return 0;
+        }
+        }
 
             //send to homepage
             term->LoginUser(employee, 1); //login and jump to homepage
@@ -822,10 +822,10 @@ SignalResult LogoutZone::Signal(Terminal *term, const genericChar* message)
     const genericChar* commands[] = {
         "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "00",
             "cancel", "clockoff", "backspace", "clear", "save", "break", NULL};
-	int idx = CompareList(message, commands);
+    int idx = CompareList(message, commands);
 
-	if (idx < 0)
-		return SIGNAL_IGNORED;
+    if (idx < 0)
+        return SIGNAL_IGNORED;
 
     if (idx == 11)
     {
@@ -842,7 +842,7 @@ SignalResult LogoutZone::Signal(Terminal *term, const genericChar* message)
     Settings *settings = &(sys->settings);
 
     switch (idx)
-	{
+    {
     case 10: // 00
         if (employee->CanOrder(settings) && work->tips < 10000)
         {
@@ -895,7 +895,7 @@ SignalResult LogoutZone::Signal(Terminal *term, const genericChar* message)
             return SIGNAL_OKAY;
         }
         break;
-	}// end switch
+    }// end switch
 
     return SIGNAL_IGNORED;
 }

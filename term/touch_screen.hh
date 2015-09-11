@@ -36,17 +36,17 @@ class TouchScreen
     genericChar buffer[64];  // input buffer
     int  size;        // current size of input buffer
 
-	//macros for the microtouch command codes
-	char INIT[20];
-	char PING[20];
-	char RESET[20];
-	char PARAM_LOCK[20];
-	char FORMAT_HEX[20];
-	char FORMAT_DEC[20];
-	char MODE_POINT[20];
-	char MODE_STREAM[20];
-	char MODE_CALIBRATE[20];
-	char AUTOBAUD_DISABLE[20];
+    //macros for the microtouch command codes
+    char INIT[20];
+    char PING[20];
+    char RESET[20];
+    char PARAM_LOCK[20];
+    char FORMAT_HEX[20];
+    char FORMAT_DEC[20];
+    char MODE_POINT[20];
+    char MODE_STREAM[20];
+    char MODE_CALIBRATE[20];
+    char AUTOBAUD_DISABLE[20];
 
 public:
     int device_no;    // internal device id number
@@ -75,7 +75,7 @@ public:
     int Calibrate();    // Sets device into calibration mode
     int Reset();        // Resets touch screen device
     int Flush();        // Clears device buffer
-	int SetMode(const char* mode);
+    int SetMode(const char* mode);
 };
 
 #endif

@@ -794,28 +794,28 @@ int LaborDB::Load(const char* path)
     char str[256];
     struct dirent *record = NULL;
     do
-	{
-		record = readdir(dp);
-		if (record)
-		{
-			const char* name = record->d_name;
+    {
+        record = readdir(dp);
+        if (record)
+        {
+            const char* name = record->d_name;
             int len = strlen(name);
             if (strcmp(&name[len-4], ".fmt") == 0)
                 continue;
-			if (strncmp(name, "labor_", 6) == 0)
-			{
-				sprintf(str, "%s/%s", pathname.Value(), name);
-				LaborPeriod *lp = new LaborPeriod;
-				if (lp->Scan(str))
-				{
-					ReportError("Couldn't load labor period");
-					delete lp;
-				}
-				else
-					Add(lp);
-			}
-		}
-	}while (record);
+            if (strncmp(name, "labor_", 6) == 0)
+            {
+                sprintf(str, "%s/%s", pathname.Value(), name);
+                LaborPeriod *lp = new LaborPeriod;
+                if (lp->Scan(str))
+                {
+                    ReportError("Couldn't load labor period");
+                    delete lp;
+                }
+                else
+                    Add(lp);
+            }
+        }
+    }while (record);
 
     closedir(dp);
     return 0;
@@ -961,7 +961,7 @@ int LaborDB::IsUserOnBreak(Employee *e)
         {
             if (work_entry->user_id == e->id)
             {
-            	if (work_entry->end.IsSet() && work_entry->end_shift)
+                if (work_entry->end.IsSet() && work_entry->end_shift)
                     return 0;
                 else
                     return 1;

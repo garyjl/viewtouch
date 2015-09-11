@@ -58,64 +58,64 @@ InputDataFile::InputDataFile()
 // Member Functions
 int InputDataFile::Open(const char* name, int &version)
 {
-	FnTrace("InputDataFile::Open()");
+    FnTrace("InputDataFile::Open()");
     int i;
     char errmsg[STRLENGTH];
 
-	if (IsDecodeReady == 0)
-	{
-		// Initialize OldDecodeDigit[] first time a file is opened
-		IsDecodeReady = 1;
-		for (i = 0; i < 256; ++i)
-		{
-			OldDecodeDigit[i] = 0;
-			NewDecodeDigit[i] = 0;
-		}
-		for (i = 0; i < (int) BASE; ++i)
-			OldDecodeDigit[(int) OldEncodeDigit[i]] = i;
-		for (i = 0; i < 64; ++i)
-			NewDecodeDigit[(int) NewEncodeDigit[i]] = i;
-	}
+    if (IsDecodeReady == 0)
+    {
+        // Initialize OldDecodeDigit[] first time a file is opened
+        IsDecodeReady = 1;
+        for (i = 0; i < 256; ++i)
+        {
+            OldDecodeDigit[i] = 0;
+            NewDecodeDigit[i] = 0;
+        }
+        for (i = 0; i < (int) BASE; ++i)
+            OldDecodeDigit[(int) OldEncodeDigit[i]] = i;
+        for (i = 0; i < 64; ++i)
+            NewDecodeDigit[(int) NewEncodeDigit[i]] = i;
+    }
 
-	if (fp)
-		gzclose((gzFile)fp);
+    if (fp)
+        gzclose((gzFile)fp);
 
-	version = 0;
-	fp = gzopen(name, "r");
-	if (fp == NULL)
+    version = 0;
+    fp = gzopen(name, "r");
+    if (fp == NULL)
     {
         snprintf(errmsg, STRLENGTH, "Unable to read %s:  %d", name, errno);
         ReportError(errmsg);
-		return 1;
+        return 1;
     }
 
-	// Read version string
-	char str[256];
-	GetToken(str, sizeof(str));
-	if (strncmp(str, "version_", 8) == 0)
-	{
-		// old file version
-		version = atoi(str+8);
-		old_format = 1;
-	}
-	else if (strncmp(str, "vtpos", 5) == 0)
-	{
-		GetToken(str, sizeof(str));  // file type - ignored for now
-		GetToken(str, sizeof(str));  // version
-		version = atoi(str);
-		old_format = 0;
-	}
-	else
-	{
-		gzclose((gzFile)fp);
+    // Read version string
+    char str[256];
+    GetToken(str, sizeof(str));
+    if (strncmp(str, "version_", 8) == 0)
+    {
+        // old file version
+        version = atoi(str+8);
+        old_format = 1;
+    }
+    else if (strncmp(str, "vtpos", 5) == 0)
+    {
+        GetToken(str, sizeof(str));  // file type - ignored for now
+        GetToken(str, sizeof(str));  // version
+        version = atoi(str);
+        old_format = 0;
+    }
+    else
+    {
+        gzclose((gzFile)fp);
         fp = NULL;
         snprintf(errmsg, STRLENGTH, "Unknown file format for %s\n", name);
         ReportError(errmsg);
-		return 1;
-	}
+        return 1;
+    }
     strcpy(filename, name);
 
-	return 0;
+    return 0;
 }
 
 int InputDataFile::Close()

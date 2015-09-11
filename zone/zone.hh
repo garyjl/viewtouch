@@ -37,12 +37,12 @@
 
 // Zone Selection Behaviors
 enum behaviors {
-	BEHAVE_NONE    , // Zone doesn't change when selected
-	BEHAVE_TOGGLE  , // Zone toggles with each selection
-	BEHAVE_BLINK   , // Zone depresses then resets itself
-	BEHAVE_SELECT  , // Once selected stay selected
-	BEHAVE_DOUBLE  , // Touch twice within time period
-	BEHAVE_MISS      // Touch misses zone & hits zones underneath
+    BEHAVE_NONE    , // Zone doesn't change when selected
+    BEHAVE_TOGGLE  , // Zone toggles with each selection
+    BEHAVE_BLINK   , // Zone depresses then resets itself
+    BEHAVE_SELECT  , // Once selected stay selected
+    BEHAVE_DOUBLE  , // Touch twice within time period
+    BEHAVE_MISS      // Touch misses zone & hits zones underneath
 };
 
 // Zone Frame Appearence
@@ -230,87 +230,87 @@ public:
 
 class Page
 {
-	DList<Zone> zone_list;
+    DList<Zone> zone_list;
 
 public:
-	// Calculated/State Variables
-	Page *next, *fore;    // Linked list pointers
-	Page *parent_page;    // All parent zones become part of this page
-	short width, height;
-	int   changed;
-	TimeInfo last_update; // time page was last updated
+    // Calculated/State Variables
+    Page *next, *fore;    // Linked list pointers
+    Page *parent_page;    // All parent zones become part of this page
+    short width, height;
+    int   changed;
+    TimeInfo last_update; // time page was last updated
 
-	// Page Properties
-	Str   name;        // name of page
-	int   id;          // page id
-	int   parent_id;   // id of parent page
-	short image;       // background image
-	short title_color; // titlebar color
-	short type;        // page type
-	short index;       // index type page belongs to
-	short size;        // page size (screen resolution)
+    // Page Properties
+    Str   name;        // name of page
+    int   id;          // page id
+    int   parent_id;   // id of parent page
+    short image;       // background image
+    short title_color; // titlebar color
+    short type;        // page type
+    short index;       // index type page belongs to
+    short size;        // page size (screen resolution)
 
-	// Default Settings
-	short default_font;
-	short default_shadow;
-	short default_spacing;
-	Uchar default_frame[3];
-	Uchar default_texture[3];
-	Uchar default_color[3];
+    // Default Settings
+    short default_font;
+    short default_shadow;
+    short default_spacing;
+    Uchar default_frame[3];
+    Uchar default_texture[3];
+    Uchar default_color[3];
 
-	// Constructor
-	Page();
-	virtual ~Page() { }
+    // Constructor
+    Page();
+    virtual ~Page() { }
 
-	// Member Functions
-	Zone *ZoneList()    { return zone_list.Head(); }
-	Zone *ZoneListEnd() { return zone_list.Tail(); }
-	int   ZoneCount()   { return zone_list.Count(); }
+    // Member Functions
+    Zone *ZoneList()    { return zone_list.Head(); }
+    Zone *ZoneListEnd() { return zone_list.Tail(); }
+    int   ZoneCount()   { return zone_list.Count(); }
 
-	int Init(ZoneDB *zone_db);
-	// Initializes page data
-	int Add(Zone *tz);
-	// Adds zone to page (end of list)
-	int AddFront(Zone *tz);
-	// Adds zone to front of zone list
-	int Remove(Zone *tz);
-	// Removes zone from zone list (does not delete)
-	int Purge();
-	// Removes and deletes all zones from page
-	Zone *FindZone(Terminal *t, int x, int y);
-	// Finds zone given position
-	Zone *FindEditZone(Terminal *t, int x, int y);
-	// Finds valid zone for editing given position
-	Zone *FindTranslateZone(Terminal *t, int x, int y);
-	// Finds valid zone for translating
-	int IsZoneOnPage(Zone *tz);
-	// Boolean - checks to see if given zone is on this page
-	RenderResult Render(Terminal *t, int update_flag, int no_parent = 0);
-	// Renders all zones on page
-	RenderResult Render(Terminal *t, int update_flag,
+    int Init(ZoneDB *zone_db);
+    // Initializes page data
+    int Add(Zone *tz);
+    // Adds zone to page (end of list)
+    int AddFront(Zone *tz);
+    // Adds zone to front of zone list
+    int Remove(Zone *tz);
+    // Removes zone from zone list (does not delete)
+    int Purge();
+    // Removes and deletes all zones from page
+    Zone *FindZone(Terminal *t, int x, int y);
+    // Finds zone given position
+    Zone *FindEditZone(Terminal *t, int x, int y);
+    // Finds valid zone for editing given position
+    Zone *FindTranslateZone(Terminal *t, int x, int y);
+    // Finds valid zone for translating
+    int IsZoneOnPage(Zone *tz);
+    // Boolean - checks to see if given zone is on this page
+    RenderResult Render(Terminal *t, int update_flag, int no_parent = 0);
+    // Renders all zones on page
+    RenderResult Render(Terminal *t, int update_flag,
                         int x, int y, int w, int h);
-	// Renders all zones that are in the given area
-	SignalResult Signal(Terminal *t, const genericChar* message, int group_id);
-	// Passes signal to all zones on page
-	SignalResult Keyboard(Terminal *t, int key, int state);
-	// Passes keypress to all zones on page
-	int Update(Terminal *t, int update_message, const genericChar* value);
-	// Passes update message to all zones on page
-	int Class();
-	// returns page class (see definitions above)
+    // Renders all zones that are in the given area
+    SignalResult Signal(Terminal *t, const genericChar* message, int group_id);
+    // Passes signal to all zones on page
+    SignalResult Keyboard(Terminal *t, int key, int state);
+    // Passes keypress to all zones on page
+    int Update(Terminal *t, int update_message, const genericChar* value);
+    // Passes update message to all zones on page
+    int Class();
+    // returns page class (see definitions above)
     int IsStartPage();
-	int IsTable();
-	// Boolean - is this a table page?
+    int IsTable();
+    // Boolean - is this a table page?
     int IsKitchen();
     int IsBar();
 
-	// Virtual Functions
-	virtual Page *Copy() = 0;
-	// Returns copy of page and all its zones
-	virtual int Read(InputDataFile &df, int version) { return 1; }
-	// Reads page data from file
-	virtual int Write(OutputDataFile &df, int version) { return 1; }
-	// Writes page data to file
+    // Virtual Functions
+    virtual Page *Copy() = 0;
+    // Returns copy of page and all its zones
+    virtual int Read(InputDataFile &df, int version) { return 1; }
+    // Reads page data from file
+    virtual int Write(OutputDataFile &df, int version) { return 1; }
+    // Writes page data to file
 };
 
 class ZoneDB

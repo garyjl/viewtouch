@@ -39,9 +39,9 @@ void StartupLocalization()
 {
     if (setlocale(LC_ALL, "") == NULL)
     {
-	    (void) fprintf(stderr, "Cannot set locale.\n");
-	    exit(1);
-	}
+        (void) fprintf(stderr, "Cannot set locale.\n");
+        exit(1);
+    }
 }
 
 
@@ -634,7 +634,7 @@ int Locale::Add(PhraseInfo *ph)
 
     if (search_array)
     {
-	free(search_array);
+    free(search_array);
         search_array = NULL;
         array_size = 0;
     }
@@ -657,7 +657,7 @@ int Locale::Remove(PhraseInfo *ph)
 
     if (search_array)
     {
-	free(search_array);
+    free(search_array);
         search_array = NULL;
         array_size = 0;
     }
@@ -671,7 +671,7 @@ int Locale::Purge()
 
     if (search_array)
     {
-	free(search_array);
+    free(search_array);
         search_array = NULL;
         array_size = 0;
     }
@@ -687,7 +687,7 @@ int Locale::BuildSearchArray()
     FnTrace("Locale::BuildSearchArray()");
     if (search_array)
     {
-	free(search_array);
+    free(search_array);
     }
 
     array_size = PhraseCount();
@@ -748,7 +748,7 @@ const char* Locale::Translate(const char* str, int lang, int clear)
         if (ph == NULL)
         {
             //if (clear)
-                //str[0] = '\0';	#TODO
+                //str[0] = '\0';    #TODO
             return str;
         }
         else
@@ -781,7 +781,7 @@ int Locale::NewTranslation(const char* str, const genericChar* value)
 
         if (search_array)
         {
-	    free(search_array);
+        free(search_array);
             search_array = NULL;
             array_size = 0;
         }
@@ -793,7 +793,7 @@ int Locale::NewTranslation(const char* str, const genericChar* value)
 
     if (search_array)
     {
-	free(search_array);
+    free(search_array);
         search_array = NULL;
         array_size = 0;
     }
@@ -807,8 +807,8 @@ int Locale::NewTranslation(const char* str, const genericChar* value)
 const char* Locale::TimeDate(Settings *s, TimeInfo &timevar, int format, int lang, genericChar* str)
 {
     FnTrace("Locale::TimeDate()");
-	// FIX - implement handler for TD_SECONDS format flag
-	// Mon Oct  1 13:14:27 PDT 2001: some work done in this direction - JMK
+    // FIX - implement handler for TD_SECONDS format flag
+    // Mon Oct  1 13:14:27 PDT 2001: some work done in this direction - JMK
 
     static genericChar buffer[256];
     if (str == NULL)
@@ -850,7 +850,7 @@ const char* Locale::TimeDate(Settings *s, TimeInfo &timevar, int format, int lan
                 m = d;
                 d = temp;
             }
-	
+    
             if (format & TD_PAD)
                 sprintf(tempstr, "%2d/%2d", m, d);
             else
@@ -911,36 +911,36 @@ const char* Locale::TimeDate(Settings *s, TimeInfo &timevar, int format, int lan
         if (format & TD_PAD)
         {
             if (format & TD_SHORT_TIME)
-			{
-				if(format & TD_SECONDS)
-					sprintf(tempstr, "%2d:%02d:%2d%c", hr, minute, sec, AMorPM[pm][0]);
-				else
-					sprintf(tempstr, "%2d:%02d%c", hr, minute, AMorPM[pm][0]);
-			}
+            {
+                if(format & TD_SECONDS)
+                    sprintf(tempstr, "%2d:%02d:%2d%c", hr, minute, sec, AMorPM[pm][0]);
+                else
+                    sprintf(tempstr, "%2d:%02d%c", hr, minute, AMorPM[pm][0]);
+            }
             else
-			{
-				if(format & TD_SECONDS)
-					sprintf(tempstr, "%2d:%02d:%2d %s", hr, minute, sec, AMorPM[pm]);
-				else
-					sprintf(tempstr, "%2d:%02d %s", hr, minute, AMorPM[pm]);
-			}
+            {
+                if(format & TD_SECONDS)
+                    sprintf(tempstr, "%2d:%02d:%2d %s", hr, minute, sec, AMorPM[pm]);
+                else
+                    sprintf(tempstr, "%2d:%02d %s", hr, minute, AMorPM[pm]);
+            }
         }
         else
         {
             if (format & TD_SHORT_TIME)
-			{
-				if(format & TD_SECONDS)
-					sprintf(tempstr, "%2d:%02d:%2d%c", hr, minute, sec, AMorPM[pm][0]);
-				else
-					sprintf(tempstr, "%d:%02d%c", hr, minute, AMorPM[pm][0]);
-			}
+            {
+                if(format & TD_SECONDS)
+                    sprintf(tempstr, "%2d:%02d:%2d%c", hr, minute, sec, AMorPM[pm][0]);
+                else
+                    sprintf(tempstr, "%d:%02d%c", hr, minute, AMorPM[pm][0]);
+            }
             else
-			{
-				if(format & TD_SECONDS)
-					sprintf(tempstr, "%2d:%02d:%2d %s", hr, minute, sec, AMorPM[pm]);
-				else
-					sprintf(tempstr, "%d:%02d %s", hr, minute, AMorPM[pm]);
-			}
+            {
+                if(format & TD_SECONDS)
+                    sprintf(tempstr, "%2d:%02d:%2d %s", hr, minute, sec, AMorPM[pm]);
+                else
+                    sprintf(tempstr, "%d:%02d %s", hr, minute, AMorPM[pm]);
+            }
         }
         strcat(str, tempstr);
     }

@@ -113,64 +113,64 @@ int System::InitCurrentDay()
 
 int System::LoadCurrentData(const char* path)
 {
-	FnTrace("System::LoadCurrentData()");
-	if (path == NULL)
-		return 1;
+    FnTrace("System::LoadCurrentData()");
+    if (path == NULL)
+        return 1;
 
-	DIR *dp = opendir(path);
-	if (dp == NULL)
-	{
-		ReportError("Can't find current data directory");
-		return 1;
-	}
+    DIR *dp = opendir(path);
+    if (dp == NULL)
+    {
+        ReportError("Can't find current data directory");
+        return 1;
+    }
 
-	current_path.Set(path);
-	char str[256];
+    current_path.Set(path);
+    char str[256];
     const char* name;
-	struct dirent *record = NULL;
-	do
-	{
-		record = readdir(dp);
-		if (record)
-		{
-			name = record->d_name;
+    struct dirent *record = NULL;
+    do
+    {
+        record = readdir(dp);
+        if (record)
+        {
+            name = record->d_name;
             int len = strlen(name);
             if (strcmp(&name[len-4], ".fmt") == 0)
                 continue;
-			if (strncmp(name, "check_", 6) == 0)
-			{
-				sprintf(str, "%s/%s", path, name);
-				Check *check = new Check;
-				if (check == NULL)
-					ReportError("Couldn't create check");
-				else
-				{
-					if (check->Load(&settings, str))
-					{
-						ReportError("Error in loading check");
-						delete check;
-					}
-					else
-						Add(check);
-				}
-			}
-			else if (strncmp(name, "drawer_", 7) == 0)
-			{
-				sprintf(str, "%s/%s", path, name);
-				Drawer *drawer = new Drawer;
-				if (drawer == NULL)
-					ReportError("Couldn't Create Drawer");
-				else
-				{
-					if (drawer->Load(str))
-					{
-						ReportError("Error in loading drawer");
-						delete drawer;
-					}
-					else
-						Add(drawer);
-				}
-			}
+            if (strncmp(name, "check_", 6) == 0)
+            {
+                sprintf(str, "%s/%s", path, name);
+                Check *check = new Check;
+                if (check == NULL)
+                    ReportError("Couldn't create check");
+                else
+                {
+                    if (check->Load(&settings, str))
+                    {
+                        ReportError("Error in loading check");
+                        delete check;
+                    }
+                    else
+                        Add(check);
+                }
+            }
+            else if (strncmp(name, "drawer_", 7) == 0)
+            {
+                sprintf(str, "%s/%s", path, name);
+                Drawer *drawer = new Drawer;
+                if (drawer == NULL)
+                    ReportError("Couldn't Create Drawer");
+                else
+                {
+                    if (drawer->Load(str))
+                    {
+                        ReportError("Error in loading drawer");
+                        delete drawer;
+                    }
+                    else
+                        Add(drawer);
+                }
+            }
             else if (strcmp(name, "ccvoiddb") == 0)
             {
                 sprintf(str, "%s/%s", path, name);
@@ -186,11 +186,11 @@ int System::LoadCurrentData(const char* path)
                 sprintf(str, "%s/%s", path, name);
                 cc_exception_db->Load(str);
             }
-		}
-	}
-	while (record);
-	closedir(dp);
-	return 0;
+        }
+    }
+    while (record);
+    closedir(dp);
+    return 0;
 }
 
 /****
@@ -766,7 +766,7 @@ int System::SetDataPath(const char* path)
 
     unsigned int len = strlen(path);
     if (len >= sizeof(str))
-    	len = sizeof(str)-1;
+        len = sizeof(str)-1;
     while (len > 1)
     {
         if (path[len - 1] != '/')
@@ -775,7 +775,7 @@ int System::SetDataPath(const char* path)
         --len;
     }
     memcpy(str, path, len);
-    str[len] = 0;	
+    str[len] = 0;   
     data_path.Set(str);
     //memset(str,256,0);
 
@@ -1362,16 +1362,16 @@ void System::ClearCapturedTips(TimeInfo &start_time,
     {
         for (;;)
         {
-	    // clear tips in checks
-	    for (Check *check = FirstCheck(a); check; check = check->next) 
-	    {
-	    	if (check->IsTraining() > 0)
-		    continue;
-		for (SubCheck *subcheck = check->SubList(); subcheck != NULL; subcheck = subcheck->next)
-		    subcheck->ClearTips();
-	    }
+        // clear tips in checks
+        for (Check *check = FirstCheck(a); check; check = check->next) 
+        {
+            if (check->IsTraining() > 0)
+            continue;
+        for (SubCheck *subcheck = check->SubList(); subcheck != NULL; subcheck = subcheck->next)
+            subcheck->ClearTips();
+        }
 
-	    // clear tips in tip database
+        // clear tips in tip database
             if (a)
                 a->tip_db.ClearHeld();
             else

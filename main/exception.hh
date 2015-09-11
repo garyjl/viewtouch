@@ -29,9 +29,9 @@
 #define EXCEPTION_VERSION  3
 
 enum exceptions {
-	EXCEPTION_COMP = 1,
-	EXCEPTION_VOID,
-	EXCEPTION_UNCOMP
+    EXCEPTION_COMP = 1,
+    EXCEPTION_VOID,
+    EXCEPTION_UNCOMP
 };
 
 /**** Types ****/

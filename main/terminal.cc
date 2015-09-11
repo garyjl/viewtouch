@@ -72,28 +72,28 @@
 /**** Definitions ****/
 // System windows
 enum windows {
-	WIN_MAIN = 1,
-	WIN_TOOLBAR,
-	WIN_PAGELIST,
-	WIN_ZONEEDIT,
-	WIN_MULTIZONEEDIT,
-	WIN_PAGEEDIT
+    WIN_MAIN = 1,
+    WIN_TOOLBAR,
+    WIN_PAGELIST,
+    WIN_ZONEEDIT,
+    WIN_MULTIZONEEDIT,
+    WIN_PAGEEDIT
 };
 
 // Window Buttons
 enum window_buttons {
-	WB_NEWZONE = 1,
-	WB_NEWPAGE,
-	WB_ALL,
-	WB_TOGGLE,
-	WB_COPY,
-	WB_MOVE,
-	WB_INFO,
-	WB_LIST,
-	WB_PRIOR,
-	WB_NEXT,
-	WB_ICONIFY,
-	WB_PRINTLIST
+    WB_NEWZONE = 1,
+    WB_NEWPAGE,
+    WB_ALL,
+    WB_TOGGLE,
+    WB_COPY,
+    WB_MOVE,
+    WB_INFO,
+    WB_LIST,
+    WB_PRIOR,
+    WB_NEXT,
+    WB_ICONIFY,
+    WB_PRINTLIST
 };
 
 // Other
@@ -175,11 +175,11 @@ void TermCB(XtPointer client_data, int *fid, XtInputId *id)
     genericChar str[STRLENGTH];
 
     while (term->buffer_in->size > 0)
-	{
-		int code = term->RInt8();
+    {
+        int code = term->RInt8();
         term->buffer_in->SetCode("vt_main", code);
-		switch (code)
-		{
+        switch (code)
+        {
         case SERVER_TERMINFO:
             term->size   = term->RInt8();
             term->width  = term->RInt16();
@@ -206,9 +206,9 @@ void TermCB(XtPointer client_data, int *fid, XtInputId *id)
             if (term->zone_db == NULL)
                 printf("ACK!!!! no zone_db\n");
 
-	    // for KDS terminals, default to kitchen page
-    	    else if (term->type == TERMINAL_KITCHEN_VIDEO || term->type == TERMINAL_KITCHEN_VIDEO2)
-	    	term->page = term->zone_db->FindByTerminal(term->type, -1, term->size);
+        // for KDS terminals, default to kitchen page
+            else if (term->type == TERMINAL_KITCHEN_VIDEO || term->type == TERMINAL_KITCHEN_VIDEO2)
+            term->page = term->zone_db->FindByTerminal(term->type, -1, term->size);
 
             if (term->page)
                 term->Jump(JUMP_STEALTH, term->page->id);  // Get new best size for page
@@ -383,9 +383,9 @@ void TermCB(XtPointer client_data, int *fid, XtInputId *id)
             printf("Terminating due to unforseen error....\n");
             EndSystem();
             break;
-		} //end switch
+        } //end switch
         last_code = code;
-	} //end while
+    } //end while
 }
 
 void RedrawZoneCB(XtPointer client_data, XtIntervalId *timer_id)
@@ -437,7 +437,7 @@ Terminal::Terminal()
     credit          = NULL;
     allow_blanking  = 1;
 
-	//initialized through pointer in Control::Add() (in file manager.cc)
+    //initialized through pointer in Control::Add() (in file manager.cc)
     system_data     = NULL; 
 
     buffer_in       = NULL;
@@ -524,7 +524,7 @@ Terminal::Terminal()
 // Destructor
 Terminal::~Terminal()
 {
-	FnTrace("Terminal::~Terminal()");
+    FnTrace("Terminal::~Terminal()");
 
     Terminal *currterm = clone_list.Head();
     while (currterm != NULL)
@@ -542,30 +542,30 @@ Terminal::~Terminal()
         drawer = drawer->next;
     }
 
-	if (input_id)
-		RemoveInputFn(input_id);
+    if (input_id)
+        RemoveInputFn(input_id);
 
-	if (redraw_id)
-		RemoveTimeOutFn(redraw_id);
+    if (redraw_id)
+        RemoveTimeOutFn(redraw_id);
 
-	if (socket_no > 0)
-	{
-		WInt8(TERM_DIE);
-		SendNow();
-		close(socket_no);
-	}
+    if (socket_no > 0)
+    {
+        WInt8(TERM_DIE);
+        SendNow();
+        close(socket_no);
+    }
 
-	if (buffer_in)
-		delete buffer_in;
+    if (buffer_in)
+        delete buffer_in;
 
-	if (buffer_out)
-		delete buffer_out;
+    if (buffer_out)
+        delete buffer_out;
 
-	if (dialog)
-		delete dialog;
+    if (dialog)
+        delete dialog;
 
-	if (zone_db)
-		delete zone_db;
+    if (zone_db)
+        delete zone_db;
 
     if (cdu)
     {
@@ -597,7 +597,7 @@ int Terminal::TerminalError(const genericChar* message)
     }
     else
     {
-        RenderText(message, 0, 0, COLOR_RED, FONT_TIMES_34B);
+        RenderText(message, 0, 0, COLOR_RED, FONT_HELV_34B);
         WInt8(TERM_FLUSH);
         SendNow();  //Force sending the message
     }
@@ -706,7 +706,7 @@ int Terminal::Jump(int jump_type, int jump_id)
     Settings *settings = GetSettings();
 
     switch (jump_type)
-	{
+    {
     case JUMP_NONE:
         return 0;
     case JUMP_RETURN:
@@ -744,7 +744,7 @@ int Terminal::Jump(int jump_type, int jump_id)
         break;
     default:
         break;
-	} //end switch()
+    } //end switch()
 
     if (force_jump)
     {
@@ -764,13 +764,13 @@ int Terminal::Jump(int jump_type, int jump_id)
 
     Page *targetPage = zone_db->FindByID(jump_id, size);
     if (targetPage == NULL)
-	{
+    {
         genericChar buffer[STRLENGTH];
         snprintf(buffer, STRLENGTH, "Unable to find jump target (%d, %d) for %s",
                  jump_id, size, name.Value());
         TerminalError(buffer);
         return 1;
-	}
+    }
 
     if (jump_id == -1)
     {
@@ -792,7 +792,7 @@ int Terminal::JumpToIndex(int idx)
 
     Settings *settings = GetSettings();
 
-	// hack for SunWest
+    // hack for SunWest
     if (settings->store == STORE_SUNWEST)
     {
         if (check == NULL)
@@ -806,8 +806,8 @@ int Terminal::JumpToIndex(int idx)
     Page *p = zone_db->FindByType(PAGE_INDEX, idx, size);
     if (p == NULL)
     {
-		// No matching p type found, so provide meaningfull error message
-		// then bail out 
+        // No matching p type found, so provide meaningfull error message
+        // then bail out 
 
         int cl = CompareList(idx, IndexValue);
         if (cl < 0)
@@ -903,9 +903,9 @@ int Terminal::ChangePage(Page *targetPage)
         page->IsTable() && 
         targetPage->IsTable() && 
         (page->size == targetPage->size))
-	{
+    {
         no_parent_flag = 1;
-	}
+    }
     else
         selected_zone = NULL;
 
@@ -944,11 +944,11 @@ int Terminal::PushPage(int my_page_id)
 
 int Terminal::PopPage()
 {
-	FnTrace("Terminal::PopPage()");
-	if (page_stack_size <= 0)
-		return PAGEID_LOGIN;
-	else
-		return page_stack[--page_stack_size];
+    FnTrace("Terminal::PopPage()");
+    if (page_stack_size <= 0)
+        return PAGEID_LOGIN;
+    else
+        return page_stack[--page_stack_size];
 }
 
 int Terminal::ClearPageStack()
@@ -1222,8 +1222,8 @@ SignalResult Terminal::Signal(const genericChar* message, int group_id)
         "faststartlogin", "opentab", "opentabcancel", "opentabamount",
         "opentabcard ", "opentabpay ", "continuetab", "continuetab2 ",
         "closetab", "closetab2 ", "forcereturn ", NULL};
-	//for handy reference to the indices in the signal handler
-	enum comms  { LOGOUT, NEXT_ARCHIVE, PRIOR_ARCHIVE, OPEN_DRAWER,
+    //for handy reference to the indices in the signal handler
+    enum comms  { LOGOUT, NEXT_ARCHIVE, PRIOR_ARCHIVE, OPEN_DRAWER,
                   SHUTDOWN, SYSTEM_RESTART, CALIBRATE, WAGE_FILTER_DIALOG,
                   SERVER_NEXT, SERVER_PREV, SERVER_VIEW, LICENSE_CHECK,
                   CCQ_TERMINATE, CC_ADDBATCH, LPD_RESTART, ADMINFORCE1,
@@ -1252,9 +1252,9 @@ SignalResult Terminal::Signal(const genericChar* message, int group_id)
             return sig;
     }
 
-    int idx = CompareListN(commands, message);	
+    int idx = CompareListN(commands, message);  
     switch (idx)
-	{
+    {
     case LOGOUT:
         LogoutUser();
         return SIGNAL_OKAY;
@@ -1413,7 +1413,7 @@ SignalResult Terminal::Signal(const genericChar* message, int group_id)
             force_jump_source = page->id;
         else
             force_jump_source = 0;
-	}
+    }
 
     return SIGNAL_IGNORED;
 }
@@ -1755,10 +1755,10 @@ int Terminal::LoginUser(Employee *employee, bool home_page)
     employee->last_job    = employee->current_job;
 
     if (((home_page == true) && employee->current_job) > 0)
-	{
+    {
         int homepage = HomePage();
         Jump(JUMP_STEALTH, homepage);
-	}
+    }
 
     UpdateOtherTerms(UPDATE_USERS, NULL);
     return 0;
@@ -1791,17 +1791,17 @@ int Terminal::LogoutUser(int update)
     type           = original_type;
 
     if (user)
-	{
-		user->current_job = 0;
-		user = NULL;
-		if (update)
-		{
-			if (error)
-				UpdateOtherTerms(UPDATE_USERS, NULL);
-			else
-				UpdateOtherTerms(UPDATE_USERS | UPDATE_CHECKS, NULL);
-		}
-	}
+    {
+        user->current_job = 0;
+        user = NULL;
+        if (update)
+        {
+            if (error)
+                UpdateOtherTerms(UPDATE_USERS, NULL);
+            else
+                UpdateOtherTerms(UPDATE_USERS | UPDATE_CHECKS, NULL);
+        }
+    }
 
     Jump(JUMP_STEALTH, PAGEID_LOGIN);  // Jump to login page
     ClearPageStack();
@@ -1850,7 +1850,7 @@ int Terminal::NewTakeOut(int customer_type)
 {
     FnTrace("Terminal::NewTakeOut()");
 
-	//break if undefined user or incorrect mode
+    //break if undefined user or incorrect mode
     if (user == NULL || 
         (customer_type != CHECK_TAKEOUT && 
          customer_type != CHECK_DELIVERY && 
@@ -1920,7 +1920,7 @@ int Terminal::QuickMode(int customer_type)
          (customer_type != CHECK_BAR)))
     {
         return 1;
-	}
+    }
 
     if (system_data->LicenseExpired())
     {
@@ -1944,7 +1944,7 @@ int Terminal::QuickMode(int customer_type)
     else
         customer = NULL;
 
-	if (customer_type == CHECK_FASTFOOD ||
+    if (customer_type == CHECK_FASTFOOD ||
         customer_type == CHECK_BAR ||
         (settings->fast_takeouts &&
          (customer_type == CHECK_TAKEOUT  ||
@@ -2226,39 +2226,39 @@ int Terminal::StackCheck(int customer_type)
 
 int Terminal::OpenDialog(Zone *currZone)
 {
-	FnTrace("Terminal::OpenDialog()");
+    FnTrace("Terminal::OpenDialog()");
 
-	if (currZone == NULL || page == NULL)
-		return 1;
+    if (currZone == NULL || page == NULL)
+        return 1;
 
-	if (dialog)
-	{
+    if (dialog)
+    {
         return NextDialog(currZone);
-	}
+    }
 
-	currZone->RenderInit(this, RENDER_NEW);
-	int page_max = page->width - 32;
+    currZone->RenderInit(this, RENDER_NEW);
+    int page_max = page->width - 32;
 
-	if (currZone->w > page_max)
-		currZone->w = page_max;
+    if (currZone->w > page_max)
+        currZone->w = page_max;
 
-	page_max = page->height - 48;
+    page_max = page->height - 48;
 
-	if (currZone->h > page_max)
-		currZone->h = page_max;
+    if (currZone->h > page_max)
+        currZone->h = page_max;
 
-	currZone->x = (page->width  - currZone->w) / 2;
-	currZone->y = (page->height - currZone->h) / 2;
-	currZone->update = 1;
+    currZone->x = (page->width  - currZone->w) / 2;
+    currZone->y = (page->height - currZone->h) / 2;
+    currZone->update = 1;
 
-	RegionInfo r(currZone);
-	r.w += currZone->shadow;
-	r.h += currZone->shadow;
+    RegionInfo r(currZone);
+    r.w += currZone->shadow;
+    r.h += currZone->shadow;
 
-	dialog = currZone;
-	Draw(0, r.x, r.y, r.w, r.h);
+    dialog = currZone;
+    Draw(0, r.x, r.y, r.w, r.h);
 
-	return 0;
+    return 0;
 }
 
 int Terminal::OpenDialog(const genericChar* message)
@@ -2535,61 +2535,61 @@ int Terminal::EditTerm(int save_data)
     WInt16(WB_NEWZONE);
     WInt16(0); WInt16(0); WInt16(60); WInt16(60);
     WStr("New\\Button");
-    WInt8(FONT_TIMES_18); WInt8(COLOR_DK_BLUE); WInt8(COLOR_LT_BLUE);
+    WInt8(FONT_HELV_18); WInt8(COLOR_DK_BLUE); WInt8(COLOR_LT_BLUE);
 
     WInt8(TERM_PUSHBUTTON);
     WInt16(WB_NEWPAGE);
     WInt16(60); WInt16(0); WInt16(60); WInt16(60);
     WStr("New\\Page");
-    WInt8(FONT_TIMES_18); WInt8(COLOR_DK_GREEN); WInt8(COLOR_GREEN);
+    WInt8(FONT_HELV_18); WInt8(COLOR_DK_GREEN); WInt8(COLOR_GREEN);
 
     WInt8(TERM_PUSHBUTTON);
     WInt16(WB_ALL);
     WInt16(0); WInt16(60); WInt16(60); WInt16(60);
     WStr("Select\\All");
-    WInt8(FONT_TIMES_14); WInt8(COLOR_DK_TEAL); WInt8(COLOR_TEAL);
+    WInt8(FONT_HELV_14); WInt8(COLOR_DK_TEAL); WInt8(COLOR_TEAL);
 
     WInt8(TERM_PUSHBUTTON);
     WInt16(WB_TOGGLE);
     WInt16(60); WInt16(60); WInt16(60); WInt16(60);
     WStr("Toggle\\Selected");
-    WInt8(FONT_TIMES_14); WInt8(COLOR_DK_MAGENTA); WInt8(COLOR_MAGENTA);
+    WInt8(FONT_HELV_14); WInt8(COLOR_DK_MAGENTA); WInt8(COLOR_MAGENTA);
 
     WInt8(TERM_PUSHBUTTON);
     WInt16(WB_COPY);
     WInt16(0); WInt16(120); WInt16(60); WInt16(60);
     WStr("Copy\\Selected");
-    WInt8(FONT_TIMES_14); WInt8(COLOR_DK_GREEN); WInt8(COLOR_GREEN);
+    WInt8(FONT_HELV_14); WInt8(COLOR_DK_GREEN); WInt8(COLOR_GREEN);
 
     WInt8(TERM_PUSHBUTTON);
     WInt16(WB_MOVE);
     WInt16(60); WInt16(120); WInt16(60); WInt16(60);
     WStr("Move\\Selected");
-    WInt8(FONT_TIMES_14); WInt8(COLOR_DK_BLUE); WInt8(COLOR_LT_BLUE);
+    WInt8(FONT_HELV_14); WInt8(COLOR_DK_BLUE); WInt8(COLOR_LT_BLUE);
 
     WInt8(TERM_PUSHBUTTON);
     WInt16(WB_INFO);
     WInt16(0); WInt16(180); WInt16(60); WInt16(60);
     WStr("Show\\Button\\Info");
-    WInt8(FONT_TIMES_14); WInt8(COLOR_GRAY); WInt8(COLOR_WHITE);
+    WInt8(FONT_HELV_14); WInt8(COLOR_GRAY); WInt8(COLOR_WHITE);
 
     WInt8(TERM_PUSHBUTTON);
     WInt16(WB_LIST);
     WInt16(60); WInt16(180); WInt16(60); WInt16(60);
     WStr("Show\\Page\\List");
-    WInt8(FONT_TIMES_14); WInt8(COLOR_BROWN); WInt8(COLOR_ORANGE);
+    WInt8(FONT_HELV_14); WInt8(COLOR_BROWN); WInt8(COLOR_ORANGE);
 
     WInt8(TERM_PUSHBUTTON);
     WInt16(WB_PRIOR);
     WInt16(0); WInt16(240); WInt16(60); WInt16(60);
     WStr("Prior\\Page");
-    WInt8(FONT_TIMES_18); WInt8(COLOR_DK_RED); WInt8(COLOR_RED);
+    WInt8(FONT_HELV_18); WInt8(COLOR_DK_RED); WInt8(COLOR_RED);
 
     WInt8(TERM_PUSHBUTTON);
     WInt16(WB_NEXT);
     WInt16(60); WInt16(240); WInt16(60); WInt16(60);
     WStr("Next\\Page");
-    WInt8(FONT_TIMES_18); WInt8(COLOR_DK_RED); WInt8(COLOR_RED);
+    WInt8(FONT_HELV_18); WInt8(COLOR_DK_RED); WInt8(COLOR_RED);
 
     // Show Edit Tool Bar
     WInt8(TERM_SHOWWINDOW);
@@ -2689,7 +2689,7 @@ int Terminal::UpdateZoneDB(Control *con)
 }
 
 /****
- * ReplaceSymbols:	Chop through the symbol list, extracting the
+ * ReplaceSymbols:  Chop through the symbol list, extracting the
  *  inidividual elements and respond to each symbol accordingly 
  *  (str contains a list of 'symbols' contained within '{ }'
  *  and terminated by a null character)
@@ -2697,44 +2697,44 @@ int Terminal::UpdateZoneDB(Control *con)
 const genericChar* Terminal::ReplaceSymbols(const genericChar* str)
 {
     FnTrace("Terminal::ReplaceSymbols()");
-	static const genericChar* symbols[] = {
-		"release", "time", "date", "name", "termname", "machineid",
+    static const genericChar* symbols[] = {
+        "release", "time", "date", "name", "termname", "machineid",
         "machinekey", "licensedays", "creditid", "debitid",
         "merchantid", NULL
     };
 
 
-	static genericChar buffer[1024];
+    static genericChar buffer[1024];
 
-	if (edit || str == NULL)
-		return (genericChar*)str;		//TODO: what to do in edit mode?  This is impossible to do correctly.  Can cause a stack overlflow
+    if (edit || str == NULL)
+        return (genericChar*)str;       //TODO: what to do in edit mode?  This is impossible to do correctly.  Can cause a stack overlflow
 
-	genericChar* rawBuffer = buffer;
-	if (str)
-	{
-		genericChar tmp[STRLENGTH];
+    genericChar* rawBuffer = buffer;
+    if (str)
+    {
+        genericChar tmp[STRLENGTH];
         const genericChar* thisStr = str;
-		while (*thisStr)
-		{
-			if (*thisStr != '{')
+        while (*thisStr)
+        {
+            if (*thisStr != '{')
             {
-				*rawBuffer++ = *thisStr++;
+                *rawBuffer++ = *thisStr++;
             }
-			else
-			{
-				++thisStr;
-				genericChar* t = tmp;
+            else
+            {
+                ++thisStr;
+                genericChar* t = tmp;
 
-				// fill tmp with chars from str until '}'
-				while (*thisStr && *thisStr != '}')
-					*t++ = *thisStr++;
+                // fill tmp with chars from str until '}'
+                while (*thisStr && *thisStr != '}')
+                    *t++ = *thisStr++;
 
-				// terminate the genericChar array
-				*t = '\0';
+                // terminate the genericChar array
+                *t = '\0';
 
-				int idx = CompareList(tmp, symbols);
-				switch (idx)
-				{
+                int idx = CompareList(tmp, symbols);
+                switch (idx)
+                {
                 case 0:  // release
                     sprintf(tmp, "POS %s - Copyright Gene Mosher 1986", BuildNumber);
                     break;
@@ -2775,53 +2775,53 @@ const genericChar* Terminal::ReplaceSymbols(const genericChar* str)
                 default:
                     tmp[0] = '\0';
                     break;
-				}
+                }
 
-				t = tmp;
+                t = tmp;
 
-				while (*t)
-					*rawBuffer++ = *t++;
+                while (*t)
+                    *rawBuffer++ = *t++;
 
-				if (*thisStr)
-					++thisStr;
-			}
-		}
-	}
-	*rawBuffer = '\0';
-	return Translate(buffer);
+                if (*thisStr)
+                    ++thisStr;
+            }
+        }
+    }
+    *rawBuffer = '\0';
+    return Translate(buffer);
 }
 
 Printer *Terminal::FindPrinter(int printer_id)
 {
     FnTrace("Terminal::FindPrinter()");
-	if (parent == NULL)
-		return NULL;
+    if (parent == NULL)
+        return NULL;
 
-	Printer *currPrinter = parent->FindPrinter(printer_host.Value(), printer_port);
+    Printer *currPrinter = parent->FindPrinter(printer_host.Value(), printer_port);
 
-	// redirect bar printing
-	Settings *settings = GetSettings();
-	if (currPrinter && (type == TERMINAL_BAR2 ||
+    // redirect bar printing
+    Settings *settings = GetSettings();
+    if (currPrinter && (type == TERMINAL_BAR2 ||
                         (type == TERMINAL_BAR &&
                          (printer_id == PRINTER_BAR1 || printer_id == PRINTER_BAR2))))
-		printer_id = PRINTER_RECEIPT;
+        printer_id = PRINTER_RECEIPT;
 
-	for (;;)
-	{
-		if (printer_id == PRINTER_RECEIPT)
-		{
-			if (currPrinter)
-				return currPrinter;
-		}
-		else
-		{
-			PrinterInfo *pi = settings->FindPrinterByType(printer_id);
-			if (pi)
-				return pi->FindPrinter(parent);
-		}
+    for (;;)
+    {
+        if (printer_id == PRINTER_RECEIPT)
+        {
+            if (currPrinter)
+                return currPrinter;
+        }
+        else
+        {
+            PrinterInfo *pi = settings->FindPrinterByType(printer_id);
+            if (pi)
+                return pi->FindPrinter(parent);
+        }
 
-		switch (printer_id)
-		{
+        switch (printer_id)
+        {
         case PRINTER_REPORT:
             return currPrinter;
         case PRINTER_RECEIPT:
@@ -2850,8 +2850,8 @@ Printer *Terminal::FindPrinter(int printer_id)
             break;
         default:
             return NULL;
-		}
-	}
+        }
+    }
 }
 
 int Terminal::FrameBorder(int frame, int shape)
@@ -2988,7 +2988,7 @@ int Terminal::FinalizeOrders()
     {
         Settings *settings = GetSettings();
         switch (type)
-    	{
+        {
         case TERMINAL_BAR:
             /** fall through **/
         case TERMINAL_BAR2:
@@ -3009,7 +3009,7 @@ int Terminal::FinalizeOrders()
             timeout = settings->delay_time2;  // super short timeout
             Jump(JUMP_HOME);
             break;
-    	}
+        }
     }
     return 0;
 }
@@ -3198,7 +3198,7 @@ int Terminal::RenderBlankPage()
     last_page_type = page->type;
     last_page_size = page->size;
 
-	// FIX - 
+    // FIX - 
     const genericChar* pn = Translate(ReplaceSymbols(page->name.Value()));
     genericChar str[STRLENGTH];
     if (edit)
@@ -3289,16 +3289,16 @@ int Terminal::RenderText(const genericChar* str, int x, int y, int color, int fo
     {
         switch (font)
         {
-        case FONT_TIMES_14:  font = FONT_TIMES_14B; break;
-        case FONT_TIMES_18:  font = FONT_TIMES_18B; break;
-        case FONT_TIMES_20:  font = FONT_TIMES_20B; break;
-        case FONT_TIMES_24:  font = FONT_TIMES_24B; break;
-        case FONT_TIMES_34:  font = FONT_TIMES_34B; break;
-        case FONT_TIMES_14B: font = FONT_TIMES_14;  break;
-        case FONT_TIMES_18B: font = FONT_TIMES_18;  break;
-        case FONT_TIMES_20B: font = FONT_TIMES_20;  break;
-        case FONT_TIMES_24B: font = FONT_TIMES_24;  break;
-        case FONT_TIMES_34B: font = FONT_TIMES_34;  break;
+        case FONT_HELV_14:  font = FONT_HELV_14B; break;
+        case FONT_HELV_18:  font = FONT_HELV_18B; break;
+        case FONT_HELV_20:  font = FONT_HELV_20B; break;
+        case FONT_HELV_24:  font = FONT_HELV_24B; break;
+        case FONT_HELV_34:  font = FONT_HELV_34B; break;
+        case FONT_HELV_14B: font = FONT_HELV_14;  break;
+        case FONT_HELV_18B: font = FONT_HELV_18;  break;
+        case FONT_HELV_20B: font = FONT_HELV_20;  break;
+        case FONT_HELV_24B: font = FONT_HELV_24;  break;
+        case FONT_HELV_34B: font = FONT_HELV_34;  break;
         }
     }
     if (mode & PRINT_UNDERLINE)
@@ -3338,16 +3338,16 @@ int Terminal::RenderTextLen(const genericChar* str, int len, int x, int y, int c
     {
         switch (font)
         {
-        case FONT_TIMES_14:  font = FONT_TIMES_14B; break;
-        case FONT_TIMES_18:  font = FONT_TIMES_18B; break;
-        case FONT_TIMES_20:  font = FONT_TIMES_20B; break;
-        case FONT_TIMES_24:  font = FONT_TIMES_24B; break;
-        case FONT_TIMES_34:  font = FONT_TIMES_34B; break;
-        case FONT_TIMES_14B: font = FONT_TIMES_14B; break;
-        case FONT_TIMES_18B: font = FONT_TIMES_18;  break;
-        case FONT_TIMES_20B: font = FONT_TIMES_20;  break;
-        case FONT_TIMES_24B: font = FONT_TIMES_24;  break;
-        case FONT_TIMES_34B: font = FONT_TIMES_34;  break;
+        case FONT_HELV_14:  font = FONT_HELV_14B; break;
+        case FONT_HELV_18:  font = FONT_HELV_18B; break;
+        case FONT_HELV_20:  font = FONT_HELV_20B; break;
+        case FONT_HELV_24:  font = FONT_HELV_24B; break;
+        case FONT_HELV_34:  font = FONT_HELV_34B; break;
+        case FONT_HELV_14B: font = FONT_HELV_14B; break;
+        case FONT_HELV_18B: font = FONT_HELV_18;  break;
+        case FONT_HELV_20B: font = FONT_HELV_20;  break;
+        case FONT_HELV_24B: font = FONT_HELV_24;  break;
+        case FONT_HELV_34B: font = FONT_HELV_34;  break;
         }
     }
     if (mode & PRINT_UNDERLINE)
@@ -3499,7 +3499,7 @@ int Terminal::RenderStatusBar(Zone *z, int bar_color, const genericChar* text,
     WInt16(24);
     WInt8(bar_color);
     WStr(text);
-    WInt8(FONT_TIMES_20);
+    WInt8(FONT_HELV_20);
     WInt8(text_color);
     return Send();
 }
@@ -4186,9 +4186,9 @@ int Terminal::MouseInput(int action, int x, int y)
         if (action & MOUSE_RIGHT)
         {
             if (zone)
-			{
+            {
                 if (zone->edit == 0)
-				{
+                {
                     if ((action & MOUSE_SHIFT) == 0)
                         zone_db->ClearEdit(this);
                     zone->edit = 1;
@@ -4318,21 +4318,21 @@ int Terminal::MouseToolbar(int action, int x, int y)
 
 int Terminal::ButtonCommand(int command)
 {
-	FnTrace("Terminal::ButtonCommand()");
+    FnTrace("Terminal::ButtonCommand()");
 
-	switch (command)
-	{
+    switch (command)
+    {
     case WB_ICONIFY:
         WInt8(TERM_ICONIFY);
         SendNow();
         break;
-	}
+    }
 
-	if (edit == 0)
-		return 0;
+    if (edit == 0)
+        return 0;
 
-	switch (command)
-	{
+    switch (command)
+    {
     case WB_NEWZONE:
         EditZone(NULL);
         break;
@@ -4376,8 +4376,8 @@ int Terminal::ButtonCommand(int command)
         }
     }
     break;
-	}
-	return 0;
+    }
+    return 0;
 }
 
 int Terminal::SizeToMouse()
@@ -4447,73 +4447,73 @@ int Terminal::SizeToMouse()
 
 int Terminal::EditMultiZone(Page *currPage)
 {
-	FnTrace("Terminal::EditMultiZone()");
-	if (currPage == NULL || user == NULL)
-		return 1;
+    FnTrace("Terminal::EditMultiZone()");
+    if (currPage == NULL || user == NULL)
+        return 1;
 
-	int behave = 1;
+    int behave = 1;
     int font = 1;
     int shape = 1;
     int shadow = 1;
-	int frame1 = 1;
+    int frame1 = 1;
     int frame2 = 1;
     int tex1 = 1;
     int tex2 = 1;
     int color1 = 1;
     int color2 = 1;
-	int count = 0;
+    int count = 0;
 
-	Zone *last = NULL;
-	while (currPage)
-	{
-		for (Zone *currZone = currPage->ZoneList(); currZone != NULL; currZone = currZone->next)
-			if (currZone->edit && currZone->CanEdit(this))
-			{
-				if (last)
-				{
-					if (currZone->behave != last->behave)         behave = 0;
-					if (currZone->font != last->font)             font = 0;
-					if (currZone->shape != last->shape)           shape = 0;
-					if (currZone->shadow != last->shadow)         shadow = 0;
-					if (currZone->frame[0] != last->frame[0])     frame1 = 0;
-					if (currZone->texture[0] != last->texture[0]) tex1 = 0;
-					if (currZone->color[0] != last->color[0])     color1 = 0;
-					if (currZone->frame[1] != last->frame[1])     frame2 = 0;
-					if (currZone->texture[1] != last->texture[1]) tex2 = 0;
-					if (currZone->color[1] != last->color[1])     color2 = 0;
-				}
-				last = currZone;
-				++count;
-			}
-		currPage = currPage->parent_page;
-	}
-
-	if (count == 1)
+    Zone *last = NULL;
+    while (currPage)
     {
-		return EditZone(last);
-    }
-	else if (count <= 0)
-    {
-		return 0;
+        for (Zone *currZone = currPage->ZoneList(); currZone != NULL; currZone = currZone->next)
+            if (currZone->edit && currZone->CanEdit(this))
+            {
+                if (last)
+                {
+                    if (currZone->behave != last->behave)         behave = 0;
+                    if (currZone->font != last->font)             font = 0;
+                    if (currZone->shape != last->shape)           shape = 0;
+                    if (currZone->shadow != last->shadow)         shadow = 0;
+                    if (currZone->frame[0] != last->frame[0])     frame1 = 0;
+                    if (currZone->texture[0] != last->texture[0]) tex1 = 0;
+                    if (currZone->color[0] != last->color[0])     color1 = 0;
+                    if (currZone->frame[1] != last->frame[1])     frame2 = 0;
+                    if (currZone->texture[1] != last->texture[1]) tex2 = 0;
+                    if (currZone->color[1] != last->color[1])     color2 = 0;
+                }
+                last = currZone;
+                ++count;
+            }
+        currPage = currPage->parent_page;
     }
 
-	edit_zone = NULL;
-	edit_page = currPage;
-	WInt8(TERM_EDITMULTIZONE);
-	WInt8(user->CanEditSystem());
+    if (count == 1)
+    {
+        return EditZone(last);
+    }
+    else if (count <= 0)
+    {
+        return 0;
+    }
 
-	if (behave) WInt16(last->behave);     else WInt16(-1);
-	if (font)   WInt16(last->font);       else WInt16(-1);
-	if (frame1) WInt16(last->frame[0]);   else WInt16(-1);
-	if (tex1)   WInt16(last->texture[0]); else WInt16(-1);
-	if (color1) WInt16(last->color[0]);   else WInt16(-1);
-	if (frame2) WInt16(last->frame[1]);   else WInt16(-1);
-	if (tex2)   WInt16(last->texture[1]); else WInt16(-1);
-	if (color2) WInt16(last->color[1]);   else WInt16(-1);
-	if (shape)  WInt16(last->shape);      else WInt16(-1);
-	if (shadow) WInt16(last->shadow);     else WInt16(-1);
+    edit_zone = NULL;
+    edit_page = currPage;
+    WInt8(TERM_EDITMULTIZONE);
+    WInt8(user->CanEditSystem());
 
-	return SendNow();
+    if (behave) WInt16(last->behave);     else WInt16(-1);
+    if (font)   WInt16(last->font);       else WInt16(-1);
+    if (frame1) WInt16(last->frame[0]);   else WInt16(-1);
+    if (tex1)   WInt16(last->texture[0]); else WInt16(-1);
+    if (color1) WInt16(last->color[0]);   else WInt16(-1);
+    if (frame2) WInt16(last->frame[1]);   else WInt16(-1);
+    if (tex2)   WInt16(last->texture[1]); else WInt16(-1);
+    if (color2) WInt16(last->color[1]);   else WInt16(-1);
+    if (shape)  WInt16(last->shape);      else WInt16(-1);
+    if (shadow) WInt16(last->shadow);     else WInt16(-1);
+
+    return SendNow();
 }
 
 int Terminal::ReadMultiZone()
@@ -4562,149 +4562,149 @@ int Terminal::ReadMultiZone()
 
 int Terminal::EditZone(Zone *currZone)
 {
-	FnTrace("Terminal::EditZone()");
+    FnTrace("Terminal::EditZone()");
 
-	if (user == NULL)
-		return 1;
+    if (user == NULL)
+        return 1;
 
-	edit_zone = currZone;
-	SalesItem *currItem = NULL;
+    edit_zone = currZone;
+    SalesItem *currItem = NULL;
 
-	WInt8(TERM_EDITZONE);
-	WInt8(user->CanEditSystem());
-	if (currZone)
-	{
-		WInt8(currZone->Type());
-		WStr(currZone->name.Value());
-		if (edit_zone->page)
-			WInt32(edit_zone->page->id);
-		else
-			WInt32(page->id);
-		WInt8(currZone->group_id);
-		WInt8(currZone->behave);
+    WInt8(TERM_EDITZONE);
+    WInt8(user->CanEditSystem());
+    if (currZone)
+    {
+        WInt8(currZone->Type());
+        WStr(currZone->name.Value());
+        if (edit_zone->page)
+            WInt32(edit_zone->page->id);
+        else
+            WInt32(page->id);
+        WInt8(currZone->group_id);
+        WInt8(currZone->behave);
         WInt8(currZone->Confirm());
         WStr(currZone->ConfirmMsg());
-		WInt8(currZone->font);
-		WInt8(currZone->ZoneStates());
-		for (int i = 0; i < 3; ++i)
-		{
-			WInt8(currZone->frame[i]);
-			WInt8(currZone->texture[i]);
-			WInt8(currZone->color[i]);
-			WInt8(currZone->image[i]);
-		}
-		WInt8(currZone->shape);
-		WInt16(currZone->shadow);
-		WInt16(currZone->key);
-		WStr(currZone->Expression());
-		WStr(currZone->Message());
-		WStr(currZone->FileName());
-		WInt8(currZone->TenderType());
-		int tmp = 0;
-		if (currZone->TenderAmount())
-			tmp = *currZone->TenderAmount();
-		WStr(SimpleFormatPrice(tmp));
-		WInt8(currZone->ReportType());
+        WInt8(currZone->font);
+        WInt8(currZone->ZoneStates());
+        for (int i = 0; i < 3; ++i)
+        {
+            WInt8(currZone->frame[i]);
+            WInt8(currZone->texture[i]);
+            WInt8(currZone->color[i]);
+            WInt8(currZone->image[i]);
+        }
+        WInt8(currZone->shape);
+        WInt16(currZone->shadow);
+        WInt16(currZone->key);
+        WStr(currZone->Expression());
+        WStr(currZone->Message());
+        WStr(currZone->FileName());
+        WInt8(currZone->TenderType());
+        int tmp = 0;
+        if (currZone->TenderAmount())
+            tmp = *currZone->TenderAmount();
+        WStr(SimpleFormatPrice(tmp));
+        WInt8(currZone->ReportType());
         WInt8(currZone->CheckDisplayNum());
         WInt8(currZone->VideoTarget());
-		WInt8(currZone->ReportPrint());
-		WStr(currZone->Script());
-		WFlt(currZone->Spacing());
-		WInt32(currZone->QualifierType());
-		WInt32(currZone->Amount());
-		WInt8(currZone->SwitchType());
-		WInt8(currZone->JumpType());
-		WInt32(currZone->JumpID());
-		currItem = currZone->Item(&(system_data->menu));
-		WInt16(currZone->CustomerType());
+        WInt8(currZone->ReportPrint());
+        WStr(currZone->Script());
+        WFlt(currZone->Spacing());
+        WInt32(currZone->QualifierType());
+        WInt32(currZone->Amount());
+        WInt8(currZone->SwitchType());
+        WInt8(currZone->JumpType());
+        WInt32(currZone->JumpID());
+        currItem = currZone->Item(&(system_data->menu));
+        WInt16(currZone->CustomerType());
         WInt8(currZone->DrawerZoneType());
-	}
-	else
-	{
-		// Defaults for new zone
-		WInt8(ZONE_SIMPLE);             // Type
-		WStr("");                       // Name
-		WInt32(page->id);               // Page
-		WInt8(0);                       // Group ID
-		WInt8(BEHAVE_BLINK);            // Behavior
+    }
+    else
+    {
+        // Defaults for new zone
+        WInt8(ZONE_SIMPLE);             // Type
+        WStr("");                       // Name
+        WInt32(page->id);               // Page
+        WInt8(0);                       // Group ID
+        WInt8(BEHAVE_BLINK);            // Behavior
         WInt8(0);                       // Confirm
         WStr("");                       // Confirmation Message
-		WInt8(FONT_DEFAULT);            // Font
-		WInt8(2);                       // Number of states
-		for (int i = 0; i < 3; ++i)
-		{
-			WInt8(ZF_DEFAULT);          // Font
-			WInt8(IMAGE_DEFAULT);       
-			WInt8(COLOR_DEFAULT);
-			WInt8(0);
-		}
-		WInt8(SHAPE_RECTANGLE);         // Shape
-		WInt16(256);                    // Shadow
-		WInt16(0);                      // Key
-		WStr("");                       // Expression
-		WStr("");                       // Message
-		WStr("");                       // Filename
-		WInt8(0);                       // Tender Type
-		WStr(SimpleFormatPrice(0));     // Tender Amount
-		WInt8(0);                       // Report Type
+        WInt8(FONT_DEFAULT);            // Font
+        WInt8(2);                       // Number of states
+        for (int i = 0; i < 3; ++i)
+        {
+            WInt8(ZF_DEFAULT);          // Font
+            WInt8(IMAGE_DEFAULT);       
+            WInt8(COLOR_DEFAULT);
+            WInt8(0);
+        }
+        WInt8(SHAPE_RECTANGLE);         // Shape
+        WInt16(256);                    // Shadow
+        WInt16(0);                      // Key
+        WStr("");                       // Expression
+        WStr("");                       // Message
+        WStr("");                       // Filename
+        WInt8(0);                       // Tender Type
+        WStr(SimpleFormatPrice(0));     // Tender Amount
+        WInt8(0);                       // Report Type
         WInt8(0);                       // Check Display Number
-		WInt8(PRINTER_DEFAULT);         // Video Target
+        WInt8(PRINTER_DEFAULT);         // Video Target
         WInt8(0);                       // Report Print
-		WStr("");                       // Script
-		WFlt(1.0);                      // Spacing
-		WInt32(0);                      // Qualifier Type
-		WInt32(0);                      // Amount
-		WInt8(0);                       // Switch Type
-		WInt8(0);                       // Jump Type
-		WInt32(0);                      // Jump ID
-		WInt16(0);                      // Customer Type
+        WStr("");                       // Script
+        WFlt(1.0);                      // Spacing
+        WInt32(0);                      // Qualifier Type
+        WInt32(0);                      // Amount
+        WInt8(0);                       // Switch Type
+        WInt8(0);                       // Jump Type
+        WInt32(0);                      // Jump ID
+        WInt16(0);                      // Customer Type
         WInt8(DRAWER_ZONE_BALANCE);
-	}
+    }
 
-	if (currItem)
-	{
-		WStr(currItem->item_name.Value());
-		WStr(currItem->print_name.Value());
-		if (currItem->zone_name.length <= 0)
-			WStr(currZone->name.Value());
-		else
-			WStr(currItem->zone_name.Value());
-		WInt8(currItem->type);
-		WStr(currItem->location.Value());
-		WStr(currItem->event_time.Value());              // item event time
-		WStr(currItem->total_tickets.Value());          // item total tickets
-		WStr(currItem->available_tickets.Value());      // item available tickets
-		WStr(currItem->price_label.Value());
-		WStr(SimpleFormatPrice(currItem->cost));
-		WStr(SimpleFormatPrice(currItem->sub_cost));
+    if (currItem)
+    {
+        WStr(currItem->item_name.Value());
+        WStr(currItem->print_name.Value());
+        if (currItem->zone_name.length <= 0)
+            WStr(currZone->name.Value());
+        else
+            WStr(currItem->zone_name.Value());
+        WInt8(currItem->type);
+        WStr(currItem->location.Value());
+        WStr(currItem->event_time.Value());              // item event time
+        WStr(currItem->total_tickets.Value());          // item total tickets
+        WStr(currItem->available_tickets.Value());      // item available tickets
+        WStr(currItem->price_label.Value());
+        WStr(SimpleFormatPrice(currItem->cost));
+        WStr(SimpleFormatPrice(currItem->sub_cost));
         WStr(SimpleFormatPrice(currItem->employee_cost));
-		WInt8(currItem->family);
-		WInt8(currItem->sales_type);
-		WInt8(currItem->printer_id);
-		WInt8(currItem->call_order);
-	}
-	else
-	{
-		WStr("");          // item name
-		WStr("");          // item printed name
-		WStr("");          // item zone name
-		WInt8(0);          // item type
-		WStr("");	   //location
-		WStr("");          // item event time
-		WStr("");          // item total tickets
-		WStr("");          // item available tickets
-		WStr("");	   // item price_label
-		
-		WStr(SimpleFormatPrice(0)); // item price
-		WStr(SimpleFormatPrice(0)); // item sub price
+        WInt8(currItem->family);
+        WInt8(currItem->sales_type);
+        WInt8(currItem->printer_id);
+        WInt8(currItem->call_order);
+    }
+    else
+    {
+        WStr("");          // item name
+        WStr("");          // item printed name
+        WStr("");          // item zone name
+        WInt8(0);          // item type
+        WStr("");      //location
+        WStr("");          // item event time
+        WStr("");          // item total tickets
+        WStr("");          // item available tickets
+        WStr("");      // item price_label
+        
+        WStr(SimpleFormatPrice(0)); // item price
+        WStr(SimpleFormatPrice(0)); // item sub price
         WStr(SimpleFormatPrice(0)); // employee price
-		WInt8(0);          // item family
-		WInt8(0);          // item sales type
-		WInt8(0);          // item printer
-		WInt8(0);          // item call order
-	}
+        WInt8(0);          // item family
+        WInt8(0);          // item sales type
+        WInt8(0);          // item printer
+        WInt8(0);          // item call order
+    }
 
-	return SendNow();
+    return SendNow();
 }
 
 int Terminal::TranslateZone(Zone *z)
@@ -4759,11 +4759,11 @@ int Terminal::ReadZone()
     if (edit_zone)
         edit_zone->CopyZone(newZone);
 
-	// NOTE: 	the following initializations
-	// 				MUST be done in the order in which they
-	//				are currently listed
+    // NOTE:    the following initializations
+    //              MUST be done in the order in which they
+    //              are currently listed
     newZone->name.Set(RStr());
-    int my_page_id 	= RInt32();
+    int my_page_id  = RInt32();
     newZone->group_id = RInt8();
     newZone->behave   = RInt8();
     RInt8(newZone->Confirm());
@@ -4861,11 +4861,11 @@ int Terminal::ReadZone()
             si->print_name.Set(FilterName(RStr()));
             si->zone_name.Set(RStr());
             si->type          = RInt8();
-	    si->location.Set(RStr());
-	    si->event_time.Set(RStr());
-	    si->total_tickets.Set(RStr());
-	    si->available_tickets.Set(RStr());
-	    si->price_label.Set(RStr());
+        si->location.Set(RStr());
+        si->event_time.Set(RStr());
+        si->total_tickets.Set(RStr());
+        si->available_tickets.Set(RStr());
+        si->price_label.Set(RStr());
             si->cost          = ParsePrice(RStr());
             si->sub_cost      = ParsePrice(RStr());
             si->employee_cost = ParsePrice(RStr());
@@ -4881,11 +4881,11 @@ int Terminal::ReadZone()
         RStr();   // item printed name
         RStr();   // item zone name
         RInt8();  // item type
-	RStr();   // item location
-	RStr();   // item event time
-	RStr();   // item total tickets
-	RStr();   // item available tickets
-	RStr();   // item price_label
+    RStr();   // item location
+    RStr();   // item event time
+    RStr();   // item total tickets
+    RStr();   // item available tickets
+    RStr();   // item price_label
         RStr();   // item price
         RStr();   // item subprice
         RStr();   // employee price
@@ -4949,68 +4949,68 @@ int Terminal::KillZone()
 
 int Terminal::EditPage(Page *p)
 {
-	FnTrace("Terminal::EditPage()");
-	if (user == NULL || !user->CanEdit())
-		return 1;
+    FnTrace("Terminal::EditPage()");
+    if (user == NULL || !user->CanEdit())
+        return 1;
 
-	if (p && p->id < 0 && !user->CanEditSystem())
-		return 1;
+    if (p && p->id < 0 && !user->CanEditSystem())
+        return 1;
 
-	int edit_system = user->CanEditSystem();
-	edit_page = p;
+    int edit_system = user->CanEditSystem();
+    edit_page = p;
 
-	WInt8(TERM_EDITPAGE);
-	WInt8(edit_system);
-	if (p)
-	{
-		WInt8(p->size);
-		WInt8(p->type);
-		WStr(p->name.Value());
-		WInt32(p->id);
-		WInt8(p->title_color);
-		WInt8(p->image);
-		WInt8(p->default_font);
+    WInt8(TERM_EDITPAGE);
+    WInt8(edit_system);
+    if (p)
+    {
+        WInt8(p->size);
+        WInt8(p->type);
+        WStr(p->name.Value());
+        WInt32(p->id);
+        WInt8(p->title_color);
+        WInt8(p->image);
+        WInt8(p->default_font);
 
-		for (int i = 0; i < 3; ++i)
-		{
-			WInt8(p->default_frame[i]);
-			WInt8(p->default_texture[i]);
-			WInt8(p->default_color[i]);
-		}
+        for (int i = 0; i < 3; ++i)
+        {
+            WInt8(p->default_frame[i]);
+            WInt8(p->default_texture[i]);
+            WInt8(p->default_color[i]);
+        }
 
-		WInt8(p->default_spacing);
-		WInt16(p->default_shadow);
-		WInt32(p->parent_id);
-		WInt8(p->index);
-	}
-	else
-	{
-		WInt8(SIZE_1024x768);
-		if (edit_system)
-			WInt8(PAGE_SYSTEM);
-		else
-			WInt8(PAGE_ITEM);
-		WStr("");
-		WInt32(0);
-		WInt8(COLOR_BLUE);
-		WInt8(IMAGE_GRAY_MARBLE);
-		WInt8(FONT_TIMES_24);
-		WInt8(ZF_RAISED);
-		WInt8(IMAGE_SAND);
-		WInt8(COLOR_BLACK);
-		WInt8(ZF_RAISED);
-		WInt8(IMAGE_LIT_SAND);
-		WInt8(COLOR_BLACK);
-		WInt8(ZF_HIDDEN);
-		WInt8(IMAGE_SAND);
-		WInt8(COLOR_BLACK);
-		WInt8(2);
-		WInt16(0);
-		WInt32(0);
-		WInt8(INDEX_GENERAL);
-	}
+        WInt8(p->default_spacing);
+        WInt16(p->default_shadow);
+        WInt32(p->parent_id);
+        WInt8(p->index);
+    }
+    else
+    {
+        WInt8(SIZE_1024x768);
+        if (edit_system)
+            WInt8(PAGE_SYSTEM);
+        else
+            WInt8(PAGE_ITEM);
+        WStr("");
+        WInt32(0);
+        WInt8(COLOR_BLUE);
+        WInt8(IMAGE_GRAY_MARBLE);
+        WInt8(FONT_HELV_24);
+        WInt8(ZF_RAISED);
+        WInt8(IMAGE_SAND);
+        WInt8(COLOR_BLACK);
+        WInt8(ZF_RAISED);
+        WInt8(IMAGE_LIT_SAND);
+        WInt8(COLOR_BLACK);
+        WInt8(ZF_HIDDEN);
+        WInt8(IMAGE_SAND);
+        WInt8(COLOR_BLACK);
+        WInt8(2);
+        WInt16(0);
+        WInt32(0);
+        WInt8(INDEX_GENERAL);
+    }
 
-	return SendNow();
+    return SendNow();
 }
 
 int Terminal::ReadPage()
@@ -5064,50 +5064,50 @@ int Terminal::ReadPage()
 
 int Terminal::KillPage()
 {
-	FnTrace("Terminal::KillPage()");
-	Page *currPage = edit_page;
-	edit_page = NULL;
+    FnTrace("Terminal::KillPage()");
+    Page *currPage = edit_page;
+    edit_page = NULL;
 
-	Page *jump = currPage->next;
-	if (jump == NULL)
-	{
-		jump = currPage->fore;
-		if (jump == NULL)
-			return 1;
-	}
+    Page *jump = currPage->next;
+    if (jump == NULL)
+    {
+        jump = currPage->fore;
+        if (jump == NULL)
+            return 1;
+    }
 
-	zone_db->Remove(currPage);
-	delete currPage;
+    zone_db->Remove(currPage);
+    delete currPage;
 
-	zone_db->Init();
-	page = NULL;
-	ChangePage(jump);
-	UserInput();
+    zone_db->Init();
+    page = NULL;
+    ChangePage(jump);
+    UserInput();
 
-	return 0;
+    return 0;
 }
 
 int Terminal::ShowPageList()
 {
-	FnTrace("Terminal::ShowPageList()");
-	WInt8(TERM_LISTSTART);
+    FnTrace("Terminal::ShowPageList()");
+    WInt8(TERM_LISTSTART);
 
-	genericChar str[256];
-	int edit_system = user->CanEditSystem(), last_id = 0;
+    genericChar str[256];
+    int edit_system = user->CanEditSystem(), last_id = 0;
 
-	for (Page *p = zone_db->PageList(); p != NULL; p = p->next)
-		if ((p->id != last_id || p->id == 0) &&
+    for (Page *p = zone_db->PageList(); p != NULL; p = p->next)
+        if ((p->id != last_id || p->id == 0) &&
             (p->id >= 0 || edit_system))
-		{
-			last_id = p->id;
-			WInt8(TERM_LISTITEM);
-			sprintf(str, "%4d %s", p->id, Translate(p->name.Value()));
-			WStr(str);
-			Send();
-		}
+        {
+            last_id = p->id;
+            WInt8(TERM_LISTITEM);
+            sprintf(str, "%4d %s", p->id, Translate(p->name.Value()));
+            WStr(str);
+            Send();
+        }
 
-	WInt8(TERM_LISTEND);
-	return SendNow();
+    WInt8(TERM_LISTEND);
+    return SendNow();
 }
 
 int Terminal::JumpList(int selected)
@@ -5120,7 +5120,7 @@ int Terminal::JumpList(int selected)
     int last_id = 0;
 
     for (Page *currPage = zone_db->PageList(); currPage != NULL; currPage = currPage->next)
-	{
+    {
         if ((currPage->id != last_id || currPage->id == 0) && (currPage->id >= 0 || edit_system))
         {
             --selected;
@@ -5128,7 +5128,7 @@ int Terminal::JumpList(int selected)
                 return Jump(JUMP_STEALTH, currPage->id);
             last_id = currPage->id;
         }
-	}
+    }
 
     UserInput();
     return 0;

@@ -311,12 +311,12 @@ int UserDB::Add(Employee *e)
 
     if (name_array)
     {
-	free(name_array);
+    free(name_array);
         name_array = NULL;
     }
     if (id_array)
     {
-	free(id_array);
+    free(id_array);
         id_array = NULL;
     }
 
@@ -337,12 +337,12 @@ int UserDB::Remove(Employee *e)
 
     if (name_array)
     {
-	free(name_array);
+    free(name_array);
         name_array = NULL;
     }
     if (id_array)
     {
-	free(id_array);
+    free(id_array);
         id_array = NULL;
     }
 
@@ -355,12 +355,12 @@ int UserDB::Purge()
     FnTrace("UserDB::Purge()");
     if (name_array)
     {
-	free(name_array);
+    free(name_array);
         name_array = NULL;
     }
     if (id_array)
     {
-	free(id_array);
+    free(id_array);
         id_array = NULL;
     }
 
@@ -721,7 +721,7 @@ Employee **UserDB::NameArray(int resort)
     if (name_array == NULL)
     {
         resort = 1;
-	name_array = (Employee **)calloc(sizeof(Employee *), users);
+    name_array = (Employee **)calloc(sizeof(Employee *), users);
     }
 
     if (resort)
@@ -745,7 +745,7 @@ Employee **UserDB::IdArray(int resort)
     if (id_array == NULL)
     {
         resort = 1;
-	id_array = (Employee **)calloc(sizeof(Employee *), users);
+    id_array = (Employee **)calloc(sizeof(Employee *), users);
     }
 
     if (resort)

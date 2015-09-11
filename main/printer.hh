@@ -57,12 +57,12 @@ enum targettype {
 };
 
 enum printer_models {
-	MODEL_NONE,
-	MODEL_EPSON,
-	MODEL_STAR,
-	MODEL_HP,
-	MODEL_TOSHIBA,
-	MODEL_ITHACA,
+    MODEL_NONE,
+    MODEL_EPSON,
+    MODEL_STAR,
+    MODEL_HP,
+    MODEL_TOSHIBA,
+    MODEL_ITHACA,
     MODEL_HTML,
     MODEL_POSTSCRIPT,
     MODEL_PDF,

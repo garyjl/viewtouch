@@ -41,11 +41,11 @@
 #define FOOTER_SIZE 3.8
 
 enum checkList_types {
-	CL_ALL,
-	CL_OPEN,
-	CL_TAKEOUT,
-	CL_CLOSED,
-	CL_FASTFOOD
+    CL_ALL,
+    CL_OPEN,
+    CL_TAKEOUT,
+    CL_CLOSED,
+    CL_FASTFOOD
 };
 
 const char* CLName[] = {
@@ -70,35 +70,35 @@ CheckListZone::CheckListZone()
 
 RenderResult CheckListZone::Render(Terminal *term, int update_flag)
 {
-	FnTrace("CheckListZone::Render()");
-	LayoutZone::Render(term, update_flag);
+    FnTrace("CheckListZone::Render()");
+    LayoutZone::Render(term, update_flag);
 
-	Employee *e = term->user;
-	if (e == NULL)
-		return RENDER_OKAY;
+    Employee *e = term->user;
+    if (e == NULL)
+        return RENDER_OKAY;
 
-	// Set up display check list
-	int n = (int) ((size_y - FOOTER_SIZE - HEADER_SIZE - 1) / spacing);
-	if (n > 32)
-		n = 32;
-	if (array_max_size != n)
-	{
-		page_no        = 0;
-		array_max_size = n;
+    // Set up display check list
+    int n = (int) ((size_y - FOOTER_SIZE - HEADER_SIZE - 1) / spacing);
+    if (n > 32)
+        n = 32;
+    if (array_max_size != n)
+    {
+        page_no        = 0;
+        array_max_size = n;
         if (update_flag < 1)
             update_flag    = 1;
-	}
+    }
 
-	if (update_flag)
-	{
-		if (update_flag == RENDER_NEW)
-		{
+    if (update_flag)
+    {
+        if (update_flag == RENDER_NEW)
+        {
             status = CL_OPEN;
-			Check *c = term->check;
-			if (c)
-			{
-				switch (c->Status())
-				{
+            Check *c = term->check;
+            if (c)
+            {
+                switch (c->Status())
+                {
                 case CHECK_OPEN:
                     if (c->IsTakeOut())
                         status = CL_TAKEOUT;
@@ -107,7 +107,7 @@ RenderResult CheckListZone::Render(Terminal *term, int update_flag)
                     else
                         status = CL_OPEN;
                     break;
-						
+                        
                 case CHECK_CLOSED:
                     status = CL_CLOSED; 
                     break;
@@ -115,96 +115,96 @@ RenderResult CheckListZone::Render(Terminal *term, int update_flag)
                 default:
                     status = CL_ALL;
                     break;
-				}
-			}
-			else if (term->archive)
-				status = CL_ALL;
-			else // NOT c (invalid check)
-				status = CL_OPEN;
+                }
+            }
+            else if (term->archive)
+                status = CL_ALL;
+            else // NOT c (invalid check)
+                status = CL_OPEN;
 
             if (term->GetSettings()->drawer_mode == DRAWER_SERVER)
                 term->server = NULL;
-		}
-		MakeList(term);
-	}
+        }
+        MakeList(term);
+    }
     if (array_max_size > 0)
-	    max_pages = ((possible_size - 1) / array_max_size) + 1;
+        max_pages = ((possible_size - 1) / array_max_size) + 1;
     else
         max_pages = 1;
 
-	int col = color[0];
-	// Header
-	char str[128];
+    int col = color[0];
+    // Header
+    char str[128];
     char str2[128];
-	if (term->server)
-		sprintf(str2, "%s's", term->server->system_name.Value());
-	else
-		strcpy(str2, "All");
+    if (term->server)
+        sprintf(str2, "%s's", term->server->system_name.Value());
+    else
+        strcpy(str2, "All");
 
-	if (status != CL_ALL)
-		sprintf(str, "%s %s Checks", str2, term->Translate(CLName[status]));
-	else
-		sprintf(str, "%s Checks", str2);
-	TextC(term, 1, str, col);
+    if (status != CL_ALL)
+        sprintf(str, "%s %s Checks", str2, term->Translate(CLName[status]));
+    else
+        sprintf(str, "%s Checks", str2);
+    TextC(term, 1, str, col);
 
-	if (term->archive == NULL)
-	{
-		if ((term->server == NULL && e->training) ||
+    if (term->archive == NULL)
+    {
+        if ((term->server == NULL && e->training) ||
             (term->server && term->server->training))
-			strcpy(str, term->Translate("Current Training Checks"));
-		else
-			strcpy(str, term->Translate("Current Checks"));
-	}
-	else
-	{
-		if (term->archive->fore)
-			term->TimeDate(str2, term->archive->fore->end_time, TD5);
-		else
-			strcpy(str2, term->Translate("System Start"));
-		sprintf(str, "%s  to  %s", str2, term->TimeDate(term->archive->end_time, TD5));
-	}
-	TextC(term, 0, str, COLOR_BLUE);
+            strcpy(str, term->Translate("Current Training Checks"));
+        else
+            strcpy(str, term->Translate("Current Checks"));
+    }
+    else
+    {
+        if (term->archive->fore)
+            term->TimeDate(str2, term->archive->fore->end_time, TD5);
+        else
+            strcpy(str2, term->Translate("System Start"));
+        sprintf(str, "%s  to  %s", str2, term->TimeDate(term->archive->end_time, TD5));
+    }
+    TextC(term, 0, str, COLOR_BLUE);
 
-	TextPosL(term,            0, 2.2, "Table", col);
-	TextPosL(term, size_x *  .2, 2.2, "#Gst", col);
-	TextPosC(term, size_x * .56, 2.2, "Time", col);
-	TextPosL(term, size_x *  .8, 2.2, "Status", col);
-	Flt x0 = size_x * .02, x1 = size_x * .22;
-	Flt x2 = size_x * .56, x3 = size_x * .80;
+    TextPosL(term,            0, 2.2, "Table", col);
+    TextPosL(term, size_x *  .2, 2.2, "#Gst", col);
+    TextPosC(term, size_x * .56, 2.2, "Time", col);
+    TextPosL(term, size_x *  .8, 2.2, "Status", col);
+    Flt x0 = size_x * .02, x1 = size_x * .22;
+    Flt x2 = size_x * .56, x3 = size_x * .80;
 
-	// Footer
-	if (possible_size > 0)
-	{
-		sprintf(str, "%s: %d", term->Translate("Number of checks"), possible_size);
-		TextC(term, size_y - 3, str, col);
-	}
-	if (max_pages > 1)
-		TextL(term, size_y - 1, term->PageNo(page_no + 1, max_pages), col);
+    // Footer
+    if (possible_size > 0)
+    {
+        sprintf(str, "%s: %d", term->Translate("Number of checks"), possible_size);
+        TextC(term, size_y - 3, str, col);
+    }
+    if (max_pages > 1)
+        TextL(term, size_y - 1, term->PageNo(page_no + 1, max_pages), col);
 
-	Flt line = HEADER_SIZE;
-	if (array_size <= 0)
-	{
-		if (status == CL_ALL)
-			strcpy(str, term->Translate("No checks of any kind"));
-		else
-			sprintf(str, "No %s checks", term->Translate(CLName[status]));
-		TextC(term, line, str, COLOR_RED);
-	}
+    Flt line = HEADER_SIZE;
+    if (array_size <= 0)
+    {
+        if (status == CL_ALL)
+            strcpy(str, term->Translate("No checks of any kind"));
+        else
+            sprintf(str, "No %s checks", term->Translate(CLName[status]));
+        TextC(term, line, str, COLOR_RED);
+    }
 
-	for (int i = 0; i < array_size; ++i)
-	{
-		int tc = COLOR_BLACK;
-		Check *c = check_array[i];
-		if (c->user_current > 0)
-		{
-			if (c->user_current == e->id)
-			{
-				Background(term, line - ((spacing - 1)/2), spacing, IMAGE_LIT_SAND);
-				tc = COLOR_GRAY;
-			}
-			else
-				tc = COLOR_PURPLE;
-		}
+    for (int i = 0; i < array_size; ++i)
+    {
+        int tc = COLOR_BLACK;
+        Check *c = check_array[i];
+        if (c->user_current > 0)
+        {
+            if (c->user_current == e->id)
+            {
+                Background(term, line - ((spacing - 1)/2), spacing, IMAGE_LIT_SAND);
+                tc = COLOR_GRAY;
+            }
+            else
+                tc = COLOR_PURPLE;
+        }
 
         switch (c->CustomerType())
         {
@@ -227,43 +227,43 @@ RenderResult CheckListZone::Render(Terminal *term, int update_flag)
             break;
         }
 
-		TextPosL(term, x0, line, str, tc);
-		if (c->IsTakeOut() || c->IsFastFood() || c->CustomerType() == CHECK_BAR)
-		{
-			// for now we are using last 4 digits of phone number.
-			if (c->customer) {
-				const genericChar* tmp = c->customer->PhoneNumber();
-				Str *tStr = new Str(tmp);
-				strncpy(str, tmp += (tStr->length - 4), 4);
-				str[4] = '\0';
-			}
-//			sprintf(str, "%d", c->Guests());
-//			str[0] = '-'; 
-//			str[1] = '\0';
-		}
-		else
-			sprintf(str, "%d", c->Guests());
-		TextPosL(term, x1, line, str, tc);
+        TextPosL(term, x0, line, str, tc);
+        if (c->IsTakeOut() || c->IsFastFood() || c->CustomerType() == CHECK_BAR)
+        {
+            // for now we are using last 4 digits of phone number.
+            if (c->customer) {
+                const genericChar* tmp = c->customer->PhoneNumber();
+                Str *tStr = new Str(tmp);
+                strncpy(str, tmp += (tStr->length - 4), 4);
+                str[4] = '\0';
+            }
+//          sprintf(str, "%d", c->Guests());
+//          str[0] = '-'; 
+//          str[1] = '\0';
+        }
+        else
+            sprintf(str, "%d", c->Guests());
+        TextPosL(term, x1, line, str, tc);
 
-		if (status == CL_OPEN || status == CL_TAKEOUT || status == CL_FASTFOOD)
-			term->TimeDate(str, c->time_open, TD_TIME);
-		else
-		{
-			TimeInfo time_close;
-			time_close.Set(c->TimeClosed());
-			if (time_close.IsSet())
-				sprintf(str, "%s %s", term->TimeDate(str2, c->time_open, TD_TIME),
-						term->TimeDate(time_close, TD_TIME));
-			else
-				term->TimeDate(str, c->time_open, TD_TIME);
-		}
-		TextPosC(term, x2, line, str, tc);
-		TextPosL(term, x3, line, c->StatusString(term), tc);
-		line += spacing;
-	}
-	Line(term, HEADER_SIZE - 1, col);
-	Line(term, size_y - FOOTER_SIZE, col);
-	return RENDER_OKAY;
+        if (status == CL_OPEN || status == CL_TAKEOUT || status == CL_FASTFOOD)
+            term->TimeDate(str, c->time_open, TD_TIME);
+        else
+        {
+            TimeInfo time_close;
+            time_close.Set(c->TimeClosed());
+            if (time_close.IsSet())
+                sprintf(str, "%s %s", term->TimeDate(str2, c->time_open, TD_TIME),
+                        term->TimeDate(time_close, TD_TIME));
+            else
+                term->TimeDate(str, c->time_open, TD_TIME);
+        }
+        TextPosC(term, x2, line, str, tc);
+        TextPosL(term, x3, line, c->StatusString(term), tc);
+        line += spacing;
+    }
+    Line(term, HEADER_SIZE - 1, col);
+    Line(term, size_y - FOOTER_SIZE, col);
+    return RENDER_OKAY;
 }
 
 SignalResult CheckListZone::Signal(Terminal *term, const genericChar* message)
@@ -381,7 +381,7 @@ int CheckListZone::MakeList(Terminal *term)
              server->id == c->user_owner))
         {
             switch (status)
-			{
+            {
             case CL_ALL:
                 okay = 1; 
                 break;
@@ -399,7 +399,7 @@ int CheckListZone::MakeList(Terminal *term)
                 break;
             default:
                 break;
-			} // end switch
+            } // end switch
         }
 
         if (okay)
@@ -552,7 +552,7 @@ Check *GetNextCheck(Check *current)
 
     while (current != NULL && retval == NULL)
     {
-    	// Don't want to limit this to only takeouts
+        // Don't want to limit this to only takeouts
         // if (current->Status() == CHECK_OPEN && current->IsTakeOut())
         if (current->Status() == CHECK_OPEN)
             retval = current;
@@ -577,7 +577,7 @@ Check *GetPriorCheck(Check *current)
 
     while (current != NULL && retval == NULL)
     {
-    	// Don't want to limit this to only takeouts
+        // Don't want to limit this to only takeouts
         // if (current->Status() == CHECK_OPEN && current->IsTakeOut())
         if (current->Status() == CHECK_OPEN)
             retval = current;

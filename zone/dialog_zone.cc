@@ -79,7 +79,7 @@ MessageDialog::MessageDialog(const char* text)
     color[0]   = COLOR_BLACK;
     frame[0]   = ZF_RAISED;
     texture[0] = IMAGE_LITE_WOOD;
-    font       = FONT_TIMES_34;
+    font       = FONT_HELV_34;
     shadow     = 16;
     h          = 360;
     w          = 600;
@@ -99,7 +99,7 @@ ButtonObj::ButtonObj(const char* text, const genericChar* msg)
         message.Set(msg);
     else
         message.Set(text);
-    font = FONT_TIMES_24B;
+    font = FONT_HELV_24B;
 }
 
 int ButtonObj::Render(Terminal *term)
@@ -127,7 +127,7 @@ DialogZone::DialogZone()
     color[0]   = COLOR_BLACK;
     frame[0]   = ZF_RAISED;
     texture[0] = IMAGE_LITE_WOOD;
-    font       = FONT_TIMES_34;
+    font       = FONT_HELV_34;
     shadow     = 16;
 }
 
@@ -280,7 +280,7 @@ SimpleDialog::SimpleDialog(const char* title, int form)
     format = form;
     name.Set(title);
     gap = 8;
-    zofont = FONT_TIMES_24B;
+    zofont = FONT_HELV_24B;
     // the following variables are only used for format > 0 
     head_height = 200;
     btn_height  = 92;  // not used for format == 2
@@ -304,18 +304,18 @@ int SimpleDialog::RenderInit(Terminal *term, int update_flag)
 
         // set up sizes based on the number of buttons
         if ( bcount < 3 )
-            zofont = FONT_TIMES_34B;
+            zofont = FONT_HELV_34B;
         else if ( bcount < 7 )
-            zofont = FONT_TIMES_24B;
+            zofont = FONT_HELV_24B;
         else if ( bcount < 11 )
         {
-            zofont = FONT_TIMES_20B;
+            zofont = FONT_HELV_20B;
             head_height = 100;
             btn_height = 72;
         }
         else
         {
-            zofont = FONT_TIMES_18B;
+            zofont = FONT_HELV_18B;
             head_height = 50;
             btn_height = 50;
         }
@@ -1651,7 +1651,7 @@ RenderResult CreditCardEntryDialog::Render(Terminal *term, int update_flag)
     FnTrace("CreditCardEntryDialog::Render()");
     RenderResult retval = RENDER_OKAY;
 
-    font       = FONT_TIMES_34;
+    font       = FONT_HELV_34;
     retval = TenKeyDialog::Render(term, update_flag);
 
     return retval;
@@ -1780,7 +1780,7 @@ int CreditCardEntryDialog::RenderEntry(Terminal *term)
     Flt  exp_pos = 3.75;
     char buff[STRLENGTH];
 
-    font = FONT_TIMES_24B;
+    font = FONT_HELV_24B;
 
     // Render the credit card number entry
     TextL(term, num_pos, "Credit Card Number", COLOR_BLACK);
@@ -1870,7 +1870,7 @@ RenderResult CreditCardVoiceDialog::Render(Terminal *term, int update_flag)
 
     GetTextDialog::Render(term, update_flag);
 
-    font = FONT_TIMES_24B;
+    font = FONT_HELV_24B;
     TextC(term, linec, term->ReplaceSymbols(settings->cc_voice_message1.Value()), COLOR_BLACK);
     linec += lineh;
     TextC(term, linec, term->ReplaceSymbols(settings->cc_voice_message2.Value()), COLOR_BLACK);
@@ -2204,7 +2204,7 @@ RenderResult CreditCardDialog::Render(Terminal *term, int update_flag)
     {
         status = term->credit->Status();
 
-        font = FONT_TIMES_24;
+        font = FONT_HELV_24;
         snprintf(str, STRLENGTH, "%s:  %s", term->Translate("Card Number"),
                  term->credit->PAN(settings->show_entire_cc_num));
         TextC(term, line, str, color_text);
@@ -2268,7 +2268,7 @@ RenderResult CreditCardDialog::Render(Terminal *term, int update_flag)
                 font_color = color_success;
             else
                 font_color = color_error;
-            font = FONT_TIMES_34B;
+            font = FONT_HELV_34B;
             TextC(term, 4, str, font_color);
         }
     }
@@ -3190,8 +3190,8 @@ OpenTabDialog::OpenTabDialog(CustomerInfo *custinfo)
 {
     FnTrace("OpenTabDialog::OpenTabDialog()");
 
-    main_font = FONT_TIMES_34;
-    entry_font = FONT_TIMES_24B;
+    main_font = FONT_HELV_34;
+    entry_font = FONT_HELV_24B;
 
     customer = custinfo;
     h = 750;

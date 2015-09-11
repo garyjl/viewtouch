@@ -109,7 +109,7 @@ const char* ShortMonthName[] = { "Jan", "Feb", "Mar",
 /*************************************************************
  * Terminal Type values
  *************************************************************/ 
-const char* TermTypeName[] = { 	"Normal", "Order Only", 
+const char* TermTypeName[] = {  "Normal", "Order Only", 
                             "Bar", "Bar2", 
                             "Fast Food", "Kitchen Video",
                             "Kitchen Video2", NULL};
@@ -169,16 +169,16 @@ struct FontDataType
 
 static FontDataType FontData[] =
 {
-    {FONT_TIMES_20,     9, 20, "-adobe-times-medium-r-normal--20-*-p-*"},
-    {FONT_TIMES_24,    12, 24, "-adobe-times-medium-r-normal--24-*-p-*"},
-    {FONT_TIMES_34,    15, 33, "-adobe-times-medium-r-normal--34-*-p-*"},
-    {FONT_TIMES_20B,   10, 20, "-adobe-times-bold-r-normal--20-*-p-*"},
-    {FONT_TIMES_24B,   12, 24, "-adobe-times-bold-r-normal--24-*-p-*"},
-    {FONT_TIMES_34B,   16, 33, "-adobe-times-bold-r-normal--34-*-p-*"},
-    {FONT_TIMES_14,     7, 14, "-adobe-times-medium-r-normal--14-*-p-*"},
-    {FONT_TIMES_14B,    8, 14, "-adobe-times-bold-r-normal--14-*-p-*"},
-    {FONT_TIMES_18,     9, 18, "-adobe-times-medium-r-normal--18-*-p-*"},
-    {FONT_TIMES_18B,   10, 18, "-adobe-times-bold-r-normal--18-*-p-*"},
+    {FONT_HELV_20,     9, 20, "-adobe-helvetica-medium-*-normal--20-*-*-*"},
+    {FONT_HELV_24,    12, 24, "-adobe-helvetica-medium-*-normal--24-*-*-*"},
+    {FONT_HELV_34,    15, 33, "-adobe-helvetica-medium-*-normal--34-*-*-*"},
+    {FONT_HELV_20B,   10, 20, "-adobe-helvetica-bold-*-normal--20-*-*-*"},
+    {FONT_HELV_24B,   12, 24, "-adobe-helvetica-bold-*-normal--24-*-*-*"},
+    {FONT_HELV_34B,   16, 33, "-adobe-helvetica-bold-*-normal--34-*-*-*"},
+    {FONT_HELV_14,     7, 14, "-adobe-helvetica-medium-*-normal--14-*-*-*"},
+    {FONT_HELV_14B,    8, 14, "-adobe-helvetica-bold-*-normal--14-*-*-*"},
+    {FONT_HELV_18,     9, 18, "-adobe-helvetica-medium-*-normal--18-*-*-*"},
+    {FONT_HELV_18B,   10, 18, "-adobe-helvetica-bold-*-normal--18-*-*-*"},
     {FONT_COURIER_18,  10, 18, "-adobe-courier-medium-r-normal--18-*-*-*-*-*-*-*"},
     {FONT_COURIER_18B, 10, 18, "-adobe-courier-bold-r-normal--18-*-*-*-*-*-*-*"},
     {FONT_COURIER_20,  10, 20, "-adobe-courier-medium-r-normal--20-*-*-*-*-*-*-*"},
@@ -488,10 +488,10 @@ int main(int argc, genericChar* argv[])
     if (autoupdate)
     {
         ReportError("Automatic check for updates...");
-	unlink(VIEWTOUCH_UPDATE_COMMAND);	// out with the old
-    	system(VIEWTOUCH_UPDATE_REQUEST);	// in with the new
-	chmod(VIEWTOUCH_UPDATE_COMMAND, 0755);	// set executable
-	system(VIEWTOUCH_UPDATE_COMMAND);	// try to run it
+    unlink(VIEWTOUCH_UPDATE_COMMAND);   // out with the old
+        system(VIEWTOUCH_UPDATE_REQUEST);   // in with the new
+    chmod(VIEWTOUCH_UPDATE_COMMAND, 0755);  // set executable
+    system(VIEWTOUCH_UPDATE_COMMAND);   // try to run it
     }
     // Now process any locally available updates (updates
     // from the previous step will be installed and ready for
@@ -694,8 +694,8 @@ int StartSystem(int my_use_net)
         FontHeight[f] = FontData[i].height;
     }
 
-    FontWidth[FONT_DEFAULT]  = FontWidth[FONT_TIMES_24];
-    FontHeight[FONT_DEFAULT] = FontHeight[FONT_TIMES_24];
+    FontWidth[FONT_DEFAULT]  = FontWidth[FONT_HELV_24];
+    FontHeight[FONT_DEFAULT] = FontHeight[FONT_HELV_24];
 
     int argc = 0;
     const genericChar* argv[] = {"vt_main"};
@@ -712,7 +712,7 @@ int StartSystem(int my_use_net)
                 ReportError(str);
             }
         }
-        FontInfo[FONT_DEFAULT] = FontInfo[FONT_TIMES_24];
+        FontInfo[FONT_DEFAULT] = FontInfo[FONT_HELV_24];
     }
 
     // Terminal & Printer Setup
@@ -795,7 +795,7 @@ int StartSystem(int my_use_net)
         }
     }
 
-	char msg[256]; //char string used for file load messages
+    char msg[256]; //char string used for file load messages
 
     // Load Archive & Create System Object
     ReportLoader("Scanning Archives");
@@ -805,8 +805,8 @@ int StartSystem(int my_use_net)
         ReportError("Can't scan archives");
 
     // Load Employees
-	sprintf(msg, "Attempting to load file %s...", MASTER_USER_DB);
-	ReportError(msg); //stamp file attempt in log
+    sprintf(msg, "Attempting to load file %s...", MASTER_USER_DB);
+    ReportError(msg); //stamp file attempt in log
     ReportLoader("Loading Employees");
     sys->FullPath(MASTER_USER_DB, str);
     if (sys->user_db.Load(str))
@@ -817,8 +817,8 @@ int StartSystem(int my_use_net)
     }
     // set developer key (this should be done somewhere else)
     sys->user_db.developer->key = settings->developer_key;
-	sprintf(msg, "%s OK", MASTER_USER_DB);
-	ReportError(msg); //stamp file attempt in log
+    sprintf(msg, "%s OK", MASTER_USER_DB);
+    ReportError(msg); //stamp file attempt in log
 
     // Load Labor
     sprintf(msg, "Attempting to load labor info...");
@@ -828,8 +828,8 @@ int StartSystem(int my_use_net)
         ReportError("Can't find labor directory");
 
     // Load Menu
-	sprintf(msg, "Attempting to load file %s...", MASTER_MENU_DB);
-	ReportError(msg); //stamp file attempt in log
+    sprintf(msg, "Attempting to load file %s...", MASTER_MENU_DB);
+    ReportError(msg); //stamp file attempt in log
     ReportLoader("Loading Menu");
     sys->FullPath(MASTER_MENU_DB, str);
     if (sys->menu.Load(str))
@@ -838,12 +838,12 @@ int StartSystem(int my_use_net)
         sys->menu.Purge();
         sys->menu.Load(str);
     }
-	sprintf(msg, "%s OK", MASTER_MENU_DB);
-	ReportError(msg); //stamp file attempt in log
+    sprintf(msg, "%s OK", MASTER_MENU_DB);
+    ReportError(msg); //stamp file attempt in log
 
     // Load Exceptions
-	sprintf(msg, "Attempting to load file %s...", MASTER_EXCEPTION);
-	ReportError(msg); //stamp file attempt in log
+    sprintf(msg, "Attempting to load file %s...", MASTER_EXCEPTION);
+    ReportError(msg); //stamp file attempt in log
     ReportLoader("Loading Exception Records");
     sys->FullPath(MASTER_EXCEPTION, str);
     if (sys->exception_db.Load(str))
@@ -852,12 +852,12 @@ int StartSystem(int my_use_net)
         sys->exception_db.Purge();
         sys->exception_db.Load(str);
     }
-	sprintf(msg, "%s OK", MASTER_EXCEPTION);
-	ReportError(msg); //stamp file attempt in log
+    sprintf(msg, "%s OK", MASTER_EXCEPTION);
+    ReportError(msg); //stamp file attempt in log
 
     // Load Inventory
-	sprintf(msg, "Attempting to load file %s...", MASTER_INVENTORY);
-	ReportError(msg); //stamp file attempt in log
+    sprintf(msg, "Attempting to load file %s...", MASTER_INVENTORY);
+    ReportError(msg); //stamp file attempt in log
     ReportLoader("Loading Inventory");
     sys->FullPath(MASTER_INVENTORY, str);
     if (sys->inventory.Load(str))
@@ -869,8 +869,8 @@ int StartSystem(int my_use_net)
     sys->inventory.ScanItems(&sys->menu);
     sys->FullPath(STOCK_DATA_DIR, str);
     sys->inventory.LoadStock(str);
-	sprintf(msg, "%s OK", MASTER_INVENTORY);
-	ReportError(msg); //stamp file attempt in log
+    sprintf(msg, "%s OK", MASTER_INVENTORY);
+    ReportError(msg); //stamp file attempt in log
 
     // Load Customers
     sys->FullPath(CUSTOMER_DATA_DIR, str);
@@ -1180,7 +1180,7 @@ char* PriceFormat(Settings *settings, int price, int use_sign, int use_comma, ge
                 dollars / 1000000, comma,
                 (dollars / 1000) % 1000, comma, 
                 dollars % 1000);
-	}
+    }
     else if (use_comma && dollars > 999)
         sprintf(dollar_str, "%d%c%03d", dollars / 1000, comma, dollars % 1000);
     else if (dollars > 0)
@@ -1477,8 +1477,8 @@ int Control::Remove(Terminal *term)
         {
             if (ptr->reload_zone_db == 0)
             {
-				zone_db = ptr->zone_db;
-				break;
+                zone_db = ptr->zone_db;
+                break;
             }
             ptr = ptr->next;
         }
@@ -1664,10 +1664,10 @@ Printer *Control::FindPrinter(const char* host, int port)
 {
     FnTrace("Control::FindPrinter(const char* , int)");
     for (Printer *p = PrinterList(); p != NULL; p = p->next)
-	{
+    {
         if (p->MatchHost(host, port))
             return p;
-	}
+    }
 
     return NULL;
 }
@@ -1757,13 +1757,13 @@ int Control::TestPrinters(Terminal *term, int report)
     FnTrace("Control::TestPrinters()");
 
     for (Printer *p = PrinterList(); p != NULL; p = p->next)
-	{
+    {
         if ((p->IsType(PRINTER_REPORT) && report) ||
             (!p->IsType(PRINTER_REPORT) && !report))
-		{
+        {
             p->TestPrint(term);
-		}
-	}
+        }
+    }
     return 0;
 }
 
@@ -2566,12 +2566,12 @@ void UpdateSystemCB(XtPointer client_data, XtIntervalId *time_id)
         {
             if (sys->expire.IsSet() && SystemTime >= sys->expire)
             {
-    		static int license_message = 0;	// only complain once
-		if (!license_message)
-		{
+            static int license_message = 0; // only complain once
+        if (!license_message)
+        {
                     ReportError("Setting legacy expire");
                     license_message = 1;
-		}
+        }
             }
             LastHour = hour;
             update |= UPDATE_HOUR;

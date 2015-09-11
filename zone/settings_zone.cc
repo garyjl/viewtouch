@@ -46,7 +46,7 @@ static const genericChar* PasswordName[] = {"No", "Managers Only", "Everyone", N
 static int PasswordValue[] = {PW_NONE, PW_MANAGERS, PW_ALL, -1};
 
 // octal values for ISO-8859-15:
-// \244	= Euro 			("€") 
+// \244 = Euro          ("€") 
 // \243 = British pound ("£")
 // " "  = no symbol
 static const genericChar* MoneySymbolName[] = { "$", "\244", "\243", " ", NULL };
@@ -86,18 +86,18 @@ Zone *SwitchZone::Copy()
 RenderResult SwitchZone::Render(Terminal *term, int update_flag)
 {
     FnTrace("SwitchZone::Render()");
-	int idx = CompareList(type, SwitchValue);
-	if (idx < 0)
-		return Zone::Render(term, update_flag);
+    int idx = CompareList(type, SwitchValue);
+    if (idx < 0)
+        return Zone::Render(term, update_flag);
 
-	RenderZone(term, SwitchName[idx], update_flag);
-	Settings *settings = term->GetSettings();
+    RenderZone(term, SwitchName[idx], update_flag);
+    Settings *settings = term->GetSettings();
 
-	int   col = COLOR_BLUE;
+    int   col = COLOR_BLUE;
     int   onoff = -1;
-	const char* str = NULL;
-	switch (type)
-	{
+    const char* str = NULL;
+    switch (type)
+    {
     case SWITCH_SEATS:
         onoff = settings->use_seats;
         break;
@@ -187,32 +187,32 @@ RenderResult SwitchZone::Render(Terminal *term, int update_flag)
         break;
     default:
         return RENDER_OKAY;
-	}
+    }
 
-	if (onoff == 0)
-	{
-		str = term->Translate("Off");
-		col = COLOR_RED;
-	}
-	else if (onoff == 1)
-	{
-		str = term->Translate("On");
-		col = COLOR_GREEN;
-	}
+    if (onoff == 0)
+    {
+        str = term->Translate("Off");
+        col = COLOR_RED;
+    }
+    else if (onoff == 1)
+    {
+        str = term->Translate("On");
+        col = COLOR_GREEN;
+    }
 
-	if (str)
-		term->RenderText(str, x + (w / 2), y + h - border - 18, col, FONT_TIMES_20B, ALIGN_CENTER);
+    if (str)
+        term->RenderText(str, x + (w / 2), y + h - border - 18, col, FONT_HELV_20B, ALIGN_CENTER);
 
-	return RENDER_OKAY;
+    return RENDER_OKAY;
 }
 
 SignalResult SwitchZone::Touch(Terminal *term, int tx, int ty)
 {
-	FnTrace("SwitchZone::Touch()");
-	int no_update = 0;
-	Settings *settings = term->GetSettings();
-	switch (type)
-	{
+    FnTrace("SwitchZone::Touch()");
+    int no_update = 0;
+    Settings *settings = term->GetSettings();
+    switch (type)
+    {
     case SWITCH_SEATS:
         settings->use_seats ^= 1;
         break;
@@ -306,16 +306,16 @@ SignalResult SwitchZone::Touch(Terminal *term, int tx, int ty)
         break;
     default:
         return SIGNAL_IGNORED;
-	}
+    }
 
-	settings->changed = 1;
-	char str[16];
-	sprintf(str, "%d", type);
-	if (no_update)
-		term->Update(UPDATE_SETTINGS, str);
-	else
-		term->UpdateAllTerms(UPDATE_SETTINGS, str);
-	return SIGNAL_OKAY;
+    settings->changed = 1;
+    char str[16];
+    sprintf(str, "%d", type);
+    if (no_update)
+        term->Update(UPDATE_SETTINGS, str);
+    else
+        term->UpdateAllTerms(UPDATE_SETTINGS, str);
+    return SIGNAL_OKAY;
 }
 
 int SwitchZone::Update(Terminal *term, int update_message, const genericChar* value)
@@ -758,10 +758,10 @@ int TaxSettingsZone::LoadRecord(Terminal *term, int record)
     f->Set(settings->merchandise_inclusive); f = f->next;
 
     f = f->next;  // skip Canadian Tax label
-	f->Set(settings->tax_GST * 100.0); f = f->next;
-	f->Set(settings->tax_PST * 100.0); f = f->next;
-	f->Set(settings->tax_HST * 100.0); f = f->next;
-	f->Set(settings->tax_QST * 100.0); f = f->next;
+    f->Set(settings->tax_GST * 100.0); f = f->next;
+    f->Set(settings->tax_PST * 100.0); f = f->next;
+    f->Set(settings->tax_HST * 100.0); f = f->next;
+    f->Set(settings->tax_QST * 100.0); f = f->next;
 
     f = f->next;  // skip Euro Tax label
     f->Set(settings->tax_VAT * 100.0); f = f->next;
@@ -787,7 +787,7 @@ int TaxSettingsZone::SaveRecord(Terminal *term, int record, int write_file)
     f->Get(settings->room_inclusive); f = f->next;
     f->Get(settings->tax_merchandise); f = f->next; settings->tax_merchandise *= 0.01;
     f->Get(settings->merchandise_inclusive); f = f->next;
-	
+    
     f = f->next;  // skip Canadian Tax label
     f->Get(settings->tax_GST); f = f->next;         settings->tax_GST *= 0.01;
     f->Get(settings->tax_PST); f = f->next;         settings->tax_PST *= 0.01;
@@ -1388,18 +1388,18 @@ TenderSetZone::TenderSetZone()
 RenderResult TenderSetZone::Render(Terminal *term, int update_flag)
 {
     FnTrace("TenderSetZone::Render()");
-	if (update_flag == RENDER_NEW)
-	{
-		page    = 0;
-		section = 0;
-	}
+    if (update_flag == RENDER_NEW)
+    {
+        page    = 0;
+        section = 0;
+    }
 
-	int col = color[0];
-	ListFormZone::Render(term, update_flag);
-	if (show_list)
-	{
-		switch (section)
-		{
+    int col = color[0];
+    ListFormZone::Render(term, update_flag);
+    if (show_list)
+    {
+        switch (section)
+        {
         default:
             TextC(term, 0, term->Translate("Customer Discounts"), col);
             TextL(term, 2.3, term->Translate("Name"), col);
@@ -1423,12 +1423,12 @@ RenderResult TenderSetZone::Render(Terminal *term, int update_flag)
             TextL(term, 2.3, term->Translate("Name"), col);
             TextR(term, 2.3, term->Translate("Amount"), col);
             break;
-		}
-	}
-	else
-	{
-		switch (section)
-		{
+        }
+    }
+    else
+    {
+        switch (section)
+        {
         default:
             TextC(term, 0, term->Translate("Edit Customer Discount"), col);
             break;
@@ -1444,22 +1444,22 @@ RenderResult TenderSetZone::Render(Terminal *term, int update_flag)
         case 4:
             TextC(term, 0, term->Translate("Edit Employee Discount"), col);
             break;
-		}
-	}
-	return RENDER_OKAY;
+        }
+    }
+    return RENDER_OKAY;
 }
 
 SignalResult TenderSetZone::Signal(Terminal *term, const genericChar* message)
 {
     FnTrace("TenderSetZone::Signal()");
-	static const genericChar* commands[] = {"section", "clearstart",
+    static const genericChar* commands[] = {"section", "clearstart",
                                       "clearend", "clearweekday", NULL};
     SignalResult retval = SIGNAL_OKAY;
     int draw = 1;
 
-	int idx = CompareList(message, commands);
-	switch (idx)
-	{
+    int idx = CompareList(message, commands);
+    switch (idx)
+    {
     case 0:  // section
         SaveRecord(term, record_no, 0);
         display_id = 0;
@@ -1491,7 +1491,7 @@ SignalResult TenderSetZone::Signal(Terminal *term, const genericChar* message)
         retval = ListFormZone::Signal(term, message);
         draw = 0;
         break;
-	}
+    }
 
     if (draw)
         Draw(term, 1);
@@ -1502,17 +1502,17 @@ SignalResult TenderSetZone::Signal(Terminal *term, const genericChar* message)
 int TenderSetZone::LoadRecord(Terminal *term, int record)
 {
     FnTrace("TenderSetZone::LoadRecord()");
-	Settings  *settings = term->GetSettings();
-	FormField *thisForm = FieldList();
+    Settings  *settings = term->GetSettings();
+    FormField *thisForm = FieldList();
 
-	while (thisForm)
-	{
-		thisForm->active = 0;
-		thisForm = thisForm->next;
-	}
+    while (thisForm)
+    {
+        thisForm->active = 0;
+        thisForm = thisForm->next;
+    }
 
-	switch (section)
-	{
+    switch (section)
+    {
     default:  // discounts
     {
         // BAK--> When I create a new record (Discount or whatever) it
@@ -1796,7 +1796,7 @@ int TenderSetZone::LoadRecord(Terminal *term, int record)
         }
         return 0;
     }
-	}
+    }
 }
 
 int TenderSetZone::SaveRecord(Terminal *term, int record, int write_file)
@@ -2388,7 +2388,7 @@ RenderResult TimeSettingsZone::Render(Terminal *term, int update_flag)
     for (i = 0; i <= 24; ++i)
     {
         lx = bx + 8 + (((bw - 16) * i) / 24);
-        term->RenderText(HourName[i], lx, y + border, c, FONT_TIMES_20, ALIGN_CENTER);
+        term->RenderText(HourName[i], lx, y + border, c, FONT_HELV_20, ALIGN_CENTER);
         term->RenderVLine(lx, by + 8, bh - 16, COLOR_BLACK);
     }
 
@@ -2407,7 +2407,7 @@ RenderResult TimeSettingsZone::Render(Terminal *term, int update_flag)
             term->RenderVLine(lx, by + 3, 31, COLOR_DK_BLUE, 3);
             sprintf(str, "%d", i + 1);
             term->RenderText(str, lx, by + (bh / 2) - font_height,
-                             COLOR_DK_BLUE, FONT_TIMES_34, ALIGN_CENTER);
+                             COLOR_DK_BLUE, FONT_HELV_34, ALIGN_CENTER);
         }
     int shift = settings->ShiftNumber(SystemTime);
     if (shift >= 0)
@@ -2425,17 +2425,17 @@ RenderResult TimeSettingsZone::Render(Terminal *term, int update_flag)
             lx = bx + 8 + (((bw - 16) * meal_start[m]) / 1440);
             term->RenderVLine(lx, by + bh - 36, 33, COLOR_DK_GREEN, 3);
             term->RenderText(MealStartName[m], lx + 6, by + bh - 24,
-                             COLOR_DK_GREEN, FONT_TIMES_20);
+                             COLOR_DK_GREEN, FONT_HELV_20);
         }
         ++m;
     }
 
     int meal = settings->MealPeriod(SystemTime);
-	//cout << "meal: " << meal << endl;
+    //cout << "meal: " << meal << endl;
 
     if (meal >= 0)
     {
-		const char* strMealLabel = FindStringByValue(meal, IndexValue, IndexName, UnknownStr);
+        const char* strMealLabel = FindStringByValue(meal, IndexValue, IndexName, UnknownStr);
         sprintf(str, "%s: %s", term->Translate("Current Meal"), term->Translate(strMealLabel));
         TextPosR(term, size_x-10, 8, str, COLOR_DK_GREEN);
     }

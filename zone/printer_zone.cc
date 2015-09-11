@@ -131,18 +131,18 @@ bool TermObj::IsValid(Terminal *t)
 {
     while (t)
     {
-    	if (t == term)
-	    return true;
-	t = t->next;
+        if (t == term)
+        return true;
+    t = t->next;
     }
-    return false;		// no longer in the active list
+    return false;       // no longer in the active list
 }
 
 // Member Functions
 int TermObj::Render(Terminal *t)
 {
     if (!IsValid(t->parent->TermList()))
-    	return 0;		// inactive, skip it
+        return 0;       // inactive, skip it
 
     int color;
     if (selected)
@@ -159,7 +159,7 @@ int TermObj::Render(Terminal *t)
     genericChar str[256];
     strcpy(str, term->name.Value());
     AdjustCase(str);
-    t->RenderZoneText(str, x, y, w, h, color, FONT_TIMES_24B);
+    t->RenderZoneText(str, x, y, w, h, color, FONT_HELV_24B);
     return 0;
 }
 
@@ -235,7 +235,7 @@ int KitchenObj::Render(Terminal *t)
     }
 
     t->RenderButton(x, y, w, h, ZF_RAISED, IMAGE_SAND);
-    t->RenderText(str, x + (w/2), y + 12, color, FONT_TIMES_20B,
+    t->RenderText(str, x + (w/2), y + 12, color, FONT_HELV_20B,
                   ALIGN_CENTER, w - 8);
     terms.Render(t);
     return 0;
@@ -302,7 +302,7 @@ SignalResult SplitKitchenZone::Touch(Terminal *t, int tx, int ty)
 // assign all selected (and still active) terminals to kitchen "no"
 int SplitKitchenZone::MoveTerms(Terminal *t, int no)
 {
-    Terminal *tlist = t->parent->TermList();	// active terminals
+    Terminal *tlist = t->parent->TermList();    // active terminals
     ZoneObject *list = kitchens.List();
     while (list)
     {
@@ -312,9 +312,9 @@ int SplitKitchenZone::MoveTerms(Terminal *t, int no)
             if (zo->selected)
             {
                 zo->selected = 0;
-		TermObj *to = (TermObj *)zo;
-		if (to->IsValid(tlist))
-		    to->term->kitchen = no;
+        TermObj *to = (TermObj *)zo;
+        if (to->IsValid(tlist))
+            to->term->kitchen = no;
             }
             zo = zo->next;
         }

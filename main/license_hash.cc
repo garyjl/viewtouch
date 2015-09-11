@@ -125,9 +125,9 @@ int StringReverse(genericChar* dest)
     
     for(int i=0;i<(dlen/2);i++)
     {
-	genericChar tmp=dest[i];
-	dest[i]=dest[dlen-i-1];
-	dest[dlen-i-1]=tmp;
+    genericChar tmp=dest[i];
+    dest[i]=dest[dlen-i-1];
+    dest[dlen-i-1]=tmp;
     }
     return retval;
 }
@@ -328,7 +328,7 @@ int GetInterfaceInfo(const char* stringbuff, int stringlen)
         ifmsg = (struct if_msghdr *) next;
         if (ifmsg->ifm_type == RTM_IFINFO)
         {
-			sdl = (struct sockaddr_dl *)(ifmsg + 1);
+            sdl = (struct sockaddr_dl *)(ifmsg + 1);
             if ((sdl->sdl_alen > 0) && (sdl->sdl_alen < 256))
             {
                 memcpy(address, LLADDR(sdl), sdl->sdl_alen);
@@ -372,11 +372,11 @@ int MacFromName(unsigned char* mac, const char* name, int sockfd)
     int retval = 1;
     int idx;
     int count = 0;
-	struct ifreq ifr;
+    struct ifreq ifr;
 
-	memset(&ifr,0,sizeof(struct ifreq));
-	strcpy(ifr.ifr_name, name);
-	if (ioctl(sockfd, SIOCGIFHWADDR, &ifr) == 0)
+    memset(&ifr,0,sizeof(struct ifreq));
+    strcpy(ifr.ifr_name, name);
+    if (ioctl(sockfd, SIOCGIFHWADDR, &ifr) == 0)
     {
         // I think there's supposed to be an sa_len field indicating
         // how long the hardware address is.  But there's not.  And I'm not
@@ -394,7 +394,7 @@ int MacFromName(unsigned char* mac, const char* name, int sockfd)
         perror("ioctl MacFromName SIOCGIFHWADDR");
     }
 
-	return retval;
+    return retval;
 }
 
 int ListAddresses( )

@@ -52,27 +52,27 @@ enum page_id {
  * structure, add them at the top and update the initial
  * value
  *************************************************************/ 
-	PAGEID_MANAGER = -10,
-	PAGEID_ITEM_TARGET,
-	PAGEID_BAR_SETTLE,
-	PAGEID_LOGOUT,
-	PAGEID_GUESTCOUNT2,
-	PAGEID_GUESTCOUNT, 
-	PAGEID_TABLE2,
-	PAGEID_TABLE,
-	PAGEID_LOGIN2,
-	PAGEID_LOGIN 
+    PAGEID_MANAGER = -10,
+    PAGEID_ITEM_TARGET,
+    PAGEID_BAR_SETTLE,
+    PAGEID_LOGOUT,
+    PAGEID_GUESTCOUNT2,
+    PAGEID_GUESTCOUNT, 
+    PAGEID_TABLE2,
+    PAGEID_TABLE,
+    PAGEID_LOGIN2,
+    PAGEID_LOGIN 
 };
 
-enum jump_tags {	
-	JUMP_NONE, 			// Don't jump
-	JUMP_NORMAL, 		// Jump to page, push current page onto stack
-	JUMP_STEALTH, 	    // Jump to page (don't put current page on stack)
-	JUMP_RETURN,		// Pop page off stack, jump to it
-	JUMP_HOME, 			// Jump to employee home page
-	JUMP_SCRIPT, 		// Jump to next page in script
-	JUMP_INDEX, 		// Jump to current page's index
-	JUMP_PASSWORD 	    // Like JUMP_NORMAL but password must be entered
+enum jump_tags {    
+    JUMP_NONE,          // Don't jump
+    JUMP_NORMAL,        // Jump to page, push current page onto stack
+    JUMP_STEALTH,       // Jump to page (don't put current page on stack)
+    JUMP_RETURN,        // Pop page off stack, jump to it
+    JUMP_HOME,          // Jump to employee home page
+    JUMP_SCRIPT,        // Jump to next page in script
+    JUMP_INDEX,         // Jump to current page's index
+    JUMP_PASSWORD       // Like JUMP_NORMAL but password must be entered
 };
 
 // Other
@@ -82,11 +82,11 @@ enum jump_tags {
 
 // Terminal Types
 enum term_types {
-	TERMINAL_ORDER_ONLY,    // can order but no settling at this term
-	TERMINAL_NORMAL,        // normal operation
-	TERMINAL_BAR,           // alternate menu index, pay & settle at once
-	TERMINAL_BAR2,          // bar with all local work orders
-	TERMINAL_FASTFOOD,      // no table view, pay & settle at once
+    TERMINAL_ORDER_ONLY,    // can order but no settling at this term
+    TERMINAL_NORMAL,        // normal operation
+    TERMINAL_BAR,           // alternate menu index, pay & settle at once
+    TERMINAL_BAR2,          // bar with all local work orders
+    TERMINAL_FASTFOOD,      // no table view, pay & settle at once
     TERMINAL_KITCHEN_VIDEO, // display of several checks on one page for cooks
     TERMINAL_KITCHEN_VIDEO2 // secondary check display page (e.g. one for pizza, one for other)
 };
@@ -148,28 +148,28 @@ enum term_types {
 #define COLOR_UNCHANGED    252  // don't change value (or treat as default)
 
 enum colors { 
-	COLOR_BLACK, COLOR_WHITE, COLOR_RED, COLOR_GREEN,
-	COLOR_BLUE, COLOR_YELLOW, COLOR_BROWN, COLOR_ORANGE,
-	COLOR_PURPLE, COLOR_TEAL, COLOR_GRAY, COLOR_MAGENTA,
-	COLOR_REDORANGE, COLOR_SEAGREEN, COLOR_LT_BLUE, COLOR_DK_RED,
-	COLOR_DK_GREEN, COLOR_DK_BLUE, COLOR_DK_TEAL, COLOR_DK_MAGENTA,
-	COLOR_DK_SEAGREEN
+    COLOR_BLACK, COLOR_WHITE, COLOR_RED, COLOR_GREEN,
+    COLOR_BLUE, COLOR_YELLOW, COLOR_BROWN, COLOR_ORANGE,
+    COLOR_PURPLE, COLOR_TEAL, COLOR_GRAY, COLOR_MAGENTA,
+    COLOR_REDORANGE, COLOR_SEAGREEN, COLOR_LT_BLUE, COLOR_DK_RED,
+    COLOR_DK_GREEN, COLOR_DK_BLUE, COLOR_DK_TEAL, COLOR_DK_MAGENTA,
+    COLOR_DK_SEAGREEN
 };
 
 // Text Alignment
 enum text_align {
-	ALIGN_LEFT,
-	ALIGN_CENTER,
-	ALIGN_RIGHT
+    ALIGN_LEFT,
+    ALIGN_CENTER,
+    ALIGN_RIGHT
 };
 
 // Shape Types
 enum shapes {
-	SHAPE_RECTANGLE = 1,
-	SHAPE_DIAMOND,
-	SHAPE_CIRCLE,
-	SHAPE_HEXAGON,
-	SHAPE_OCTAGON
+    SHAPE_RECTANGLE = 1,
+    SHAPE_DIAMOND,
+    SHAPE_CIRCLE,
+    SHAPE_HEXAGON,
+    SHAPE_OCTAGON
 };
 
 // Frame Properties
@@ -180,20 +180,20 @@ enum shapes {
 
 // Fonts
 enum font_info {
-	FONT_DEFAULT     ,
-	FONT_FIXED_14    ,
-	FONT_FIXED_20    ,
-	FONT_FIXED_24    ,
-	FONT_TIMES_20    ,
-	FONT_TIMES_24    ,
-	FONT_TIMES_34    ,
-	FONT_TIMES_20B   ,
-	FONT_TIMES_24B   ,
-	FONT_TIMES_34B   ,
-	FONT_TIMES_14    ,
-	FONT_TIMES_14B   ,
-	FONT_TIMES_18    ,
-	FONT_TIMES_18B   ,
+    FONT_DEFAULT     ,
+    FONT_FIXED_14    ,
+    FONT_FIXED_20    ,
+    FONT_FIXED_24    ,
+    FONT_HELV_20    ,
+    FONT_HELV_24    ,
+    FONT_HELV_34    ,
+    FONT_HELV_20B   ,
+    FONT_HELV_24B   ,
+    FONT_HELV_34B   ,
+    FONT_HELV_14    ,
+    FONT_HELV_14B   ,
+    FONT_HELV_18    ,
+    FONT_HELV_18B   ,
     FONT_COURIER_18  ,
     FONT_COURIER_18B ,
     FONT_COURIER_20  ,
@@ -251,10 +251,10 @@ enum font_info {
 
 // Cursor Types
 enum cursors_style {
-	CURSOR_DEFAULT,
-	CURSOR_BLANK,
-	CURSOR_POINTER,
-	CURSOR_WAIT
+    CURSOR_DEFAULT,
+    CURSOR_BLANK,
+    CURSOR_POINTER,
+    CURSOR_WAIT
 };
 
 
@@ -286,7 +286,7 @@ private:
     int page_stack_size;                 // size of page_stack
     DList<Terminal> clone_list;
     SList<Str>     term_id_list;  // for CreditCheq Batch Settle
-	 
+     
     // Constructor
     Terminal();
     int CC_TermIDIsDupe(const char* termid);
@@ -307,8 +307,8 @@ public:
     int       sortorder;      // kitchen video sort order; newest to oldest, et al
     Str       printer_host;   // location of receipt printer
     int       printer_port;   // connection type of printer
-    int	      print_workorder; // okay to print work order on kitchen/bar printer?
-    int	      workorder_heading; // 0=normal, 1=simple kitchen display mode
+    int       print_workorder; // okay to print work order on kitchen/bar printer?
+    int       workorder_heading; // 0=normal, 1=simple kitchen display mode
     CustDispUnit *cdu;        // the CDU object
     TimeInfo  last_input;     // time of last user input
     TimeInfo  time_out;       // time of last user input or timeout
@@ -460,7 +460,7 @@ public:
     int CloseTab(int serial_number = -1);
     int OpenTabList(const char* message);
 
-	// Message handling
+    // Message handling
     SignalResult Signal(const char* message, int group_id); // Send message to terminal
     SignalResult Touch(int x, int y);                 // Send touch to terminal
     SignalResult Mouse(int action, int x, int y);     // Send mouse to terminal

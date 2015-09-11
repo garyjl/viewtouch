@@ -920,7 +920,7 @@ int OpenSession()
         }
         FreeHostEnt(hp);
     } else {
-    	printf("CantFindLicenseServerDNS\n");
+        printf("CantFindLicenseServerDNS\n");
     }
     
     printf("OpenSession retval(%d)",retval);
@@ -1186,19 +1186,19 @@ int CheckLicense(LicenseData *licensedat)
 #ifdef DEBUG
     // if the "skip" file *does* exist, abort
     if (stat(LICENSE_SKIP, &sb) == 0) {
-    	printf("Skipping License Check\n");
+        printf("Skipping License Check\n");
         return 0;
     }
 #endif
 #ifdef NODRM
-	return 0;
+    return 0;
 #endif
 
     // open a socket to the web server (send headers here?)
     sockfd = OpenSession();
     if (sockfd > 0)
     {  // if open socket
-    	//printf("Socket Open\n");
+        //printf("Socket Open\n");
         GetMachineDigest(digest, STRLONG);
         
         SendData(sockfd, digest);

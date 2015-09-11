@@ -246,11 +246,11 @@ public:
     int total_tax_room;    // total room tax based on total sales
     int total_tax_merchandise;
 
-	// Explicit Fix for Canada implementation
-	int total_tax_GST;
-	int total_tax_PST;
-	int total_tax_HST;
-	int total_tax_QST;     
+    // Explicit Fix for Canada implementation
+    int total_tax_GST;
+    int total_tax_PST;
+    int total_tax_HST;
+    int total_tax_QST;     
     int new_QST_method;
     int total_tax_VAT;
 
@@ -277,7 +277,7 @@ public:
 
     int TotalTax()
     {
-		int allTaxes = 0;
+        int allTaxes = 0;
 
         allTaxes = (total_tax_alcohol + 
                     total_tax_food + 
@@ -289,7 +289,7 @@ public:
                     total_tax_QST +
                     total_tax_VAT);
 
-		return allTaxes;
+        return allTaxes;
     }
 
     SubCheck *Copy(Settings *settings);  // Creates a subcheck copy

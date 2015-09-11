@@ -157,8 +157,8 @@ namespace confmap
         V_GST = 0, V_PST, V_HST, V_QST, V_ROYALTY_RATE, V_ADVERTISE_FUND,
         V_DAILY_CERT_FEE, V_DEBIT_COST, V_CREDIT_RATE, V_CREDIT_COST,
         V_LINE_ITEM_COST, V_TAX_TAKEOUT_FOOD, V_PERSONALIZE_FAST_FOOD,
-	V_FOOD_INCLUSIVE, V_ALCOHOL_INCLUSIVE, V_MERCHANDISE_INCLUSIVE, 
-	V_ROOM_INCLUSIVE
+    V_FOOD_INCLUSIVE, V_ALCOHOL_INCLUSIVE, V_MERCHANDISE_INCLUSIVE, 
+    V_ROOM_INCLUSIVE
     };
 
     enum section_titles
@@ -171,8 +171,8 @@ namespace confmap
         "GST", "PST", "HST", "QST", "royalty_rate", "advertise_fund",
         "daily_cert_fee", "debit_cost", "credit_rate", "credit_cost",
         "line_item_cost", "tax_takeout_food", "personalize_fast_food",
-	"food_inclusive", "alcohol_inclusive", "merchandise_inclusive",
-	"room_inclusive"
+    "food_inclusive", "alcohol_inclusive", "merchandise_inclusive",
+    "room_inclusive"
     };
 
     const char* sects[] =
@@ -937,9 +937,9 @@ int TermInfo::Read(InputDataFile &df, int version)
         error += df.Read(cc_debit_termid);
     }
     if (version >= 92)
-    	error += df.Read(print_workorder);
+        error += df.Read(print_workorder);
     if (version >= 93)
-    	error += df.Read(workorder_heading);
+        error += df.Read(workorder_heading);
 
     // dpulse is used when there are two drawers attached to one
     // printer, and two terminals printing to that printer.  AKA,
@@ -1135,7 +1135,7 @@ int PrinterInfo::OpenPrinter(Control *control_db, int update)
     {
         p->SetType(type);
         p->SetKitchenMode(kitchen_mode);
-	p->order_margin = order_margin;
+    p->order_margin = order_margin;
         if (update)
             control_db->UpdateAll(UPDATE_PRINTERS, NULL);
     }
@@ -1305,14 +1305,14 @@ Settings::Settings()
     tax_alcohol             = 0.0;
     tax_room                = 0.0;
     tax_merchandise         = 0.0;
-    tax_GST 				= 0.0; // Explicit Fix for Canadian Implementation
-    tax_PST 				= 0.0; // Explicit Fix for Canadian Implementation
-    tax_HST 				= 0.0; // Explicit Fix for Canadian Implementation
-    tax_QST 				= 0.0; // Explicit Fix for Canadian Implementation
+    tax_GST                 = 0.0; // Explicit Fix for Canadian Implementation
+    tax_PST                 = 0.0; // Explicit Fix for Canadian Implementation
+    tax_HST                 = 0.0; // Explicit Fix for Canadian Implementation
+    tax_QST                 = 0.0; // Explicit Fix for Canadian Implementation
     tax_VAT                 = 0.0;
-    food_inclusive 	    = 0;
-    room_inclusive 	    = 0;
-    alcohol_inclusive 	    = 0;
+    food_inclusive      = 0;
+    room_inclusive      = 0;
+    alcohol_inclusive       = 0;
     merchandise_inclusive   = 0;
     
     // FastFood Settings
@@ -2041,13 +2041,13 @@ int Settings::Load(const char* file)
         ConfFile conf(CONFIG_TAX_FILE, true);
         Flt conf_tmp;
         if (conf.GetValue(conf_tmp, vars[V_FOOD_INCLUSIVE], sects[S_MISC]))
-	    food_inclusive = conf_tmp;
+        food_inclusive = conf_tmp;
         if (conf.GetValue(conf_tmp, vars[V_ROOM_INCLUSIVE], sects[S_MISC]))
-	    room_inclusive = conf_tmp;
+        room_inclusive = conf_tmp;
         if (conf.GetValue(conf_tmp, vars[V_ALCOHOL_INCLUSIVE], sects[S_MISC]))
-	    alcohol_inclusive = conf_tmp;
+        alcohol_inclusive = conf_tmp;
         if (conf.GetValue(conf_tmp, vars[V_MERCHANDISE_INCLUSIVE], sects[S_MISC]))
-	    merchandise_inclusive = conf_tmp;
+        merchandise_inclusive = conf_tmp;
 
         if (conf.GetValue(conf_tmp, vars[V_GST], sects[S_SALES_TAX_CANADA]))
             tax_GST = conf_tmp;
@@ -3190,19 +3190,19 @@ int Settings::SalesPeriod(TimeInfo &ref, TimeInfo &start, TimeInfo &end)
         start = timevar;
         start.Day(sales_start.Day());
         if (start.Day() <= 11) {
-        	start.Day(11);
-        	end = start;
-        	end.AdjustDays(14);
+            start.Day(11);
+            end = start;
+            end.AdjustDays(14);
         } else if (start.Day() < 26) {
-        	start.Day(26);
-	        end = start;
-	        end.AdjustMonths(1);
-	        end.Day(10);
+            start.Day(26);
+            end = start;
+            end.AdjustMonths(1);
+            end.Day(10);
         } else {
-        	start.Day(11);
-        	start.AdjustMonths(1);
-    	    end = start;
-        	end.AdjustDays(14);
+            start.Day(11);
+            start.AdjustMonths(1);
+            end = start;
+            end.AdjustDays(14);
         }
 //    printf("Settings::SalesPeriod(): ref=%d/%d/%d : start=%d/%d/%d : end=%d/%d/%d\n",
 //    ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year()); 
@@ -3268,20 +3268,20 @@ int Settings::LaborPeriod(TimeInfo &ref, TimeInfo &start, TimeInfo &end)
         start = timevar;
         end = timevar;
         if (start.Day() < 11) {
-        	start.Day(26);
-        	start.AdjustMonths(-1);
-//        	end.Day(10);
-        	end.Day(11);
+            start.Day(26);
+            start.AdjustMonths(-1);
+//          end.Day(10);
+            end.Day(11);
         } else if (start.Day() < 26) {
-        	start.Day(11);
-    	    end = start;
-//    	    end.AdjustDays(14);
-    	    end.AdjustDays(15);
+            start.Day(11);
+            end = start;
+//          end.AdjustDays(14);
+            end.AdjustDays(15);
         } else {
-        	start.Day(26);
-//        	end.Day(10);
-        	end.Day(11);
-        	end.AdjustMonths(1);
+            start.Day(26);
+//          end.Day(10);
+            end.Day(11);
+            end.AdjustMonths(1);
         }
     //printf("Settings::LaborPeriod(SP_HM_11): ref=%d/%d/%d\nstart=%d/%d/%d\nend=%d/%d/%d\n",
     //ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year());
@@ -3361,20 +3361,20 @@ int Settings::SetPeriod(TimeInfo &ref, TimeInfo &start, TimeInfo &end,
         case SP_HM_11:
 //    printf("Settings::SetPeriod(): in top ref=%d/%d/%d : end=%d/%d/%d\n",
 //    ref.Month(), ref.Day(), ref.Year(), end.Month(), end.Day(), end.Year()); 
-			end.AdjustDays(1);
-			if (end >= ref) {
-				if (ref.Day() <= 10) {
-//  										  printf("Settings::SetPeriod(): setting day to 10\n");
-					end.Day(10);
-				} else if (ref.Day() <= 25) {
-		        	end.Day(25);
-//    										printf("Settings::SetPeriod(): setting day to 25\n");
-        		} else {
-        			end.AdjustMonths(1);
-	        		end.Day(10);
-//    										printf("Settings::SetPeriod(): skipping to 10th of next month\n");
-				}
-			}
+            end.AdjustDays(1);
+            if (end >= ref) {
+                if (ref.Day() <= 10) {
+//                                            printf("Settings::SetPeriod(): setting day to 10\n");
+                    end.Day(10);
+                } else if (ref.Day() <= 25) {
+                    end.Day(25);
+//                                          printf("Settings::SetPeriod(): setting day to 25\n");
+                } else {
+                    end.AdjustMonths(1);
+                    end.Day(10);
+//                                          printf("Settings::SetPeriod(): skipping to 10th of next month\n");
+                }
+            }
             break;
         case SP_4WEEKS:
             end.AdjustDays(28);
@@ -3413,11 +3413,11 @@ int Settings::SetPeriod(TimeInfo &ref, TimeInfo &start, TimeInfo &end,
     // end.Day() should either be 10 or 26, so we need to set start to be
     // the most previous 11 or 25.
         if (end.Day() == 10) {
-        	start.Day(26);
-        	start.AdjustMonths(-1);
-//        	start.AdjustDays(-1*((DaysInMonth(start.Month()-1, start.Year()) - 26) +10));
-	    } else {
-	        start.AdjustDays(-14);
+            start.Day(26);
+            start.AdjustMonths(-1);
+//          start.AdjustDays(-1*((DaysInMonth(start.Month()-1, start.Year()) - 26) +10));
+        } else {
+            start.AdjustDays(-14);
         }
         // ref = end;
         ref = start;
@@ -3525,13 +3525,13 @@ int Settings::FigurePST(int amount, TimeInfo &timevar, bool isBeverage, Flt tax)
 {
     FnTrace("Settings::FigurePST()");
     Flt tax_amount = (tax >= 0) ? tax : tax_PST;
-	int total_tax = 0;
+    int total_tax = 0;
 
-	if ((Flt)amount > 399 || isBeverage == true)
+    if ((Flt)amount > 399 || isBeverage == true)
     {
-		Flt f = (Flt) amount * tax_amount;
-		total_tax = (int) (f + .999999);  // round up
- 	}
+        Flt f = (Flt) amount * tax_amount;
+        total_tax = (int) (f + .999999);  // round up
+    }
 
     return total_tax;
 }
@@ -3552,7 +3552,7 @@ int Settings::FigureQST(int amount, int gst, TimeInfo &timevar, bool isBeverage,
 {
     FnTrace("Settings::FigureQST()");
     Flt tax_amount = (tax >= 0) ? tax : tax_QST;
-	int totalTax = 0;
+    int totalTax = 0;
 
     Flt f = (Flt) (amount + gst) * tax_amount;
     totalTax = (int) (f + .999999);  // round up

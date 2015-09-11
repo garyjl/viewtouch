@@ -74,7 +74,7 @@ LaborZone::~LaborZone()
 // Member Functions
 RenderResult LaborZone::Render(Terminal *term, int update_flag)
 {
-	//printf("LaborZone::Render  update_flag=%d; period=%d RENDER_NEW=%d\n",update_flag, period, RENDER_NEW);
+    //printf("LaborZone::Render  update_flag=%d; period=%d RENDER_NEW=%d\n",update_flag, period, RENDER_NEW);
     FnTrace("LaborZone::Render()");
     System *sys = term->system_data;
     if (update_flag || period == NULL)
@@ -114,7 +114,7 @@ RenderResult LaborZone::Render(Terminal *term, int update_flag)
     }
     else {
         sys->settings.LaborPeriod(ref, start, end);
-       	//printf("Render after settings:LaborPeriod: ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
+        //printf("Render after settings:LaborPeriod: ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
     }
 
     if (report == NULL && period)
@@ -260,7 +260,7 @@ SignalResult LaborZone::Signal(Terminal *term, const genericChar* message)
         term->Update(UPDATE_SERVER, NULL);
         return SIGNAL_OKAY;
     case 6:  // next
-      	//printf("\n\nlabor_zone -> next(): ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
+        //printf("\n\nlabor_zone -> next(): ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
         if (day_view)
         {
             if (term->archive == NULL)
@@ -268,18 +268,18 @@ SignalResult LaborZone::Signal(Terminal *term, const genericChar* message)
             term->archive = term->archive->next;
             term->Update(UPDATE_ARCHIVE, NULL);
         } else {
-        	ref = end;
-         	//printf("labor_zone->next prior to AdjustPeriod ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
+            ref = end;
+            //printf("labor_zone->next prior to AdjustPeriod ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
             AdjustPeriod(ref, s->labor_period, 1);
-         	//printf("AfterAdjustPeriod: ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
+            //printf("AfterAdjustPeriod: ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
             s->SetPeriod(ref, start, end, s->labor_period, 0);
-         	//printf("AfterSetPeriod: ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
+            //printf("AfterSetPeriod: ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
             Draw(term, 1);
         }
         return SIGNAL_OKAY;
         break;
     case 7:  // prior
-      	//printf("\n\nlabor_zone -> prior(): ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
+        //printf("\n\nlabor_zone -> prior(): ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
         if (day_view)
         {
             if (term->archive == NULL)
@@ -290,14 +290,14 @@ SignalResult LaborZone::Signal(Terminal *term, const genericChar* message)
                 return SIGNAL_IGNORED;
             term->Update(UPDATE_ARCHIVE, NULL);
         } else {
-        	ref = start;
-        	//printf("labor_zone->prior before Adjust ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
+            ref = start;
+            //printf("labor_zone->prior before Adjust ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
             AdjustPeriod(ref, s->labor_period, -1);
-        	//printf("labor_zone->prior after Adjust ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
+            //printf("labor_zone->prior after Adjust ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
             s->SetPeriod(ref, start, end, s->labor_period, 0);
-        	//printf("labor_zone->prior after SetPeriod ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
+            //printf("labor_zone->prior after SetPeriod ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
             Draw(term, 1);
-        	//printf("Drawing Term ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
+            //printf("Drawing Term ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
         }
         return SIGNAL_OKAY;
         break;
@@ -308,7 +308,7 @@ SignalResult LaborZone::Signal(Terminal *term, const genericChar* message)
         break;
     case 9: // day
         //printf("labor_zone -> day()\n");
-//        	printf("ref=%d/%d/%d : end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
+//          printf("ref=%d/%d/%d : end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
         ref = SystemTime;
         day_view = 1 - day_view;
         Draw(term, 1);
@@ -316,7 +316,7 @@ SignalResult LaborZone::Signal(Terminal *term, const genericChar* message)
         break;
     case 10: // period
         //printf("labor_zone -> period()\n");
-        	//printf("ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
+            //printf("ref=%d/%d/%d : start=%d/%d/%d: end=%d/%d/%d : System=%d/%d/%d\n", ref.Month(), ref.Day(), ref.Year(), start.Month(), start.Day(), start.Year(), end.Month(), end.Day(), end.Year(), SystemTime.Month(), SystemTime.Day(), SystemTime.Year());
         ref = SystemTime;
         day_view = 1 - day_view;
         Draw(term, 1);
@@ -608,7 +608,7 @@ RenderResult ScheduleZone::Render(Terminal *term, int update_flag)
         term->RenderVLine(cx, y + border + font_height, h - border*2 - font_height,
                        COLOR_BLACK);
         term->RenderText(HourName[hour], cx, y + border, COLOR_BLACK,
-                      FONT_TIMES_20, ALIGN_CENTER);
+                      FONT_HELV_20, ALIGN_CENTER);
         ++hour;
         if (hour >= 24)
             hour = 0;
@@ -621,7 +621,7 @@ RenderResult ScheduleZone::Render(Terminal *term, int update_flag)
         {
             cy = top_margin + y + ((ch * no) / users) + (ch / (users *2));
             term->RenderText(employee->system_name.Value(), x + border*2, cy,
-                          color[0], FONT_TIMES_20);
+                          color[0], FONT_HELV_20);
             ++no;
         }
     }

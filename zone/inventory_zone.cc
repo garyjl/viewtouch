@@ -177,10 +177,10 @@ RenderResult ProductZone::Render(Terminal *t, int update_flag)
 
 SignalResult ProductZone::Signal(Terminal *term, const genericChar* message)
 {
-	FnTrace("ProductZone::Signal()");
-	static const genericChar* commands[] = {
-		"count", "increase", "decrease", "cancel", "save",
-		"input", "next stock", "prior stock", "check", "print", NULL};
+    FnTrace("ProductZone::Signal()");
+    static const genericChar* commands[] = {
+        "count", "increase", "decrease", "cancel", "save",
+        "input", "next stock", "prior stock", "check", "print", NULL};
 
     int idx = -1;
     if (StringCompare(message, "amount ", 7) == 0)
@@ -520,12 +520,12 @@ int RC_Part::Render(Terminal *t)
     int font, yy;
     if (h > 35)
     {
-        font = FONT_TIMES_24;
+        font = FONT_HELV_24;
         yy   = y + ((h - 25) / 2);
     }
     else
     {
-        font = FONT_TIMES_20;
+        font = FONT_HELV_20;
         yy   = y + ((h - 20) / 2);
     }
 
@@ -1249,12 +1249,12 @@ int ItemListZone::SaveRecord(Terminal *t, int record, int write_file)
         f->Get(si->call_center_name); f = f->next;
         f->Get(si->item_code); f = f->next;
         f->Get(tmp); si->type = tmp; f = f->next;
-	
-	/*f->Get(si->location); f=f->next;
-	f->Get(si->event_time); f=f->next;
-	f->Get(si->total_tickets); f=f->next;
-	f->Get(si->available_tickets); f=f->next;
-	f->Get(si->price_label); f=f->next;*/
+    
+    /*f->Get(si->location); f=f->next;
+    f->Get(si->event_time); f=f->next;
+    f->Get(si->total_tickets); f=f->next;
+    f->Get(si->available_tickets); f=f->next;
+    f->Get(si->price_label); f=f->next;*/
         f->GetPrice(si->cost); f = f->next;
         f->GetPrice(si->sub_cost); f = f->next;
         f->GetPrice(si->employee_cost); f = f->next;     
@@ -1340,8 +1340,8 @@ int ItemListZone::ListReport(Terminal *t, Report *r)
             my_color = COLOR_DK_GREEN;
         else if (si->type == ITEM_SUBSTITUTE)
             my_color = COLOR_DK_RED;
-	Str name;
-	admission_parse_hash_name(name,si->item_name);
+    Str name;
+    admission_parse_hash_name(name,si->item_name);
         r->TextL(name.Value(), my_color);
         r->TextR(t->FormatPrice(si->cost), my_color);
         r->NewLine();

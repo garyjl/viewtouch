@@ -182,7 +182,7 @@ SignalResult MessageButtonZone::Signal(Terminal *term, const char* signal_msg)
     SignalResult sig = SIGNAL_OKAY;
     const char* command_list[] = {
         "sendandjump", 
-	"starttakeout", "pickup", "quicktogo", "quickdinein", NULL};
+    "starttakeout", "pickup", "quicktogo", "quickdinein", NULL};
 
     Settings *settings = term->GetSettings();
     int idx = CompareListN(command_list, signal_msg);
@@ -193,24 +193,24 @@ SignalResult MessageButtonZone::Signal(Terminal *term, const char* signal_msg)
         sig = SendandJump(term);
         break;
     case 1: // starttakeout
-	if (term->QuickMode(CHECK_TAKEOUT))
-	    return SIGNAL_IGNORED;
-	term->Jump(JUMP_STEALTH, -8);
+    if (term->QuickMode(CHECK_TAKEOUT))
+        return SIGNAL_IGNORED;
+    term->Jump(JUMP_STEALTH, -8);
         break;
     case 2:  // pickup/delivery
-	if (term->QuickMode(CHECK_CALLIN))
-	    return SIGNAL_IGNORED;
-	term->Jump(JUMP_STEALTH, -8);
+    if (term->QuickMode(CHECK_CALLIN))
+        return SIGNAL_IGNORED;
+    term->Jump(JUMP_STEALTH, -8);
         break;
     case 3:  // quick to-go
-    	if (term->QuickMode(CHECK_TOGO))
-	    return SIGNAL_IGNORED;
-	term->JumpToIndex(IndexValue[settings->MealPeriod(SystemTime)]);
+        if (term->QuickMode(CHECK_TOGO))
+        return SIGNAL_IGNORED;
+    term->JumpToIndex(IndexValue[settings->MealPeriod(SystemTime)]);
         break;
     case 4:  // quick dine-in
-    	if (term->QuickMode(CHECK_DINEIN))
-	    return SIGNAL_IGNORED;
-	term->JumpToIndex(IndexValue[settings->MealPeriod(SystemTime)]);
+        if (term->QuickMode(CHECK_DINEIN))
+        return SIGNAL_IGNORED;
+    term->JumpToIndex(IndexValue[settings->MealPeriod(SystemTime)]);
         break;
     default:
         sig = SIGNAL_IGNORED;

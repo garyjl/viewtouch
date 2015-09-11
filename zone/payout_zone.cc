@@ -433,7 +433,7 @@ SignalResult EndDayZone::Signal(Terminal *term, const genericChar* message)
             
             if (d != NULL)
             {
-                d->font = FONT_TIMES_24B;
+                d->font = FONT_HELV_24B;
                 d->color[0] = COLOR_RED;
                 d->force_width = 640;
                 d->Button("Okay");

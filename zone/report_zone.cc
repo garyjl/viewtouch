@@ -119,7 +119,7 @@ RenderResult ReportZone::Render(Terminal *term, int update_flag)
 
         if (update_flag == RENDER_NEW)
         {  // set relevant variables to default values
- //   		printf("ReportZone::Render() update_flag == RENDER_NEW\n");
+ //         printf("ReportZone::Render() update_flag == RENDER_NEW\n");
             day_start.Clear();
             day_end.Clear();
             ref  = SystemTime;
@@ -136,7 +136,7 @@ RenderResult ReportZone::Render(Terminal *term, int update_flag)
             period_view = s->default_report_period;
             if (report_type == REPORT_SALES)
             {
-//	    		printf("ReportZone::Render() repoort_type == REPORT_SALES\n");
+//              printf("ReportZone::Render() repoort_type == REPORT_SALES\n");
                 period_view = SP_DAY;
 //                period_view = s->sales_period;
                 period_fiscal = &s->sales_start;
@@ -145,7 +145,7 @@ RenderResult ReportZone::Render(Terminal *term, int update_flag)
             else if (report_type == REPORT_BALANCE &&
                      s->report_start_midnight == 0)
             {
-//	    		printf("ReportZone::Render() report_type == REPORT_BALANCE\n");
+//              printf("ReportZone::Render() report_type == REPORT_BALANCE\n");
                 period_view = SP_DAY;
                 period_fiscal = &s->sales_start;
             }
@@ -579,50 +579,50 @@ int AdjustPeriod(TimeInfo &ref, int period, int adjust)
         ref.AdjustMonths(1 * adjust);
         break;
     case SP_HALF_MONTH:
-    	if ( -1 == adjust ) {
-    		if (15 == ref.Day()) {
-    			ref.Day(1);
-    		} else {
-    			ref.Day(15);
-		        ref.AdjustMonths(1 * adjust);
-    		}
-    	} else {
-    		if (15 == ref.Day()) {
-    			ref.Day(1);
-		        ref.AdjustMonths(1 * adjust);
-    		} else {
-    			ref.Day(15);
-    		}
-    	}    		
+        if ( -1 == adjust ) {
+            if (15 == ref.Day()) {
+                ref.Day(1);
+            } else {
+                ref.Day(15);
+                ref.AdjustMonths(1 * adjust);
+            }
+        } else {
+            if (15 == ref.Day()) {
+                ref.Day(1);
+                ref.AdjustMonths(1 * adjust);
+            } else {
+                ref.Day(15);
+            }
+        }           
         break;
     case SP_HM_11:
-    	if ( -1 == adjust ) {
-//  								  printf("AdjustPeriod(): ref=%d/%d/%d : adjust = %d\n", ref.Month(), ref.Day(), ref.Year(), adjust);
-    		if (ref.Day() > 26) {
-//   									 printf("AdjustPeriod(): setting day to 26\n");
-    			ref.Day(26);
-    		} else if (ref.Day() > 11) {
-// 										   printf("AdjustPeriod(): setting day to 11\n");
-    			ref.Day(11);
-    		} else {
-//   										 printf("AdjustPeriod(): setting day to 26 of last month\n");
-    			ref.Day(26);
-		        ref.AdjustMonths(adjust);
-    		}
-    	} else {
-//  										  printf("AdjustPeriod(): ref=%d/%d/%d : adjust = %d\n", ref.Month(), ref.Day(), ref.Year(), adjust);
-    		if (ref.Day() < 11) {
-// 										   printf("AdjustPeriod(): setting day to 11\n");
-    			ref.Day(11);
-    		} else if (ref.Day() < 26) {
-//  												  printf("AdjustPeriod(): setting day to 26\n");
-	   			ref.Day(26);
-    		} else {
-//  														  printf("AdjustPeriod(): setting day to 11 of next month\n");
-    			ref.Day(11);
-		        ref.AdjustMonths(adjust);
-    		}
-    	}    		
+        if ( -1 == adjust ) {
+//                                    printf("AdjustPeriod(): ref=%d/%d/%d : adjust = %d\n", ref.Month(), ref.Day(), ref.Year(), adjust);
+            if (ref.Day() > 26) {
+//                                       printf("AdjustPeriod(): setting day to 26\n");
+                ref.Day(26);
+            } else if (ref.Day() > 11) {
+//                                         printf("AdjustPeriod(): setting day to 11\n");
+                ref.Day(11);
+            } else {
+//                                           printf("AdjustPeriod(): setting day to 26 of last month\n");
+                ref.Day(26);
+                ref.AdjustMonths(adjust);
+            }
+        } else {
+//                                            printf("AdjustPeriod(): ref=%d/%d/%d : adjust = %d\n", ref.Month(), ref.Day(), ref.Year(), adjust);
+            if (ref.Day() < 11) {
+//                                         printf("AdjustPeriod(): setting day to 11\n");
+                ref.Day(11);
+            } else if (ref.Day() < 26) {
+//                                                    printf("AdjustPeriod(): setting day to 26\n");
+                ref.Day(26);
+            } else {
+//                                                            printf("AdjustPeriod(): setting day to 11 of next month\n");
+                ref.Day(11);
+                ref.AdjustMonths(adjust);
+            }
+        }           
         break;
     case SP_QUARTER:
         ref.AdjustMonths(3 * adjust);
@@ -647,7 +647,7 @@ SignalResult ReportZone::Signal(Terminal *t, const genericChar* message)
         "ccdetailsdone", "ccrefund", "ccvoids", "ccrefunds",
         "ccexceptions", "ccfinish", "ccfinish2 ", "ccfinish3 ",
         "ccprocessed", "ccrefundamount ", "ccvoidttid ", 
-	"zero captured tips", "bump", NULL};
+    "zero captured tips", "bump", NULL};
 
     Employee         *e = t->user;
     System           *sys = t->system_data;
@@ -679,28 +679,28 @@ SignalResult ReportZone::Signal(Terminal *t, const genericChar* message)
                 break;
             }
         }
-	else if (t->page && t->page->IsKitchen() && t->page->ZoneList()) 
-	{
-	    // highlight next report zone with a check
-	    Zone *zcur = t->active_zone;
-	    Zone *z = zcur;
-	    while (1)
-	    {
-	    	if (z == NULL)
-		    z = t->page->ZoneList();    // (re)start at top of list
-		else
-		    z = z->next;
-		if (z == zcur)
-		    break;
-	   	if (z && z->Type() == ZONE_REPORT && 
-				((ReportZone *)z)->GetDisplayCheck(t))
-		{
-		    t->active_zone = z;
-		    Draw(t, 1);
-		    return SIGNAL_END;
-		}
-	    }
-	}
+    else if (t->page && t->page->IsKitchen() && t->page->ZoneList()) 
+    {
+        // highlight next report zone with a check
+        Zone *zcur = t->active_zone;
+        Zone *z = zcur;
+        while (1)
+        {
+            if (z == NULL)
+            z = t->page->ZoneList();    // (re)start at top of list
+        else
+            z = z->next;
+        if (z == zcur)
+            break;
+        if (z && z->Type() == ZONE_REPORT && 
+                ((ReportZone *)z)->GetDisplayCheck(t))
+        {
+            t->active_zone = z;
+            Draw(t, 1);
+            return SIGNAL_END;
+        }
+        }
+    }
         else
         {
             AdjustPeriod(ref, period_view, 1);
@@ -727,28 +727,28 @@ SignalResult ReportZone::Signal(Terminal *t, const genericChar* message)
                 break;
             }
         }
-	else if (t->page && t->page->IsKitchen() && t->page->ZoneList()) 
-	{
-	    // highlight previous report zone with a check
-	    Zone *zcur = t->active_zone;
-	    Zone *z = zcur;
-	    while (1)
-	    {
-	    	if (z == NULL)
-		    z = t->page->ZoneListEnd();    // (re)start at end of list
-		else
-		    z = z->fore;
-		if (z == zcur)
-		    break;
-	   	if (z && z->Type() == ZONE_REPORT && 
-				((ReportZone *)z)->GetDisplayCheck(t))
-		{
-		    t->active_zone = z;
-		    Draw(t, 1);
-		    return SIGNAL_END;
-		}
-	    }
-	}
+    else if (t->page && t->page->IsKitchen() && t->page->ZoneList()) 
+    {
+        // highlight previous report zone with a check
+        Zone *zcur = t->active_zone;
+        Zone *z = zcur;
+        while (1)
+        {
+            if (z == NULL)
+            z = t->page->ZoneListEnd();    // (re)start at end of list
+        else
+            z = z->fore;
+        if (z == zcur)
+            break;
+        if (z && z->Type() == ZONE_REPORT && 
+                ((ReportZone *)z)->GetDisplayCheck(t))
+        {
+            t->active_zone = z;
+            Draw(t, 1);
+            return SIGNAL_END;
+        }
+        }
+    }
         else
         {
             AdjustPeriod(ref, period_view, -1);
@@ -769,12 +769,12 @@ SignalResult ReportZone::Signal(Terminal *t, const genericChar* message)
         Print(t, RP_PRINT_REPORT);
         return SIGNAL_OKAY;
     case 5:  // day period
-      	printf("report_zone : day_period: \n");
+        printf("report_zone : day_period: \n");
         period_view = SP_DAY;
         Draw(t, 1);
         return SIGNAL_OKAY;
     case 6:  // sales period
-      	printf("report_zone : sales_period\n");
+        printf("report_zone : sales_period\n");
         period_view = s->sales_period;
         period_fiscal = &s->sales_start;
         Draw(t, 1);
@@ -790,7 +790,7 @@ SignalResult ReportZone::Signal(Terminal *t, const genericChar* message)
         Draw(t, 1);
         return SIGNAL_OKAY;
     case 9:  // nextperiod
-      	printf("report_zone : nextperiod\n");
+        printf("report_zone : nextperiod\n");
         period_view = NextValue(period_view, ReportPeriodValue);
         Draw(t, 1);
         return SIGNAL_OKAY;
@@ -961,7 +961,7 @@ SignalResult ReportZone::Signal(Terminal *t, const genericChar* message)
     case 35: // zero captured tips
         sys->ClearCapturedTips(day_start, day_end, t->archive);
         Draw(t, 1);
-	return SIGNAL_OKAY;
+    return SIGNAL_OKAY;
     case 36: // bump active check
         if (check_disp_num && this == t->active_zone)
             return ToggleCheckReport(t);
@@ -1121,7 +1121,7 @@ SignalResult ReportZone::Keyboard(Terminal *t, int my_key, int state)
 
     // automatically accept check number (in ascii) as keyboard shortcut to bump
     if (my_key == check_disp_num + '0')
-	return ToggleCheckReport(t);
+    return ToggleCheckReport(t);
 
     int new_page = page;
     switch (my_key)

@@ -178,7 +178,7 @@ RenderResult PaymentZone::Render(Terminal *term, int update_flag)
             settings->tax_merchandise ||
             settings->tax_room)
     {
-    	// if takouts are not taxed, zero out the subcheck food tax
+        // if takouts are not taxed, zero out the subcheck food tax
         if (currCheck->IsToGo() && (settings->tax_takeout_food == 0))
            subCheck->total_tax_food = 0;
         int sales_tax = subCheck->total_tax_food;
@@ -193,19 +193,19 @@ RenderResult PaymentZone::Render(Terminal *term, int update_flag)
         }
     }
 
-	if(settings->tax_GST > 0)
+    if(settings->tax_GST > 0)
     {
-		TextPosR(term, mark, line, "GST"); // Canada - Goods and Services Tax
-		TextPosR(term, mark + 9, line, term->FormatPrice(subCheck->total_tax_GST));
-		line += min_spacing;
-	}
+        TextPosR(term, mark, line, "GST"); // Canada - Goods and Services Tax
+        TextPosR(term, mark + 9, line, term->FormatPrice(subCheck->total_tax_GST));
+        line += min_spacing;
+    }
 
-	if(settings->tax_HST > 0)
-	{
-		TextPosR(term, mark, line, "HST"); // Canada - Harmonized Sales Tax
-		TextPosR(term, mark + 9, line, term->FormatPrice(subCheck->total_tax_HST));
-		line += min_spacing;
-	}
+    if(settings->tax_HST > 0)
+    {
+        TextPosR(term, mark, line, "HST"); // Canada - Harmonized Sales Tax
+        TextPosR(term, mark + 9, line, term->FormatPrice(subCheck->total_tax_HST));
+        line += min_spacing;
+    }
 
     if (settings->tax_PST > 0)
     {
@@ -1109,19 +1109,19 @@ int PaymentZone::CloseCheck(Terminal *term, int force)
 int PaymentZone::DoneWithCheck(Terminal *term, int store_check)
 {
     FnTrace("PaymentZone::DoneWithCheck()");
-	Check *currCheck = term->check;
-	if (currCheck == NULL)
-		return 1;
+    Check *currCheck = term->check;
+    if (currCheck == NULL)
+        return 1;
 
-	Settings *settings = term->GetSettings();
-	if (store_check)
-	{
-		term->StoreCheck(0);
-		term->UpdateOtherTerms(UPDATE_CHECKS, NULL);
-	}
+    Settings *settings = term->GetSettings();
+    if (store_check)
+    {
+        term->StoreCheck(0);
+        term->UpdateOtherTerms(UPDATE_CHECKS, NULL);
+    }
 
-	switch (term->type)
-	{
+    switch (term->type)
+    {
     case TERMINAL_BAR:
     case TERMINAL_BAR2:
         if (term->is_bar_tab)
@@ -1142,8 +1142,8 @@ int PaymentZone::DoneWithCheck(Terminal *term, int store_check)
         term->timeout = settings->delay_time2;  // super short timeout
         term->Jump(JUMP_HOME);
         break;
-	}
-	return 0;
+    }
+    return 0;
 }
 
 /****
@@ -1503,19 +1503,19 @@ int TenderZone::RenderInit(Terminal *term, int update_flag)
 
 SignalResult TenderZone::Touch(Terminal *term, int tx, int ty)
 {
-	FnTrace("TenderZone::Touch()");
+    FnTrace("TenderZone::Touch()");
     SignalResult retval = SIGNAL_OKAY;
-	Employee *employee = term->user;
-	char str[256];
-	Settings *settings = term->GetSettings();
-	int count = 0;
+    Employee *employee = term->user;
+    char str[256];
+    Settings *settings = term->GetSettings();
+    int count = 0;
     Drawer *drawer = NULL;
 
-	if (employee == NULL)
-		return SIGNAL_IGNORED;
+    if (employee == NULL)
+        return SIGNAL_IGNORED;
 
-	switch (tender_type)
-	{
+    switch (tender_type)
+    {
     case TENDER_CAPTURED_TIP:
     {
         int tt = tender_type;
@@ -1671,7 +1671,7 @@ SignalResult TenderZone::Touch(Terminal *term, int tx, int ty)
         sprintf(str, "tender %d 0 %d %d", tender_type, flags, amount);
         retval = term->Signal(str, group_id);
     }
-	} // end switch
+    } // end switch
 
-	return retval;
+    return retval;
 }

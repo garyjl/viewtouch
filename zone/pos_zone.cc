@@ -131,10 +131,10 @@ int ConvertAppear(int appear, Uchar &f, Uchar &t)
 
 Zone *NewPosZone(int type)
 {
-	Zone *pNewZone = NULL;
-	switch (type)
-	{
-		// General Zone Types
+    Zone *pNewZone = NULL;
+    switch (type)
+    {
+        // General Zone Types
     case ZONE_ITEM:
         pNewZone = new ItemZone;
         break;
@@ -339,16 +339,16 @@ Zone *NewPosZone(int type)
         if (debug_mode)
             printf("Unknown zone type:  %d\n", type);
         break;
-	}
+    }
 
-	if (pNewZone == NULL)
-	{
-		char str[64];
-		sprintf(str, "Creation of PosZone object type %d failed", type);
-		ReportError(str);
-	}
+    if (pNewZone == NULL)
+    {
+        char str[64];
+        sprintf(str, "Creation of PosZone object type %d failed", type);
+        ReportError(str);
+    }
 
-	return pNewZone;
+    return pNewZone;
 }
 
 Page *NewPosPage()
@@ -431,73 +431,73 @@ int PosZone::SetPosition(Terminal *t, int pos_x, int pos_y)
 
 int PosZone::Read(InputDataFile &df, int version)
 {
-	int tmp;
-	df.Read(name);
-	df.Read(group_id);
-	df.Read(x);
-	df.Read(y);
-	df.Read(w);
-	df.Read(h);
-	df.Read(behave);
-	df.Read(font);
-	if (version <= 19)
-	{
-		switch (font)
-		{
-        case FONT_FIXED_14: font = FONT_TIMES_14; break;
+    int tmp;
+    df.Read(name);
+    df.Read(group_id);
+    df.Read(x);
+    df.Read(y);
+    df.Read(w);
+    df.Read(h);
+    df.Read(behave);
+    df.Read(font);
+    if (version <= 19)
+    {
+        switch (font)
+        {
+        case FONT_FIXED_14: font = FONT_HELV_14; break;
         case FONT_FIXED_20: font = FONT_FIXED_20; break;
         case FONT_FIXED_24: font = FONT_FIXED_24; break;
-		} //end switch
-	}
+        } //end switch
+    }
 
-	for (int i = 0; i < 3; ++i)
-	{
-		if (version <= 19)
-		{
-			df.Read(tmp);
-			ConvertAppear(tmp, frame[i], texture[i]);
-		}
-		else
-		{
-			df.Read(frame[i]);
-			df.Read(texture[i]);
-		}
+    for (int i = 0; i < 3; ++i)
+    {
+        if (version <= 19)
+        {
+            df.Read(tmp);
+            ConvertAppear(tmp, frame[i], texture[i]);
+        }
+        else
+        {
+            df.Read(frame[i]);
+            df.Read(texture[i]);
+        }
 
-		df.Read(color[i]);
-		df.Read(image[i]);
+        df.Read(color[i]);
+        df.Read(image[i]);
 
-		if (version <= 19)
-		{
+        if (version <= 19)
+        {
             // There were some comparisons here which are just impossible.  color[i] is an
             // unsigned char, which cannot hold 999, 998, or 1000.  I'm not going to increase
             // the size of the variable.  I'm just going to assume that a) there aren't many
             // (if any) version <= 19 files out there, and b) COLOR_DEFAULT will work fine.
             color[i] = COLOR_DEFAULT;
-		}
-	}
+        }
+    }
 
-	df.Read(shadow);
-	df.Read(shape);
+    df.Read(shadow);
+    df.Read(shape);
 
-	df.Read(Amount());
-	df.Read(Expression());
-	df.Read(FileName());
-	df.Read(JumpType());
-	df.Read(JumpID());
-	df.Read(Message());
-	df.Read(ItemName());
-	df.Read(Script());
-	df.Read(QualifierType());
-	df.Read(ReportType());
-	df.Read(Spacing());
-	df.Read(TenderType());
-	df.Read(TenderAmount());
-	df.Read(ReportPrint());
-	df.Read(Columns());
-	df.Read(SwitchType());
+    df.Read(Amount());
+    df.Read(Expression());
+    df.Read(FileName());
+    df.Read(JumpType());
+    df.Read(JumpID());
+    df.Read(Message());
+    df.Read(ItemName());
+    df.Read(Script());
+    df.Read(QualifierType());
+    df.Read(ReportType());
+    df.Read(Spacing());
+    df.Read(TenderType());
+    df.Read(TenderAmount());
+    df.Read(ReportPrint());
+    df.Read(Columns());
+    df.Read(SwitchType());
 
-	if (version >= 21)
-		df.Read(CustomerType());
+    if (version >= 21)
+        df.Read(CustomerType());
     if (version >= 22)
         df.Read(CheckDisplayNum());
     if (version >= 23)
@@ -509,10 +509,10 @@ int PosZone::Read(InputDataFile &df, int version)
         df.Read(Confirm());
         df.Read(ConfirmMsg());
     }
-	if (version >= 18)
-		df.Read(key);
+    if (version >= 18)
+        df.Read(key);
 
-	return 0;
+    return 0;
 }
 
 int PosZone::Write(OutputDataFile &df, int version)
@@ -619,35 +619,35 @@ int PosPage::Read(InputDataFile &infile, int version)
     if (version <= 26) {
       switch (size) {
       case 2:
-	size = 4; // SIZE_800x600
-	break;
+    size = 4; // SIZE_800x600
+    break;
       case 3:
-	size = 6; // SIZE_1024x768
-	break;
+    size = 6; // SIZE_1024x768
+    break;
       case 4:
-	size = 8; // SIZE_1280x1024
-	break;
+    size = 8; // SIZE_1280x1024
+    break;
       case 5:
-	size = 12; // SIZE_1600x1200
-	break;
+    size = 12; // SIZE_1600x1200
+    break;
       case 6:
-	size = 2; // SIZE_768x1024
-	break;
+    size = 2; // SIZE_768x1024
+    break;
       case 7:
-	size = 3; // SIZE_800x480
-	break;
+    size = 3; // SIZE_800x480
+    break;
       case 8:
-	size = 14; // SIZE_1920x1080
-	break;
+    size = 14; // SIZE_1920x1080
+    break;
       case 9:
-	size = 15; // SIZE_1920x1200
-	break;
+    size = 15; // SIZE_1920x1200
+    break;
       case 10: 
-	size = 13; // SIZE_1680x1050
-	break;
+    size = 13; // SIZE_1680x1050
+    break;
       case 14:
-	size = 15;
-	break;
+    size = 15;
+    break;
       }
     }
 
@@ -656,7 +656,7 @@ int PosPage::Read(InputDataFile &infile, int version)
     {
         switch (default_font)
         {
-        case FONT_FIXED_14: default_font = FONT_TIMES_14; break;
+        case FONT_FIXED_14: default_font = FONT_HELV_14; break;
         case FONT_FIXED_20: default_font = FONT_FIXED_20; break;
         case FONT_FIXED_24: default_font = FONT_FIXED_24; break;
         }

@@ -48,13 +48,13 @@
 // Constructors
 TouchScreen::TouchScreen(const char* device)
 {
-	strcpy(INIT, "\001PN819600\n");
-	strcpy(PING, "\001Z\n");
-	strcpy(RESET, "\001R\n");  // "destructive" command
+    strcpy(INIT, "\001PN819600\n");
+    strcpy(PING, "\001Z\n");
+    strcpy(RESET, "\001R\n");  // "destructive" command
     strcpy(PARAM_LOCK, "\001PL\n"); // PL = "Parameter Lock"
-	strcpy(FORMAT_HEX, "\001FH\n");
-	strcpy(FORMAT_DEC, "\001FD\n");
-	strcpy(MODE_POINT, "\001MP\n");
+    strcpy(FORMAT_HEX, "\001FH\n");
+    strcpy(FORMAT_DEC, "\001FD\n");
+    strcpy(MODE_POINT, "\001MP\n");
     strcpy(MODE_STREAM, "\001MS\n");
     strcpy(MODE_CALIBRATE, "\001CI\n"); // CI = "Calibrate Interactive"
     strcpy(AUTOBAUD_DISABLE, "\001AD\n");
@@ -72,13 +72,13 @@ TouchScreen::TouchScreen(const char* device)
 
 TouchScreen::TouchScreen(const char* h, int p)
 {
-	strcpy(INIT, "\001PN819600\n");
-	strcpy(PING, "\001Z\n");
-	strcpy(RESET, "\001R\n");  // "destructive" command
+    strcpy(INIT, "\001PN819600\n");
+    strcpy(PING, "\001Z\n");
+    strcpy(RESET, "\001R\n");  // "destructive" command
     strcpy(PARAM_LOCK, "\001PL\n"); // PL = "Parameter Lock"
-	strcpy(FORMAT_HEX, "\001FH\n");
-	strcpy(FORMAT_DEC, "\001FD\n");
-	strcpy(MODE_POINT, "\001MP\n");
+    strcpy(FORMAT_HEX, "\001FH\n");
+    strcpy(FORMAT_DEC, "\001FD\n");
+    strcpy(MODE_POINT, "\001MP\n");
     strcpy(MODE_STREAM, "\001MS\n");
     strcpy(MODE_CALIBRATE, "\001CI\n"); // CI = "Calibrate Interactive"
     strcpy(AUTOBAUD_DISABLE, "\001AD\n");
@@ -134,10 +134,10 @@ int TouchScreen::Connect(int boot)
             struct hostent *hp = gethostbyname(host.Value());
             if (hp == NULL || hp->h_addrtype != AF_INET)
             {
-				sprintf(str, "Can't resolve name '%s'", host.Value());
-				error.Set(str);
+                sprintf(str, "Can't resolve name '%s'", host.Value());
+                error.Set(str);
                 fprintf(stderr, "%s",str);
-				return 1;
+                return 1;
             }
             bcopy(hp->h_addr, &inaddr.sin_addr.s_addr, hp->h_length);
         }
@@ -170,17 +170,17 @@ int TouchScreen::Connect(int boot)
 
 int TouchScreen::SetMode(const char* mode)
 {
-	if( (strcmp("POINT", mode) == 0) && device_no > 0)
-	{
-		const char* modeList[] = { FORMAT_HEX, MODE_POINT, AUTOBAUD_DISABLE, PARAM_LOCK };
-		for (int i = 0; i < 4; i++)
+    if( (strcmp("POINT", mode) == 0) && device_no > 0)
+    {
+        const char* modeList[] = { FORMAT_HEX, MODE_POINT, AUTOBAUD_DISABLE, PARAM_LOCK };
+        for (int i = 0; i < 4; i++)
         {
-			write(device_no, modeList[i], strlen(modeList[i]));
-		}
+            write(device_no, modeList[i], strlen(modeList[i]));
+        }
 
-	}
+    }
 
-	return 0;
+    return 0;
 }
 
 int TouchScreen::Init(int boot)
@@ -199,13 +199,13 @@ int TouchScreen::Init(int boot)
     Reset();
     sleep(1);
 
-	//setup array of pointers and step through the desired mode
-	//list, writing the values out to the device, in order.
-	const char* modeList[] = { INIT, AUTOBAUD_DISABLE, FORMAT_HEX, MODE_POINT, PARAM_LOCK };
-	for(int i=0; i<5; i++)
-	{
-		write(device_no, modeList[i], strlen(modeList[i]));
-	}
+    //setup array of pointers and step through the desired mode
+    //list, writing the values out to the device, in order.
+    const char* modeList[] = { INIT, AUTOBAUD_DISABLE, FORMAT_HEX, MODE_POINT, PARAM_LOCK };
+    for(int i=0; i<5; i++)
+    {
+        write(device_no, modeList[i], strlen(modeList[i]));
+    }
     return 0;
 }
 
@@ -218,8 +218,8 @@ int TouchScreen::ReadTouch(int &x, int &y, int &mode)
         return -1;
     }
 
-	char c;
-	int result;
+    char c;
+    int result;
 
     do
     {
@@ -308,8 +308,8 @@ int TouchScreen::Reset()
 
     last_reset.Set();
 
-	//need to wait at least 1 second for confirmation of the reset
-	//from the controller
+    //need to wait at least 1 second for confirmation of the reset
+    //from the controller
     TimeInfo start, end;
     start.Set();
     int result;
@@ -324,7 +324,7 @@ int TouchScreen::Reset()
 
     if (0)
     {
-		//output a status message
+        //output a status message
         genericChar str[256];
         sprintf(str, "TouchScreen Reset failed for host '%s'", host.Value());
 

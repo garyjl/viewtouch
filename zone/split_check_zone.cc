@@ -96,7 +96,7 @@ int ItemObj::Render(Terminal *t)
 
         SeatName(seat, str);
         t->RenderText(str, x + (w/2), y + 22, COLOR_WHITE,
-                      FONT_TIMES_34B, ALIGN_CENTER);
+                      FONT_HELV_34B, ALIGN_CENTER);
     }
     else if (order)
     {
@@ -119,14 +119,14 @@ int ItemObj::Render(Terminal *t)
             strcpy(str, str2);
         }
 
-        t->RenderText(str, x + 8, ty, col, FONT_TIMES_20, ALIGN_LEFT, w - 12);
+        t->RenderText(str, x + 8, ty, col, FONT_HELV_20, ALIGN_LEFT, w - 12);
 
         Order *mod = order->modifier_list;
         while (mod)
         {
             ty += 20;
             mod->Description(t, str);
-            t->RenderText(str, x + 24, ty, col, FONT_TIMES_20, ALIGN_LEFT, w - 28);
+            t->RenderText(str, x + 24, ty, col, FONT_HELV_20, ALIGN_LEFT, w - 28);
             mod = mod->next;
         }
     }
@@ -266,7 +266,7 @@ int CheckObj::Render(Terminal *t)
         strcpy(str, t->Translate("Blank Check"));
 
     t->RenderText(str, x + (w/2), y + 16, COLOR_BLACK,
-                  FONT_TIMES_20B, ALIGN_CENTER);
+                  FONT_HELV_20B, ALIGN_CENTER);
 
     if (sub)
     {
@@ -275,20 +275,20 @@ int CheckObj::Render(Terminal *t)
         if (tax > 0)
         {
             t->RenderText(t->FormatPrice(tax), x + w - 8, hh, COLOR_BLACK,
-                          FONT_TIMES_20, ALIGN_RIGHT);
+                          FONT_HELV_20, ALIGN_RIGHT);
             t->RenderText(t->Translate("Tax"), x + w - 80, hh, COLOR_BLACK,
-                          FONT_TIMES_20, ALIGN_RIGHT);
+                          FONT_HELV_20, ALIGN_RIGHT);
             hh += 20;
         }
 
         t->RenderText(t->FormatPrice(sub->total_sales + tax), x + w - 8, hh,
-                      COLOR_BLACK, FONT_TIMES_20, ALIGN_RIGHT);
+                      COLOR_BLACK, FONT_HELV_20, ALIGN_RIGHT);
         t->RenderText(t->Translate("Total"), x + w - 80, hh, COLOR_BLACK,
-                      FONT_TIMES_20, ALIGN_RIGHT);
+                      FONT_HELV_20, ALIGN_RIGHT);
 
         if (max_pages > 1)
             t->RenderText(t->PageNo(page + 1, max_pages), x + 8, y + h - 24,
-                          COLOR_RED, FONT_TIMES_20);
+                          COLOR_RED, FONT_HELV_20);
     }
 
     // Render Items
@@ -666,12 +666,12 @@ int PrintTargetObj::Render(Terminal *t)
     FnTrace("PrintTargetObj::Render()");
     t->RenderButton(x, y, w, h, ZF_RAISED, IMAGE_SAND);
     t->RenderText(name.Value(), x + (w/2), y + 16, COLOR_BLACK,
-                  FONT_TIMES_20B, ALIGN_CENTER);
+                  FONT_HELV_20B, ALIGN_CENTER);
     items.Render(t);
 
     if (max_pages > 1)
         t->RenderText(t->PageNo(page + 1, max_pages), x + 8, y + h - 24,
-                      COLOR_RED, FONT_TIMES_20);
+                      COLOR_RED, FONT_HELV_20);
     return 0;
 }
 

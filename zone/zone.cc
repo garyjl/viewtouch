@@ -277,13 +277,13 @@ int Zone::RenderInfo(Terminal *term)
     if (group_id != 0)
     {
         sprintf(str, "ID %d", group_id);
-        term->RenderText(str, x + border, y + 16, COLOR_BLACK, FONT_TIMES_14);
+        term->RenderText(str, x + border, y + 16, COLOR_BLACK, FONT_HELV_14);
     }
 
     if (JumpType() && JumpID())
     {
         switch (*JumpType())
-		{
+        {
         case JUMP_NORMAL:
             sprintf(str, "J %d", *JumpID());
             break;
@@ -304,10 +304,10 @@ int Zone::RenderInfo(Terminal *term)
             break;
         default:
             return 0;
-		}
+        }
 
         term->RenderText(str, x + border, y + h - border - 12,
-                         COLOR_BLACK, FONT_TIMES_14);
+                         COLOR_BLACK, FONT_HELV_14);
     }
     return 0;
 }
@@ -504,7 +504,7 @@ Page::Page()
     changed     = 0;
 
     // Defaults
-    default_font       = FONT_TIMES_24;
+    default_font       = FONT_HELV_24;
     default_frame[0]   = ZF_RAISED;
     default_texture[0] = IMAGE_SAND;
     default_color[0]   = COLOR_BLACK;
@@ -521,9 +521,9 @@ Page::Page()
 int Page::Init(ZoneDB *zone_db)
 {
     FnTrace("Page::Init()");
-	// Get page width
-	switch (size)
-	{
+    // Get page width
+    switch (size)
+    {
     case SIZE_640x480:   width = 640;  height = 480;  break;
     case SIZE_800x600:   width = 800;  height = 600;  break;
     case SIZE_1024x600:   width = 1024;  height = 600;  break;
@@ -536,13 +536,13 @@ int Page::Init(ZoneDB *zone_db)
     case SIZE_1680x1050: width = 1680; height = 1050; break;
     case SIZE_1920x1080: width = 1920; height = 1080; break;
     case SIZE_1920x1200: width = 1920; height = 1200; break;
-    case SIZE_2560x1440: width = 2560; height = 1440; break;	
+    case SIZE_2560x1440: width = 2560; height = 1440; break;    
     case SIZE_2560x1600: width = 2560; height = 1600; break;
-	}
+    }
 
-	// FIX - should look up these values instead of having hardcoded values
-	switch (type)
-	{
+    // FIX - should look up these values instead of having hardcoded values
+    switch (type)
+    {
     case PAGE_INDEX:     parent_id = -99; break;
     case PAGE_ITEM:      parent_id = -98; break;
     case PAGE_ITEM2:     parent_id = -98; break;
@@ -552,29 +552,29 @@ int Page::Init(ZoneDB *zone_db)
     case PAGE_TABLE:     parent_id = PAGEID_TABLE; break;
     case PAGE_TABLE2:    parent_id = PAGEID_TABLE2; break;
     case PAGE_LIBRARY:   parent_id = 0; break;
-	}
+    }
 
-	if (zone_db)
-		parent_page = zone_db->FindByID(parent_id, size);
-	else
-		parent_page = NULL;
+    if (zone_db)
+        parent_page = zone_db->FindByID(parent_id, size);
+    else
+        parent_page = NULL;
 
-	// Check for circular parent pointers
-	int count = 0;
-	Page *p = parent_page;
-	while (p)
-	{
-		if (p == this || count > 16)
-		{
-			// loop detected - kill parent pointer
-			parent_id   = 0;
-			parent_page = NULL;
-			break;
-		}
-		++count;
-		p = p->parent_page;
-	}
-	return 0;
+    // Check for circular parent pointers
+    int count = 0;
+    Page *p = parent_page;
+    while (p)
+    {
+        if (p == this || count > 16)
+        {
+            // loop detected - kill parent pointer
+            parent_id   = 0;
+            parent_page = NULL;
+            break;
+        }
+        ++count;
+        p = p->parent_page;
+    }
+    return 0;
 }
 
 int Page::Add(Zone *z)
@@ -646,24 +646,24 @@ RenderResult Page::Render(Terminal *term, int update_flag, int no_parent)
     // Init & Render Shadows
     Page *currPage = this;
     while (currPage)
-	{
-		currZone = currPage->ZoneList(); //grab the first zone in the list
-		while (currZone)
-		{
-			if (update_flag)
-				currZone->RenderInit(term, update_flag);
+    {
+        currZone = currPage->ZoneList(); //grab the first zone in the list
+        while (currZone)
+        {
+            if (update_flag)
+                currZone->RenderInit(term, update_flag);
 
-			if (currZone->shadow > 0)
-				currZone->RenderShadow(term);
+            if (currZone->shadow > 0)
+                currZone->RenderShadow(term);
 
-			currZone = currZone->next;
-		}
+            currZone = currZone->next;
+        }
 
-		if (no_parent)
-			break;
+        if (no_parent)
+            break;
 
-		currPage = currPage->parent_page;
-	}
+        currPage = currPage->parent_page;
+    }
 
     // Render Zones
     currPage = this;
@@ -1001,7 +1001,7 @@ ZoneDB::ZoneDB()
     table_pages = 0;
 
     // Defaults
-    default_font       = FONT_TIMES_24;
+    default_font       = FONT_HELV_24;
     default_frame[0]   = ZF_RAISED;
     default_texture[0] = IMAGE_SAND;
     default_color[0]   = COLOR_BLACK;
@@ -1072,29 +1072,29 @@ int ZoneDB::Load(const char* filename)
 
         Page *currPage = NewPosPage();
         if (currPage)
-		{
-			if (currPage->Read(infile, version))
-			{
-				sprintf(str, "Error in page %d '%s' of file '%s'",
-						currPage->id, currPage->name.Value(), filename);
+        {
+            if (currPage->Read(infile, version))
+            {
+                sprintf(str, "Error in page %d '%s' of file '%s'",
+                        currPage->id, currPage->name.Value(), filename);
 
-				ReportError(str);
-				delete currPage;
-				return 1;  // Error;
-			}
+                ReportError(str);
+                delete currPage;
+                return 1;  // Error;
+            }
             if (currPage->id > 100000)
             {
                 snprintf(str, STRLENGTH, "Bad Page ID:  %d", currPage->id);
                 ReportError(str);
                 delete currPage;
             }
-			else if (Add(currPage))
-			{
-				ReportError("Error adding page to ZoneDB");
-				delete currPage;
-				return 1;  // Error;
-			}
-		}
+            else if (Add(currPage))
+            {
+                ReportError("Error adding page to ZoneDB");
+                delete currPage;
+                return 1;  // Error;
+            }
+        }
     }
 
     return 0;
@@ -1347,19 +1347,19 @@ int ZoneDB::Purge()
 Page *ZoneDB::FindByID(int id, int max_size)
 {
     FnTrace("ZoneDB::FindByID()");
-	if (id == 0)
-		return NULL;
+    if (id == 0)
+        return NULL;
 
     Page *retPage = NULL;
-	Page *currPage = page_list.Head();
-	while ((retPage == NULL) && (currPage != NULL))
-	{
-		if (currPage->id == id && currPage->size <= max_size)
-			retPage = currPage;
+    Page *currPage = page_list.Head();
+    while ((retPage == NULL) && (currPage != NULL))
+    {
+        if (currPage->id == id && currPage->size <= max_size)
+            retPage = currPage;
         else
             currPage = currPage->next;
-	}
-	return retPage;
+    }
+    return retPage;
 }
 
 Page *ZoneDB::FindByType(int type, int period, int max_size)
@@ -1376,7 +1376,7 @@ Page *ZoneDB::FindByType(int type, int period, int max_size)
             return thisPage;
         }
         if (thisPage == page_list.Tail()) {
-        	return NULL;
+            return NULL;
         } else {
             thisPage = thisPage->next;
         }
@@ -1784,60 +1784,60 @@ int ZoneDB::References(Page *page, int *list, int my_max, int &count)
     int ref = 0, last = 0;
     Page *thisPage = page_list.Head();
     while (thisPage)
-	{
-		if (thisPage != page)
-		{
-			if (thisPage->parent_id == id)
-			{
-				if (last != thisPage->id)
-				{
-					last = thisPage->id;
-					if (ref < my_max)
-						list[ref] = last;
-					++ref;
-				}
-				++count;
-			}
+    {
+        if (thisPage != page)
+        {
+            if (thisPage->parent_id == id)
+            {
+                if (last != thisPage->id)
+                {
+                    last = thisPage->id;
+                    if (ref < my_max)
+                        list[ref] = last;
+                    ++ref;
+                }
+                ++count;
+            }
 
-			Zone *thisZone = thisPage->ZoneList();
-			while (thisZone)
-			{
-				if (thisZone->JumpID() && *thisZone->JumpID() == id)
-				{
-					if (last != thisPage->id)
-					{
-						last = thisPage->id;
-						if (ref < my_max)
-							list[ref] = last;
-						++ref;
-					}
-					++count;
-				}
-				if (thisZone->Script())
-				{
-					int a[16], n;
-					n = sscanf(thisZone->Script()->Value(), "%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d",
+            Zone *thisZone = thisPage->ZoneList();
+            while (thisZone)
+            {
+                if (thisZone->JumpID() && *thisZone->JumpID() == id)
+                {
+                    if (last != thisPage->id)
+                    {
+                        last = thisPage->id;
+                        if (ref < my_max)
+                            list[ref] = last;
+                        ++ref;
+                    }
+                    ++count;
+                }
+                if (thisZone->Script())
+                {
+                    int a[16], n;
+                    n = sscanf(thisZone->Script()->Value(), "%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d",
                                &a[0], &a[1], &a[2], &a[3], &a[4], &a[5], &a[6], &a[7],
                                &a[8], &a[9], &a[10], &a[11], &a[12], &a[13], &a[14], &a[15]);
-					if (n > 0)
-						for (int i = 0; i < n; ++i)
-							if (a[i] == id)
-							{
-								if (last != thisPage->id)
-								{
-									last = thisPage->id;
-									if (ref < my_max)
-										list[ref] = last;
-									++ref;
-								}
-								++count;
-							}
-				}
-				thisZone = thisZone->next;
-			}
-		}
-		thisPage = thisPage->next;
-	}
+                    if (n > 0)
+                        for (int i = 0; i < n; ++i)
+                            if (a[i] == id)
+                            {
+                                if (last != thisPage->id)
+                                {
+                                    last = thisPage->id;
+                                    if (ref < my_max)
+                                        list[ref] = last;
+                                    ++ref;
+                                }
+                                ++count;
+                            }
+                }
+                thisZone = thisZone->next;
+            }
+        }
+        thisPage = thisPage->next;
+    }
     return ref;
 }
 
@@ -1876,23 +1876,23 @@ int ZoneDB::PageListReport(Terminal *t, int show_system, Report *r)
 
 int ZoneDB::ChangeItemName(const char* old_name, const genericChar* new_name)
 {
-	FnTrace("ZoneDB::ChangeItemName()");
-	int changed = 0;
-	Page *thisPage = page_list.Head();
-	while (thisPage)
-	{
-		for (Zone *z = thisPage->ZoneList(); z != NULL; z = z->next)
-		{
-			if (z->ItemName() &&
+    FnTrace("ZoneDB::ChangeItemName()");
+    int changed = 0;
+    Page *thisPage = page_list.Head();
+    while (thisPage)
+    {
+        for (Zone *z = thisPage->ZoneList(); z != NULL; z = z->next)
+        {
+            if (z->ItemName() &&
                 StringCompare(z->ItemName()->Value(), old_name) == 0)
-			{
-				z->ItemName()->Set(new_name);
-				++changed;
-			}
-		}
-		thisPage = thisPage->next;
-	}
-	return changed;
+            {
+                z->ItemName()->Set(new_name);
+                ++changed;
+            }
+        }
+        thisPage = thisPage->next;
+    }
+    return changed;
 }
 
 /****

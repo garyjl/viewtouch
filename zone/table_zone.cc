@@ -75,7 +75,7 @@ RoomDialog::RoomDialog()
 {
     FnTrace("RoomDialog::RoomDialog()");
 
-    font = FONT_TIMES_24;
+    font = FONT_HELV_24;
     AddTextField("Last Name", 32);
     AddTextField("First Name", 32);
     AddTextField("Company", 32);
@@ -199,24 +199,24 @@ SignalResult RoomDialog::Touch(Terminal *term, int tx, int ty)
 
     ZoneObject *zoneObj = button_list.Find(tx, ty);
     if (zoneObj)
-	{
-		zoneObj->Draw(term, 1);
-		if (zoneObj == update)
-		{
-			SaveRecord(term, 0, 0);
-			term->StoreCheck();
-		}
-		else if (zoneObj == order)
-		{
-			SaveRecord(term, 0, 0);
-			if (check->Guests() <= 0)
-				check->Guests(1);
-			term->JumpToIndex(INDEX_ROOM);
-		}
-		else if (zoneObj == cancel)
-			term->StoreCheck();
-		return SIGNAL_TERMINATE;
-	}
+    {
+        zoneObj->Draw(term, 1);
+        if (zoneObj == update)
+        {
+            SaveRecord(term, 0, 0);
+            term->StoreCheck();
+        }
+        else if (zoneObj == order)
+        {
+            SaveRecord(term, 0, 0);
+            if (check->Guests() <= 0)
+                check->Guests(1);
+            term->JumpToIndex(INDEX_ROOM);
+        }
+        else if (zoneObj == cancel)
+            term->StoreCheck();
+        return SIGNAL_TERMINATE;
+    }
 
     return FormZone::Touch(term, tx, ty);
 }
@@ -417,7 +417,7 @@ int RoomDialog::ParseSwipe(Terminal *term, const genericChar* value)
  ********************************************************************/
 CustomerInfoZone::CustomerInfoZone()
 {
-    font        = FONT_TIMES_24;
+    font        = FONT_HELV_24;
     customer    = NULL;
     my_update   = 1;
     form_header = 0.65;
@@ -816,7 +816,7 @@ RenderResult CommandZone::Render(Terminal *term, int update_flag)
             strcpy(str, "Takeout Order Selected");
         else if (check->IsFastFood())
             strcpy(str, "Fast Food Order Selected");
-		else
+        else
             sprintf(str, "Table Selected: %s", check->Table());
 
         TextC(term, 1.3, str);
@@ -832,7 +832,7 @@ RenderResult CommandZone::Render(Terminal *term, int update_flag)
     }
     else if (employee->IsSupervisor(settings))
         term->RenderText(ManagerStr, x + (w/2), y + h - 12 - border,
-                         col, FONT_TIMES_14B, ALIGN_CENTER);
+                         col, FONT_HELV_14B, ALIGN_CENTER);
     return RENDER_OKAY;
 }
 
@@ -850,7 +850,7 @@ SignalResult CommandZone::Signal(Terminal *term, const genericChar* message)
 
     Check *check = term->check;
     switch (idx)
-	{
+    {
     case 0:  // Create Take Out order
         TakeOut(term);
         return SIGNAL_OKAY;
@@ -894,7 +894,7 @@ SignalResult CommandZone::Signal(Terminal *term, const genericChar* message)
     case 7: //fastserve
         FastFood(term);
         return SIGNAL_OKAY;
-	}
+    }
     return SIGNAL_IGNORED;
 }
 
@@ -1058,10 +1058,10 @@ Zone *CommandZone::FindTableZone(Terminal *term, const genericChar* table)
             if (z->Type() == ZONE_TABLE &&
                 StringCompare(z->name.Value(), table, len) == 0)
             {
-				term->ChangePage(my_page);
-				return z;
+                term->ChangePage(my_page);
+                return z;
             }
-		}
+        }
     }
     return NULL;
 }
@@ -1170,7 +1170,7 @@ RenderResult TableZone::Render(Terminal *term, int update_flag)
             term->RenderStatusBar(this, bar_color, str, text_color);
         if (stack_depth > 1)
             term->RenderText("*", x + w - border, y + border - 6, COLOR_BLUE,
-                             FONT_TIMES_34, ALIGN_RIGHT);
+                             FONT_HELV_34, ALIGN_RIGHT);
     }
     return RENDER_OKAY;
 }
@@ -1480,11 +1480,11 @@ int TableObj::Render(Terminal *term)
 
     int xx = x + 2, ww = w - 4;
     if (check->IsTakeOut() || check->IsFastFood())
-	{
-        term->RenderZoneText("To Go", xx, y, ww, h, col, FONT_TIMES_24B);
-	}
+    {
+        term->RenderZoneText("To Go", xx, y, ww, h, col, FONT_HELV_24B);
+    }
     else
-        term->RenderZoneText(check->Table(), xx, y, ww, h, col, FONT_TIMES_24B);
+        term->RenderZoneText(check->Table(), xx, y, ww, h, col, FONT_HELV_24B);
     return 0;
 }
 
@@ -1537,10 +1537,10 @@ int ServerTableObj::Render(Terminal *term)
 
     int xx = x + (w / 2);
     term->RenderText(user->system_name.Value(), xx, y + 6, COLOR_BLACK,
-                     FONT_TIMES_20B, ALIGN_CENTER, w - 8);
+                     FONT_HELV_20B, ALIGN_CENTER, w - 8);
 
     const genericChar* j = user->JobTitle(term);
-    term->RenderText(j, xx, y + 26, COLOR_BLUE, FONT_TIMES_20B,
+    term->RenderText(j, xx, y + 26, COLOR_BLUE, FONT_HELV_20B,
                      ALIGN_CENTER, w - 8);
 
     tables.Render(term);

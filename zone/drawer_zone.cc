@@ -112,7 +112,7 @@ int DrawerObj::Render(Terminal *term)
         int offset = h - 20;
         if (offset > 24) offset = 24;
         if (offset < 19) offset = 19;
-        term->RenderText(str, x + (w/2), y + h - offset, c, FONT_TIMES_20,
+        term->RenderText(str, x + (w/2), y + h - offset, c, FONT_HELV_20,
                       ALIGN_CENTER, w - 4);
     }
     if (is_server_bank)
@@ -146,9 +146,9 @@ int DrawerObj::Render(Terminal *term)
         c = COLOR_BLACK;
 
     if (h > 40)
-        term->RenderZoneText(str, x + 3, y, w - 6, h - 14, c, FONT_TIMES_24);
+        term->RenderZoneText(str, x + 3, y, w - 6, h - 14, c, FONT_HELV_24);
     else
-        term->RenderZoneText(str, x + 2, y, w - 4, h - 12, c, FONT_TIMES_20);
+        term->RenderZoneText(str, x + 2, y, w - 4, h - 12, c, FONT_HELV_20);
     return 0;
 }
 
@@ -230,7 +230,7 @@ int ServerDrawerObj::Render(Terminal *term)
         color = COLOR_BLACK;
 
         const genericChar* j = user->JobTitle(term);
-        term->RenderText(j, x + (w/2), y + 26, COLOR_BLUE, FONT_TIMES_20B,
+        term->RenderText(j, x + (w/2), y + 26, COLOR_BLUE, FONT_HELV_20B,
                       ALIGN_CENTER, w - 8);
     }
     else
@@ -239,7 +239,7 @@ int ServerDrawerObj::Render(Terminal *term)
         color = COLOR_RED;
     }
 
-    term->RenderText(name, x + (w/2), y + 6, color, FONT_TIMES_20B,
+    term->RenderText(name, x + (w/2), y + 6, color, FONT_HELV_20B,
                   ALIGN_CENTER, w - 8);
 
     drawers.Render(term);
@@ -428,7 +428,7 @@ RenderResult DrawerManageZone::Render(Terminal *term, int update_flag)
         if (no > max_line)
         {
             term->RenderZoneText("More Drawers\\(Touch Here)",
-                              x + border, y + h - border - 40, 120, 40, COLOR_BLACK, FONT_TIMES_20);
+                              x + border, y + h - border - 40, 120, 40, COLOR_BLACK, FONT_HELV_20);
             no = max_line;
         }
         else

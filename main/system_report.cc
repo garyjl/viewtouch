@@ -179,7 +179,7 @@ int System::ServerReport(Terminal *term, TimeInfo &time_start,
 
     int sitdown_sales  = 0;
     int takeout_sales  = 0;
-	int fastfood_sales = 0;
+    int fastfood_sales = 0;
     int opened         = 0;
     int closed         = 0;
     int guests         = 0;
@@ -216,8 +216,8 @@ int System::ServerReport(Terminal *term, TimeInfo &time_start,
                 if (thisCheck->IsTakeOut())
                     ++takeouts;
                 else if (thisCheck->IsFastFood())
-					++fastfood;
-				else
+                    ++fastfood;
+                else
                 {
                     guests += thisCheck->Guests();
                     ++closed;
@@ -227,8 +227,8 @@ int System::ServerReport(Terminal *term, TimeInfo &time_start,
                 {
                     if (thisCheck->IsTakeOut())
                         takeout_sales += sc->total_sales;
-					else if(thisCheck->IsFastFood())
-						fastfood_sales += sc->total_sales;
+                    else if(thisCheck->IsFastFood())
+                        fastfood_sales += sc->total_sales;
                     else
                         sitdown_sales += sc->total_sales;
 
@@ -406,11 +406,11 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
     genericChar str2[256];
     int takeout_sales[MAX_SHIFTS];
     int total_takeout_sales = 0;
-	int fastfood_sales[MAX_SHIFTS];
+    int fastfood_sales[MAX_SHIFTS];
     int total_fastfood_sales = 0;
     int takeout[MAX_SHIFTS];
     int total_takeout = 0;
-	int fastfood[MAX_SHIFTS];
+    int fastfood[MAX_SHIFTS];
     int total_fastfood = 0;
 
     int guests[MAX_SHIFTS];
@@ -458,9 +458,9 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
     for (i = 0; i < MAX_SHIFTS; ++i)
     {
         takeout[i]       = 0;
-		fastfood[i]      = 0;
+        fastfood[i]      = 0;
         takeout_sales[i] = 0;
-		fastfood_sales[i]= 0;
+        fastfood_sales[i]= 0;
         guests[i]        = 0;
         net_sales[i]     = 0;
         labor_mins[i]    = 0;
@@ -495,7 +495,7 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
     for (;;)
     {
         for (Check *thisCheck = FirstCheck(a); thisCheck != NULL; thisCheck = thisCheck->next)
-		{
+        {
             if (thisCheck->IsTraining() > 0)
                 continue;
             
@@ -510,8 +510,8 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
                 ++takeout[sn];
             else if(thisCheck->IsFastFood())
                 ++fastfood[sn];
-			else
-				guests[sn] += thisCheck->Guests();
+            else
+                guests[sn] += thisCheck->Guests();
 
             // Add all of the media
             CompInfo *compinfo = a ? a->CompList() : settings.CompList();
@@ -539,25 +539,25 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
                 coupinfo = coupinfo->next;
             }
             
-			for (SubCheck *sc = thisCheck->SubList(); sc != NULL; sc = sc->next)
-			{
-				for (int sg = SALESGROUP_FOOD; sg <= SALESGROUP_ROOM; ++sg)
-					group_sales[sn][sg] += sc->GrossSales(thisCheck, currSettings, sg);
+            for (SubCheck *sc = thisCheck->SubList(); sc != NULL; sc = sc->next)
+            {
+                for (int sg = SALESGROUP_FOOD; sg <= SALESGROUP_ROOM; ++sg)
+                    group_sales[sn][sg] += sc->GrossSales(thisCheck, currSettings, sg);
 
-				int my_sales = sc->GrossSales(thisCheck, currSettings, 0);
-				sales[sn] += my_sales;
+                int my_sales = sc->GrossSales(thisCheck, currSettings, 0);
+                sales[sn] += my_sales;
 
-				if (thisCheck->IsTakeOut())
-					takeout_sales[sn] += my_sales;
+                if (thisCheck->IsTakeOut())
+                    takeout_sales[sn] += my_sales;
 
-				if (thisCheck->IsFastFood())
-					fastfood_sales[sn] += my_sales;
+                if (thisCheck->IsFastFood())
+                    fastfood_sales[sn] += my_sales;
 
-				item_comp[sn] += sc->item_comps;
-				for (Payment *thisPayment = sc->PaymentList(); thisPayment != NULL; thisPayment = thisPayment->next)
-				{
-					switch (thisPayment->tender_type)
-					{
+                item_comp[sn] += sc->item_comps;
+                for (Payment *thisPayment = sc->PaymentList(); thisPayment != NULL; thisPayment = thisPayment->next)
+                {
+                    switch (thisPayment->tender_type)
+                    {
                     case TENDER_COMP:
                     {
                         compinfo = NULL;
@@ -604,10 +604,10 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
                         break;
                     default:
                         break;
-					}
-				}
-			}
-		}
+                    }
+                }
+            }
+        }
 
         if (a == NULL || a->end_time > end)
             break;
@@ -629,9 +629,9 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
         int emeal = meallist.Total(i);
 
         total_takeout        += takeout[i];
-		total_fastfood       += fastfood[i];
+        total_fastfood       += fastfood[i];
         total_takeout_sales  += takeout_sales[i];
-		total_fastfood_sales += fastfood_sales[i];
+        total_fastfood_sales += fastfood_sales[i];
         total_guests         += guests[i];
         total_sales          += sales[i];
         total_item_comp      += item_comp[i];
@@ -742,7 +742,7 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
 
     // Report Entries
     for (int g = SALESGROUP_FOOD; g <= SALESGROUP_ROOM; ++g)
-	{
+    {
         if (currSettings->IsGroupActive(g) || total_group_sales[g] != 0)
         {
             if (term->hide_zeros == 0 || total_group_sales[g] != 0)
@@ -766,7 +766,7 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
                 ptrReport->NewLine();
             }
         }
-	}
+    }
 
     ptrReport->TextPosL(3, "Total Sales");
     if (max_shifts > 1)
@@ -959,12 +959,12 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
     else
         ptrReport->TextPosL(3, "Total Adjustments");
     if (max_shifts > 1)
-	{
+    {
         for (i = 0; i < shifts; ++i)
         {
             ptrReport->TextPosR(cr[i + 1], term->FormatPrice(adjust[shift[i]]), color[i]);
         }
-	}
+    }
 
     per = 0;
     if (total_sales > 0)
@@ -998,27 +998,27 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
     // Guest Info
     ptrReport->TextL("Guest Count");
     if (max_shifts > 1)
-	{
+    {
         for (i = 0; i < shifts; ++i)
         {
             ptrReport->NumberPosR(cr[i + 1], guests[shift[i]], color[i]);
         }
-	}
+    }
     ptrReport->NumberPosR(last_pos, total_guests, last_color);
     ptrReport->NewLine();
     ptrReport->TextL("Average Guest");
     if (max_shifts > 1)
-	{
+    {
         for (i = 0; i < shifts; ++i)
         {
             if (guests[shift[i]] > 0)
-				x = (sales[shift[i]] - ( takeout_sales[shift[i]] + fastfood_sales[shift[i]] )) / guests[shift[i]];
+                x = (sales[shift[i]] - ( takeout_sales[shift[i]] + fastfood_sales[shift[i]] )) / guests[shift[i]];
             else
-				x = 0;
+                x = 0;
 
             ptrReport->TextPosR(cr[i+1], term->FormatPrice(x, 1), color[i]);
         }
-	}
+    }
 
     if (total_guests > 0)
         x = (total_sales - (total_takeout_sales + total_fastfood_sales )) / total_guests;
@@ -1060,7 +1060,7 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
         ptrReport->NewLine();
     }
 
-	// fast food sales reporting
+    // fast food sales reporting
     if (term->hide_zeros == 0 || total_fastfood != 0)
     {
         ptrReport->TextL("FastFood Orders");
@@ -1159,32 +1159,32 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
             {
                 sprintf(str, "%s Hours", JobName[j]);
                 ptrReport->TextL(str);
-				if (max_shifts > 1)
-				{
-					for (i = 0; i < shifts; ++i)
-					{
-						sprintf(str, "%.1f", (Flt) job_mins[shift[i]][j] / 60.0);
-						ptrReport->TextPosR(cr[i + 1], str, color[i]);
-					}
-				}
-				sprintf(str, "%.1f", (Flt) total_job_mins[j] / 60.0);
-				ptrReport->TextPosR(last_pos, str, last_color);
-				ptrReport->NewLine();
-				if (total_job_otmins[j] > 0)
-				{
-					ptrReport->TextL("Overtime");
-					if (max_shifts > 1)
+                if (max_shifts > 1)
+                {
+                    for (i = 0; i < shifts; ++i)
                     {
-						for (i = 0; i < shifts; ++i)
-						{
-							sprintf(str, "%.1f", (Flt) job_otmins[shift[i]][j] / 60.0);
-							ptrReport->TextPosR(cr[i + 1], str, color[i]);
-						}
+                        sprintf(str, "%.1f", (Flt) job_mins[shift[i]][j] / 60.0);
+                        ptrReport->TextPosR(cr[i + 1], str, color[i]);
                     }
-					sprintf(str, "%.1f", (Flt) total_job_otmins[j] / 60.0);
-					ptrReport->TextPosR(last_pos, str, last_color);
-					ptrReport->NewLine();
-				}
+                }
+                sprintf(str, "%.1f", (Flt) total_job_mins[j] / 60.0);
+                ptrReport->TextPosR(last_pos, str, last_color);
+                ptrReport->NewLine();
+                if (total_job_otmins[j] > 0)
+                {
+                    ptrReport->TextL("Overtime");
+                    if (max_shifts > 1)
+                    {
+                        for (i = 0; i < shifts; ++i)
+                        {
+                            sprintf(str, "%.1f", (Flt) job_otmins[shift[i]][j] / 60.0);
+                            ptrReport->TextPosR(cr[i + 1], str, color[i]);
+                        }
+                    }
+                    sprintf(str, "%.1f", (Flt) total_job_otmins[j] / 60.0);
+                    ptrReport->TextPosR(last_pos, str, last_color);
+                    ptrReport->NewLine();
+                }
             }
             ++j;
         }
@@ -1196,13 +1196,13 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
     }
 
     if (max_shifts > 1)
-	{
+    {
         for (i = 0; i < shifts; ++i)
         {
             sprintf(str, "%.1f", (Flt) (labor_mins[shift[i]] + labor_otmins[shift[i]]) / 60.0);
             ptrReport->TextPosR(cr[i + 1], str, color[i]);
         }
-	}
+    }
 
     sprintf(str, "%.1f", (Flt) (total_labor_mins + total_labor_otmins) / 60.0);
     ptrReport->TextPosR(last_pos, str, last_color);
@@ -1255,7 +1255,7 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
         {
             ptrReport->TextPosR(cr[i+1], term->FormatPrice(labor_cost[shift[i]] + labor_otcost[shift[i]], 1), color[i]);
         }
-	}
+    }
 
     ptrReport->TextPosR(last_pos, term->FormatPrice(total_labor_cost + total_labor_otcost, 1), last_color);
     ptrReport->NewLine();
@@ -1263,17 +1263,17 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
     ptrReport->NewLine();
     ptrReport->TextL("Sales/Wage Hour");
     if (max_shifts > 1)
-	{
+    {
         for (i = 0; i < shifts; ++i)
-		{
-			int curr_settings = shift[i];
-			if (labor_mins[curr_settings] > 0)
-				x = FltToPrice(PriceToFlt(sales[curr_settings] * 60) / labor_mins[curr_settings]);
-			else
-				x = 0;
-			ptrReport->TextPosR(cr[i+1], term->FormatPrice(x, 1), color[i]);
-		}
-	}
+        {
+            int curr_settings = shift[i];
+            if (labor_mins[curr_settings] > 0)
+                x = FltToPrice(PriceToFlt(sales[curr_settings] * 60) / labor_mins[curr_settings]);
+            else
+                x = 0;
+            ptrReport->TextPosR(cr[i+1], term->FormatPrice(x, 1), color[i]);
+        }
+    }
 
     if (total_labor_mins > 0)
         x = FltToPrice(PriceToFlt(total_sales * 60) / total_labor_mins);
@@ -1284,17 +1284,17 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
     ptrReport->NewLine();
     ptrReport->TextL("Sales/Wage Dollar");
     if (max_shifts > 1)
-	{
+    {
         for (i = 0; i < shifts; ++i)
         {
             if (labor_cost[i] > 0)
-				x = (sales[shift[i]] * 100) / (labor_cost[shift[i]] + labor_otcost[shift[i]]);
+                x = (sales[shift[i]] * 100) / (labor_cost[shift[i]] + labor_otcost[shift[i]]);
             else
-				x = 0;
+                x = 0;
 
             ptrReport->TextPosR(cr[i+1], term->FormatPrice(x, 1), color[i]);
         }
-	}
+    }
 
     if (total_labor_cost > 0)
         x = (total_sales * 100) / (total_labor_cost + total_labor_otcost);
@@ -1307,19 +1307,19 @@ int System::ShiftBalanceReport(Terminal *term, TimeInfo &ref, Report *ptrReport)
     ptrReport->NewLine();
     ptrReport->TextL("Labor Cost %");
     if (max_shifts > 1)
-	{
+    {
         for (i = 0; i < shifts; ++i)
         {
             int curr_settings = shift[i];
             if (sales[curr_settings] > 0)
                 f = (Flt) ((labor_cost[curr_settings] + labor_otcost[curr_settings]) * 100) / (Flt) sales[curr_settings];
             else
-				f = 0;
+                f = 0;
 
             sprintf(str, "%.2f%%", f);
             ptrReport->TextPosR(cr[i + 1] + 1, str, color[i]);
         }
-	}
+    }
 
     if (total_sales > 0)
         f = (Flt) ((total_labor_cost + total_labor_otcost) * 100) / (Flt) total_sales;
@@ -1369,9 +1369,9 @@ public:
         check = NULL;
         guests = 0;
         sales = 0;
-		takeout_sales = 0;
+        takeout_sales = 0;
         takeout = 0;
-		fastfood_sales = 0;
+        fastfood_sales = 0;
         fastfood = 0;
         item_comp = 0;
         for (int i = 0; i < 8; ++i)
@@ -1558,14 +1558,14 @@ int BalanceReportWorkFn(BRData *brdata)
                      labor_cost, labor_otmins, labor_otcost);
 
     if (term->expand_labor)
-	{
+    {
         int j;
         for (j = 1; JobValue[j] > 0; ++j)
-		{
+        {
             ldb->FigureLabor(currSettings, brdata->start, brdata->end, JobValue[j], 
                              job_mins[j], job_cost[j], job_otmins[j], job_otcost[j]);
-		}
-	}
+        }
+    }
 
     // Setup
     genericChar str[256];
@@ -1579,7 +1579,7 @@ int BalanceReportWorkFn(BRData *brdata)
 
     // Report Entries
     for (int g = SALESGROUP_FOOD; g <= SALESGROUP_ROOM; ++g)
-	{
+    {
         if (currSettings->IsGroupActive(g) || brdata->group_sales[g] != 0)
         {
             if (term->hide_zeros == 0 || brdata->group_sales[g] != 0)
@@ -1598,7 +1598,7 @@ int BalanceReportWorkFn(BRData *brdata)
                 thisReport->NewLine();
             }
         }
-	}
+    }
 
     thisReport->TextPosL(3, "Total Sales");
     thisReport->TextPosR(last_pos, term->FormatPrice(brdata->sales), color);
@@ -1972,10 +1972,10 @@ int System::DepositReport(Terminal *term, TimeInfo &start_time,
     int tax_alcohol = 0;
     int tax_room    = 0;
     int tax_merchandise = 0;
-	int tax_GST			= 0;
-	int tax_PST			= 0;
-	int tax_HST			= 0;
-	int tax_QST			= 0;
+    int tax_GST         = 0;
+    int tax_PST         = 0;
+    int tax_HST         = 0;
+    int tax_QST         = 0;
     int tax_VAT         = 0;
     int total_sales = 0;
     int drawer_diff = 0;
@@ -2016,7 +2016,7 @@ int System::DepositReport(Terminal *term, TimeInfo &start_time,
                 if (c->IsTraining() > 0)
                     continue;
                 if (c->Status() != CHECK_CLOSED && c->CustomerType() != CHECK_HOTEL)
-					continue;
+                    continue;
 
                 TimeInfo *timevar = c->TimeClosed();
                 if (timevar != NULL && *timevar >= start_time && *timevar < end_time)
@@ -2053,7 +2053,7 @@ int System::DepositReport(Terminal *term, TimeInfo &start_time,
                         }
                     }
                 }
-			}
+            }
 
             // Scan drawers
             Drawer *drawer = FirstDrawer(a);
@@ -2224,14 +2224,14 @@ int System::DepositReport(Terminal *term, TimeInfo &start_time,
     report->NewLine();
     report->Mode(0);
     for (int g = SALESGROUP_FOOD; g <= SALESGROUP_ROOM; ++g)
-	{
+    {
         if (s->IsGroupActive(g) || sales[g] != 0)
         {
             report->TextL(SalesGroupName[g]);
             report->TextPosR(-6, term->FormatPrice(sales[g]), col);
             report->NewLine();
         }
-	}
+    }
 
     report->TextPosL(3, "All Revenue");
     report->TextPosR(0, term->FormatPrice(total_sales), col);
@@ -2253,7 +2253,7 @@ int System::DepositReport(Terminal *term, TimeInfo &start_time,
     report->TextL("Sales Tax: Merchandise");
     report->TextPosR(-6, term->FormatPrice(tax_merchandise), col);
     report->NewLine();
-	
+    
     report->TextL("Sales Tax: GST");
     report->TextPosR(-6, term->FormatPrice(tax_GST), col);
     report->NewLine();
@@ -2600,11 +2600,11 @@ int ClosedCheckReportWorkFn(CCRData *ccrdata)
                     thisReport->TextPosL(7, "TERM.O");
                     thisReport->TextPosL(11, "--");
                 }
-				else if (thisCheck->IsFastFood())
-				{
-					thisReport->TextPosL(7, "FF");
+                else if (thisCheck->IsFastFood())
+                {
+                    thisReport->TextPosL(7, "FF");
                     thisReport->TextPosL(11, "--");
-				}
+                }
                 else
                 {
                     thisReport->TextPosL(7, thisCheck->Table());
@@ -2756,83 +2756,83 @@ int System::ItemExceptionReport(Terminal *term, TimeInfo &start_time,
     Archive  *thisArchive = FindByTime(start_time);
 
     for (;;)
-	{
-		TimeInfo time_is;
+    {
+        TimeInfo time_is;
         TimeInfo time_was;
-		int id_is;
+        int id_is;
         int id_was;
-		int	cost_is;
+        int cost_is;
         int cost_was;
-		short exception_is;
+        short exception_is;
         short exception_was;
-		short reason_is;
+        short reason_is;
         short reason_was;
-		const char* item_is = NULL;
+        const char* item_is = NULL;
         const char* item_was = NULL;
 
-		ItemException *currException = FirstItemException(thisArchive);
-		while (currException)
-		{
-			// initialize containers for current attributes
-			time_is = currException->time;
-			id_is = currException->user_id;
-			cost_is = currException->item_cost;
-			exception_is = currException->exception_type;
-			reason_is = currException->reason;
-			item_is = (const char* )currException->item_name.Value();
+        ItemException *currException = FirstItemException(thisArchive);
+        while (currException)
+        {
+            // initialize containers for current attributes
+            time_is = currException->time;
+            id_is = currException->user_id;
+            cost_is = currException->item_cost;
+            exception_is = currException->exception_type;
+            reason_is = currException->reason;
+            item_is = (const char* )currException->item_name.Value();
 
-			// Duplicate Filter:
-			// if exact same item at exact same time, it's a duplicate
-			// (duplicate exceptions are a bug with the current
-			// exception tracking.  Need to fix)
-			bool IsSame  = ((time_is == time_was) && (item_is == item_was));
+            // Duplicate Filter:
+            // if exact same item at exact same time, it's a duplicate
+            // (duplicate exceptions are a bug with the current
+            // exception tracking.  Need to fix)
+            bool IsSame  = ((time_is == time_was) && (item_is == item_was));
 
-			if(! IsSame)
-			{
-				if ((id_is == user_id || user_id <= 0) &&
+            if(! IsSame)
+            {
+                if ((id_is == user_id || user_id <= 0) &&
                     (exception_is == type || type <= 0) &&
                     time_is >= start_time && time_is < end)
-				{
-					thisReport->TextL(term->TimeDate(time_is, TD5)); 
+                {
+                    thisReport->TextL(term->TimeDate(time_is, TD5)); 
 
-					thisReport->TextPosL(15, term->UserName(id_is)); 
-					thisReport->TextPosL(27, currException->item_name.Value());
+                    thisReport->TextPosL(15, term->UserName(id_is)); 
+                    thisReport->TextPosL(27, currException->item_name.Value());
 
-					thisReport->TextR(term->FormatPrice(cost_is, 1));
-					thisReport->NewLine();
+                    thisReport->TextR(term->FormatPrice(cost_is, 1));
+                    thisReport->NewLine();
 
-					// find valid label for current reason code
-					if (reason_is >= 0)
-					{
-						CompInfo *thisComp = ptrSettings->FindCompByID(reason_is);
-						if (thisComp)
-						{
-							thisReport->TextPosL(2, thisComp->name.Value());
-							thisReport->NewLine();
-						}
-					}
+                    // find valid label for current reason code
+                    if (reason_is >= 0)
+                    {
+                        CompInfo *thisComp = ptrSettings->FindCompByID(reason_is);
+                        if (thisComp)
+                        {
+                            thisReport->TextPosL(2, thisComp->name.Value());
+                            thisReport->NewLine();
+                        }
+                    }
 
-				}
-			}
+                }
+            }
 
-			// set up "sticky" vars to hold soon-to-be previous
-			// exception info (for duplicate filter)
+            // set up "sticky" vars to hold soon-to-be previous
+            // exception info (for duplicate filter)
 
-			time_was = time_is;
-			id_was = id_is;
-			cost_was = cost_is;
-			exception_was = exception_is;
-			reason_was = reason_is;
-			item_was = item_is;
+            time_was = time_is;
+            id_was = id_is;
+            cost_was = cost_is;
+            exception_was = exception_is;
+            reason_was = reason_is;
+            item_was = item_is;
 
-			currException = currException->next;
-		}
+            currException = currException->next;
+        }
 
-		if (thisArchive == NULL || (thisArchive->end_time > end))
-			break;
+        if (thisArchive == NULL || (thisArchive->end_time > end))
+            break;
 
-		thisArchive = thisArchive->next;
-	}
+        thisArchive = thisArchive->next;
+    }
 
     term->SetCursor(CURSOR_POINTER);
 
@@ -2996,18 +2996,18 @@ int System::DrawerSummaryReport(Terminal *term, Drawer *my_drawer_list,
 
     int open = 0, closed = 0, diff = 0;
     for (Drawer *drawer = my_drawer_list; drawer != NULL; drawer = drawer->next)
-	{
-		drawer->Total(my_check_list);
-		int status = drawer->Status();
-		if (status == DRAWER_OPEN)
-		{
-			if (!drawer->IsEmpty())
-				++open;
-		}
-		else
-			++closed;
-		diff += drawer->total_difference;
-	}
+    {
+        drawer->Total(my_check_list);
+        int status = drawer->Status();
+        if (status == DRAWER_OPEN)
+        {
+            if (!drawer->IsEmpty())
+                ++open;
+        }
+        else
+            ++closed;
+        diff += drawer->total_difference;
+    }
 
     report->TextL("Open Drawers");
     report->NumberR(open);
@@ -3040,42 +3040,42 @@ int System::CustomerDetailReport(Terminal *term, Employee *e, Report *report)
     int training = e->training;
     report->update_flag = UPDATE_CHECKS;
     for (Check *c = FirstCheck(); c != NULL; c = c->next)
-	{
-		if (c->CustomerType() != CHECK_HOTEL || 
+    {
+        if (c->CustomerType() != CHECK_HOTEL || 
             c->IsTraining() != training ||
             c->Status() != CHECK_OPEN)
         {
-			continue;
+            continue;
         }
 
-		int balance = 0;
-		for (SubCheck *sc = c->SubList(); sc != NULL; sc = sc->next)
-			balance += sc->balance;
+        int balance = 0;
+        for (SubCheck *sc = c->SubList(); sc != NULL; sc = sc->next)
+            balance += sc->balance;
 
-		TimeInfo *timevar = c->CheckOut();
-		if (strlen(c->LastName()) <= 0)
-		{
-			if (strlen(c->FirstName()) <= 0)
-				strcpy(name, "--");
-			else
-				strcpy(name, c->FirstName());
-		}
-		else
-			sprintf(name, "%s, %s", c->LastName(), c->FirstName());
+        TimeInfo *timevar = c->CheckOut();
+        if (strlen(c->LastName()) <= 0)
+        {
+            if (strlen(c->FirstName()) <= 0)
+                strcpy(name, "--");
+            else
+                strcpy(name, c->FirstName());
+        }
+        else
+            sprintf(name, "%s, %s", c->LastName(), c->FirstName());
 
-		name[24] = '\0';
+        name[24] = '\0';
 
-		report->TextL(c->Table());
-		report->TextPosL(12, name);
-		report->TextPosL(-35, c->PhoneNumber());
-		if (timevar)
-			report->TextPosR(-9, term->TimeDate(*timevar, TD_SHORT_DATE | TD_SHORT_DAY | TD_NO_TIME));
-		if (balance > 0)
-			report->TextR(term->FormatPrice(balance));
-		else
-			report->TextR("PAID");
-		report->NewLine();
-	}
+        report->TextL(c->Table());
+        report->TextPosL(12, name);
+        report->TextPosL(-35, c->PhoneNumber());
+        if (timevar)
+            report->TextPosR(-9, term->TimeDate(*timevar, TD_SHORT_DATE | TD_SHORT_DAY | TD_NO_TIME));
+        if (balance > 0)
+            report->TextR(term->FormatPrice(balance));
+        else
+            report->TextR("PAID");
+        report->NewLine();
+    }
     return 0;
 }
 

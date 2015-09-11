@@ -258,17 +258,17 @@ SignalResult HardwareZone::Signal(Terminal *term, const genericChar* message)
 
 int HardwareZone::LoadRecord(Terminal *term, int record)
 {
-	FnTrace("HardwareZone::LoadRecord()");
+    FnTrace("HardwareZone::LoadRecord()");
     PrinterInfo *pi = NULL;
     TermInfo    *ti = NULL;
     FormField   *thisForm = NULL;
 
-	for (FormField *field = FieldList(); field != NULL; field = field->next)
-		field->active = 0;
+    for (FormField *field = FieldList(); field != NULL; field = field->next)
+        field->active = 0;
 
-	Settings *settings = term->GetSettings();
-	switch (section)
-	{
+    Settings *settings = term->GetSettings();
+    switch (section)
+    {
     case 1:  // remote printer
         pi = settings->FindPrinterByRecord(record);
         if (pi == NULL)
@@ -286,7 +286,7 @@ int HardwareZone::LoadRecord(Terminal *term, int record)
             thisForm->active = 1;
         }
         thisForm = thisForm->next;
-	thisForm->Set(pi->order_margin); thisForm->active = 1;
+    thisForm->Set(pi->order_margin); thisForm->active = 1;
 
         break;
     default:  // terminal
@@ -330,20 +330,20 @@ int HardwareZone::LoadRecord(Terminal *term, int record)
         thisForm->active = 1; thisForm = thisForm->next; // button 2
         thisForm->active = 1;
         break;
-	}
-	return 0;
+    }
+    return 0;
 }
 
 int HardwareZone::SaveRecord(Terminal *term, int record, int write_file)
 {
-	FnTrace("HardwareZone::SaveRecord()");
+    FnTrace("HardwareZone::SaveRecord()");
     TermInfo    *ti = NULL;
     PrinterInfo *pi = NULL;
-	Settings    *settings = term->GetSettings();
-	FormField   *field = NULL;
+    Settings    *settings = term->GetSettings();
+    FormField   *field = NULL;
 
-	switch (section)
-	{
+    switch (section)
+    {
     default:  // terminal hardware
         ti = settings->FindTermByRecord(record);
         if (ti)
@@ -392,14 +392,14 @@ int HardwareZone::SaveRecord(Terminal *term, int record, int write_file)
             field->Get(pi->port); field = field->next;
             field->Get(pi->model); field = field->next;
             field->Get(pi->kitchen_mode); field = field->next;
-	    field->Get(pi->order_margin);
+        field->Get(pi->order_margin);
         }
         break;
-	}
+    }
 
-	if (write_file)
-		settings->Save();
-	return 0;
+    if (write_file)
+        settings->Save();
+    return 0;
 }
 
 int HardwareZone::NewRecord(Terminal *term)

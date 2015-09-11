@@ -334,48 +334,48 @@ int Layer::TitleBar()
     if (Message.length > 0)
     {
         Text(Message.Value(), Message.length,
-             page_w / 2, 4, c1, FONT_TIMES_24, ALIGN_CENTER);
+             page_w / 2, 4, c1, FONT_HELV_24, ALIGN_CENTER);
     }
     else
     {
         if (title_mode == MODE_MACRO)
         {
             Text("** RECORDING MACRO **", 21, page_w / 2, 6, c2,
-                 FONT_TIMES_20B, ALIGN_CENTER);
+                 FONT_HELV_20B, ALIGN_CENTER);
         }
         else if (title_mode == MODE_EXPIRED)
         {
             Text("** SOFTWARE EXPIRED **", 22, page_w / 2, 6, c2,
-                 FONT_TIMES_20B, ALIGN_CENTER);
+                 FONT_HELV_20B, ALIGN_CENTER);
         }
         else if (title_mode == MODE_TRAINING)
         {
             Text("** TRAINING MODE **", 19, page_w / 2, 6, c2,
-                 FONT_TIMES_20B, ALIGN_CENTER);
+                 FONT_HELV_20B, ALIGN_CENTER);
         }
         else if (title_mode == MODE_TRANSLATE)
         {
             Text("** TRANSLATION MODE **", 22, page_w / 2, 6, c2,
-                 FONT_TIMES_20B, ALIGN_CENTER);
+                 FONT_HELV_20B, ALIGN_CENTER);
         }
         else if (title_mode == MODE_EDIT)
         {
             Text("** EDIT MODE **", 15, page_w / 2, 6, c2,
-                 FONT_TIMES_20B, ALIGN_CENTER);
+                 FONT_HELV_20B, ALIGN_CENTER);
         }
         else
         {
             Text(StoreName.Value(), StoreName.length, page_w / 2, 6, c2,
-                 FONT_TIMES_20B, ALIGN_CENTER);
+                 FONT_HELV_20B, ALIGN_CENTER);
         }
 
         Text(page_title.Value(), page_title.length, 20, 6, c1,
-             FONT_TIMES_20, ALIGN_LEFT);
+             FONT_HELV_20, ALIGN_LEFT);
         int offset = 20;
         if (IsTermLocal && page_w >= WinWidth)
             offset = 36;
         Text(TimeString.Value(), TimeString.length, page_w - offset, 6, c1,
-             FONT_TIMES_20, ALIGN_RIGHT);
+             FONT_HELV_20, ALIGN_RIGHT);
     }
     return 0;
 }
@@ -531,7 +531,7 @@ int Layer::ZoneText(const char* str, int tx, int ty, int tw, int th,
         sy += font_h;
     }
     if (*c && line >= max_lines && title_mode == MODE_EDIT)
-        Text("!", 1, tx, ty, COLOR_RED, FONT_TIMES_24, ALIGN_LEFT);
+        Text("!", 1, tx, ty, COLOR_RED, FONT_HELV_24, ALIGN_LEFT);
     return 0;
 }
 
@@ -1200,7 +1200,7 @@ int Layer::MouseEnter(LayerList *ll)
     if (window_frame)
     {
         FramedWindow(0, 0, w, h, ll->active_frame_color);
-        ZoneText(window_title.Value(), 5, 6, w - 10, 20, COLOR_BLACK, FONT_TIMES_18);
+        ZoneText(window_title.Value(), 5, 6, w - 10, 20, COLOR_BLACK, FONT_HELV_18);
         update = 1;
         ll->UpdateAll(0);
     }
@@ -1214,7 +1214,7 @@ int Layer::MouseExit(LayerList *ll)
     if (window_frame)
     {
         FramedWindow(0, 0, w, h, ll->inactive_frame_color);
-        ZoneText(window_title.Value(), 5, 6, w - 10, 20, COLOR_BLACK, FONT_TIMES_18);
+        ZoneText(window_title.Value(), 5, 6, w - 10, 20, COLOR_BLACK, FONT_HELV_18);
         update = 1;
         ll->UpdateAll(0);
     }
@@ -1965,7 +1965,7 @@ LO_PushButton::LO_PushButton(const char* str, int normal_color, int active_color
     text.Set(str);
     color[0] = normal_color;
     color[1] = active_color;
-    font = FONT_TIMES_14;
+    font = FONT_HELV_14;
 }
 
 // Member Functions
@@ -2179,4 +2179,3 @@ int LO_TextEntry::MouseAction(LayerList *ll, Layer *l, int mouse_x, int mouse_y,
 
     return 0;
 }
-
